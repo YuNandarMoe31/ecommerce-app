@@ -29,8 +29,8 @@
             <div class="collapse" id="collapseBanner">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Banner:</h6>
-                    <a class="collapse-item" href="buttons.html">Buttons</a>
-                    <a class="collapse-item" href="cards.html">Cards</a>
+                    <a class="collapse-item" href="{{ route('banner.index') }}">All Banners</a>
+                    <a class="collapse-item" href="{{ route('banner.create') }}">Create Banner</a>
                 </div>
             </div>
         </li>
