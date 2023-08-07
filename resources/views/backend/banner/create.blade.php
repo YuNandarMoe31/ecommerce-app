@@ -30,7 +30,19 @@
                             </div>
                         </div>
                     </div>
-                    <form>
+                    <div class="col-md-12">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                    </div>
+                    <form action="{{ route('banner.store') }}" method="POST">
+                        @csrf
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="title">Title <span class="text-danger">*</span></label>
@@ -46,7 +58,7 @@
                                             <i class="fa fa-picture-o"></i> Choose
                                         </a>
                                     </span>
-                                    <input id="thumbnail" class="form-control" type="text" name="filepath">
+                                    <input id="thumbnail" class="form-control" type="text" name="photo">
                                 </div>
                                 <div id="holder" style="margin-top:15px;max-height:100px;"></div>
                             </div>
@@ -57,24 +69,10 @@
                             </div>
 
                         </div>
-                        {{-- <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="ph_number">Phone Number</label>
-                                <input type="number" class="form-control" id="ph_number">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="date">Date of Birth</label>
-                                <input type="date" class="form-control" id="date">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="age">Age</label>
-                                <input type="number" class="form-control" id="age">
-                            </div>
-                        </div> --}}
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="status">Status <span class="text-danger">*</span></label>
-                                <select id="status" class="form-control">
+                                <select id="status" name="status" class="form-control">
                                     <option selected>Status</option>
                                     <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
                                     <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive
@@ -83,7 +81,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="condition">Condition <span class="text-danger">*</span></label>
-                                <select id="condition" class="form-control">
+                                <select id="condition" name="condition" class="form-control">
                                     <option selected>Condition </option>
                                     <option value="banner" {{ old('condition') == 'banner' ? 'selected' : '' }}>Banner
                                     </option>
@@ -91,23 +89,7 @@
                                     </option>
                                 </select>
                             </div>
-                            {{-- <div class="form-group col-md-4">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="Email">
-                            </div> --}}
                         </div>
-                        {{-- <div class="form-row">
-                            <div class="form-group">
-                                <label for="file">File</label>
-                                <input type="file" class="form-control-file" id="file">
-                            </div>
-                        </div> --}}
-                        {{-- <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label for="description">Description</label>
-                                <textarea class="form-control" id="description" rows="3" placeholder="Description"></textarea>
-                            </div>
-                        </div> --}}
 
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

@@ -9,7 +9,9 @@
 
             <!-- Main Content -->
             <div id="content">
-
+                <div class="col-lg-12">
+                    @include('backend.layouts.notification')
+                </div>
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->

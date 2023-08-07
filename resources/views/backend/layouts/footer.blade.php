@@ -17,3 +17,9 @@
 <script src="{{ asset('backend/summernote/summernote.js') }}"></script>
 
 @yield('scripts')
+
+<script>
+    setTimeout(function() {
+        $('#alert').slideUp();
+    }, 4000);
+</script>
