@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,7 +28,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $parent_cats = Category::where('is_parent', 1)->orderBy('title', 'ASC')->get();
+        return view('backend.category.create', compact('parent_cats'));
     }
 
     /**
@@ -38,7 +40,32 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'string|required',
+            'summary' => 'string|nullable',
+            'photo' => 'required',
+            'is_parent' => 'sometimes|in:1',
+            'parent_id' => 'nullable',
+            'status' => 'nullable|in:active,inactive',
+        ]);
+        
+        $data = $request->all();
+
+        $slug = Str::slug($request->input('title'));
+        $slug_count = Category::where('slug', $slug)->count();
+        if ($slug_count > 0) {
+            $slug .= time() . '-' . $slug;
+        }
+        $data['slug'] = $slug;
+        // return $data;
+
+        $status = Category::create($data);
+
+        if ($status) {
+            return redirect()->route('category.index')->with('success', 'Category created successfully');
+        } else {
+            return back()->with('error', 'Something went wrong!');
+        }
     }
 
     /**

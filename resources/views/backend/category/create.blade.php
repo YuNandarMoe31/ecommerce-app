@@ -15,16 +15,16 @@
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <h2><a href="javascript:void(0)" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
-                                            class="fa fa-arrow-left"></i></a>Add Banner</h2>
+                                            class="fa fa-arrow-left"></i></a>Add Category</h2>
                                 <ul class="breadcrumb">
                                     <li class="breadcrumb-item">
                                         <a href="{{ route('admin') }}"><i class="fas fa-home"></i></a>
                                     </li>
                                     <li class="breadcrumb-item">
-                                        Banners
+                                        Categories
                                     </li>
                                     <li class="breadcrumb-item active">
-                                        Add Banners
+                                        Add Categories
                                     </li>
                                 </ul>
                             </div>
@@ -41,7 +41,7 @@
                             </div>
                         @endif
                     </div>
-                    <form action="{{ route('banner.store') }}" method="POST">
+                    <form action="{{ route('category.store') }}" method="POST">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-12">
@@ -49,8 +49,16 @@
                                 <input type="text" class="form-control" id="title" placeholder="Title" name="title"
                                     value="{{ old('title') }}">
                             </div>
+
                             <div class="form-group col-md-12">
-                                <label for="description">Photo <span class="text-danger">*</span></label>
+                                <label for="summary">Summary <span class="text-danger">*</span></label>
+                                <textarea id="summary" class="form-control" id="last_name" placeholder="Write some text ..." name="summary">{{ old('summary') }}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="photo">Photo</label>
                                 <div class="input-group">
                                     <span class="input-group-btn">
                                         <a id="lfm" data-input="thumbnail" data-preview="holder"
@@ -62,13 +70,27 @@
                                 </div>
                                 <div id="holder" style="margin-top:15px;max-height:100px;"></div>
                             </div>
-
-                            <div class="form-group col-md-12">
-                                <label for="description">Description <span class="text-danger">*</span></label>
-                                <textarea id="description" class="form-control" id="last_name" placeholder="Write some text ..." name="description">{{ old('description') }}</textarea>
-                            </div>
-
                         </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="summary">Is Parent: <span class="text-danger">*</span></label>
+                                <input type="checkbox" id="is_parent" name="is_parent" value="1" checked> 
+                            </div>
+                        </div>
+
+                        <div class="form-row d-none" id="parent_cat_div">
+                            <div class="form-group col-md-12">
+                                <label for="parent_id">Parent Category</label>
+                                <select id="parent_id" name="parent_id" class="form-control">
+                                    <option value="">Parent Category</option>
+                                    @foreach ($parent_cats as $parent_cat)
+                                        <option value="{{ $parent_cat->id }}">{{ $parent_cat->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="status">Status <span class="text-danger">*</span></label>
@@ -76,16 +98,6 @@
                                     <option selected>Status</option>
                                     <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
                                     <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="condition">Condition <span class="text-danger">*</span></label>
-                                <select id="condition" name="condition" class="form-control">
-                                    <option selected>Condition </option>
-                                    <option value="banner" {{ old('condition') == 'banner' ? 'selected' : '' }}>Banner
-                                    </option>
-                                    <option value="promo" {{ old('condition') == 'promo' ? 'selected' : '' }}>Promo
                                     </option>
                                 </select>
                             </div>
@@ -108,5 +120,17 @@
         $(document).ready(function() {
             $('#description').summernote();
         });
+    </script>
+    <script>
+        $('#is_parent').change(function(e) {
+            e.preventDefault();
+            var is_checked = $('#is_parent').prop('checked');
+            if(is_checked) {
+                $('#parent_cat_div').addClass('d-none');
+                $('#parent_cat_div').val('');
+            } else {
+                $('#parent_cat_div').removeClass('d-none');
+            }
+        })
     </script>
 @endsection
