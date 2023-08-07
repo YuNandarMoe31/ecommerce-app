@@ -14,3 +14,5 @@
 <link rel="stylesheet" href="{{ asset('backend/css/bootstrap.min.css') }}">
 <!-- summernote -->
 <link rel="stylesheet" href="{{ asset('backend/summernote/summernote.css') }}">
+<!-- switch button -->
+<link rel="stylesheet" href="{{ asset('backend/switch_button/css/bootstrap-switch-button.css') }}">

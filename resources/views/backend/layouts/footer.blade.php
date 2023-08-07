@@ -15,6 +15,8 @@
 <script src="{{ asset('backend/js/table.js') }}"></script>
 <!-- summernote -->
 <script src="{{ asset('backend/summernote/summernote.js') }}"></script>
+<!-- switch button -->
+<script src="{{ asset('backend/switch_button/src/bootstrap-switch-button.js') }}"></script>
 
 @yield('scripts')
 

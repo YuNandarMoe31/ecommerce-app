@@ -19,6 +19,7 @@ Route::group(['prefix'=>'admin/', 'middleware'=>'auth'], function() {
 
     // Banner Management
     Route::resource('banner', BannerController::class);
+    Route::post('banner_status', [BannerController::class, 'bannerStatus'])->name('banner.status');
 });
 
 
