@@ -14,6 +14,26 @@
                 </div>
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    <div class="block-header">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <h2>
+                                    <a href="javascript:void(0)" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
+                                            class="fa fa-arrow-left"></i></a>Banner
+                                    <a href="{{ route('banner.create') }}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-plus-circle"></i> Create Banner</a>
+                                </h2>
+                                <ul class="breadcrumb float-left">
+                                    <li class="breadcrumb-item">
+                                        <a href="{{ route('admin') }}"><i class="fas fa-home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item active">
+                                        Banners
+                                    </li>
+                                </ul>
+                                <p class="float-right">Total Banners: {{ \App\Models\Banner::count() }}</p>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Banner</h1>
                     <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
@@ -44,8 +64,9 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->title }}</td>
-                                                <td>{{ $item->description }}</td>
-                                                <td><img src="{{ $item->photo }}" alt="Banner Image" style="max-height: 90px; max-width: 120px;"></td>
+                                                <td>{!! $item->description !!}</td>
+                                                <td><img src="{{ $item->photo }}" alt="Banner Image"
+                                                        style="max-height: 90px; max-width: 120px;"></td>
                                                 <td>
                                                     @if ($item->condition == 'banner')
                                                         <span class="badge badge-success">
@@ -58,11 +79,26 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" name="toggle" value="{{ $item->id }}" data-toggle="switchbutton" {{ $item->status=='active' ? 'checked' : '' }} data-onlabel="active" data-offlabel="inactive" data-size="sm" data-onstyle="success" data-offstyle="danger">
+                                                    <input type="checkbox" name="toggle" value="{{ $item->id }}"
+                                                        data-toggle="switchbutton"
+                                                        {{ $item->status == 'active' ? 'checked' : '' }}
+                                                        data-onlabel="active" data-offlabel="inactive" data-size="sm"
+                                                        data-onstyle="success" data-offstyle="danger">
                                                 </td>
                                                 <td>
-                                                    <a href="" data-toggle="tooltip" title="edit" data-placement="bottom" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i></a>
-                                                    <a href="" data-toggle="tooltip" title="delete" data-placement="bottom" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i></a>
+                                                    <a href="{{ route('banner.edit', $item->id) }}" data-toggle="tooltip"
+                                                        title="edit" data-placement="bottom"
+                                                        class="float-left btn btn-sm btn-outline-warning"><i
+                                                            class="fas fa-edit"></i></a>
+                                                    <form class="float-left ml-1"
+                                                        action="{{ route('banner.destroy', $item->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <a href="" data-toggle="tooltip" title="delete"
+                                                            data-id="{{ $item->id }}" data-placement="bottom"
+                                                            class="delete-btn btn btn-sm btn-outline-danger"><i
+                                                                class="fas fa-trash-alt"></i></a>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -121,6 +157,37 @@
 @endsection
 
 @section('scripts')
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('.delete-btn').click(function(e) {
+            var form = $(this).closest('form');
+            var dataId = $(this).data('id');
+            e.preventDefault();
+            // sweet alert
+            swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this imaginary file!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    form.submit();
+                    if (willDelete) {
+                        swal("Poof! Your imaginary file has been deleted!", {
+                            icon: "success",
+                        });
+                    } else {
+                        swal("Your imaginary file is safe!");
+                    }
+                });
+        });
+    </script>
     <script>
         $('input[name=toggle]').change(function() {
             var mode = $(this).prop('checked');
@@ -135,7 +202,7 @@
                     id: id
                 },
                 success: function(response) {
-                    if(response.status) {
+                    if (response.status) {
                         alert(response.message);
                     } else {
                         alert('Please try again');
