@@ -85,7 +85,7 @@
                                 <select id="parent_id" name="parent_id" class="form-control">
                                     <option value="">Parent Category</option>
                                     @foreach ($parent_cats as $parent_cat)
-                                        <option value="{{ $parent_cat->id }}">{{ $parent_cat->title }}</option>
+                                        <option value="{{ $parent_cat->id }}" {{ old('parent_id') == $parent_cat->id ? 'selected' : '' }}>{{ $parent_cat->title }}</option>
                                     @endforeach
                                 </select>
                             </div>
