@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
@@ -30,4 +31,8 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth'], function () {
     // Brand Management
     Route::resource('brand', BrandController::class);
     Route::post('brand_status', [BrandController::class, 'brandStatus'])->name('brand.status');
+
+    // Product Management
+    Route::resource('product', ProductController::class);
+    Route::post('product_status', [ProductController::class, 'productStatus'])->name('product.status');
 });
