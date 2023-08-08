@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,7 +28,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.product.create');
     }
 
     /**
@@ -38,7 +39,43 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $this->validate($request, [
+        //     'title' => 'string|required',
+        //     'summary' => 'string|required',
+        //     'description' => 'string|nullable',
+        //     'stock' => 'nullable|numeric',
+        //     'price' => 'nullable|numeric',
+        //     'discount' => 'nullable|numeric',
+        //     'photo' => 'required',
+        //     'cat_id' => 'required|exists:categories, id',
+        //     'child_cat_id' => 'nullable|exists:categories, id',
+        //     'size' => 'nullable',
+        //     'condition' => 'nullable',
+        //     'status' => 'nullable|in:active,inactive',
+        // ]);
+
+        $data = $request->all();
+
+        $slug = Str::slug($request->input('title'));
+        $slug_count = Product::where('slug', $slug)->count();
+        if ($slug_count > 0) {
+            $slug .= time() . '-' . $slug;
+        }
+        $data['slug'] = $slug;
+
+        $data['offer_price'] = ($request->price-(($request->price*$request->discount)/100));
+
+        // return $data;
+
+        // $data['is_parent'] = $request->input('is_parent', 0);
+
+        $status = Product::create($data);
+
+        if ($status) {
+            return redirect()->route('product.index')->with('success', 'Product created successfully');
+        } else {
+            return back()->with('error', 'Something went wrong!');
+        }
     }
 
     /**

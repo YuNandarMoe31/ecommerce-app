@@ -27,6 +27,7 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth'], function () {
     // Category Management
     Route::resource('category', CategoryController::class);
     Route::post('category_status', [CategoryController::class, 'categoryStatus'])->name('category.status');
+    Route::post('category/{id}/child', [CategoryController::class, 'getChildByParentId']);
 
     // Brand Management
     Route::resource('brand', BrandController::class);
@@ -35,4 +36,5 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth'], function () {
     // Product Management
     Route::resource('product', ProductController::class);
     Route::post('product_status', [ProductController::class, 'productStatus'])->name('product.status');
+
 });

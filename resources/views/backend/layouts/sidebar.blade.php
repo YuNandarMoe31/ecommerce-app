@@ -72,7 +72,7 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Products:</h6>
                     <a class="collapse-item" href="{{ route('product.index') }}">All Products</a>
-                    <a class="collapse-item" href="{{ route('product.index') }}">Create Product</a>
+                    <a class="collapse-item" href="{{ route('product.create') }}">Create Product</a>
                 </div>
             </div>
         </li>

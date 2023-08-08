@@ -23,4 +23,9 @@ class Category extends Model
     {
         return Category::whereIn('id', $cat_id)->update(['is_parent'=> 1]);
     }
+
+    public static function getChildByParentId($id)
+    {
+        return Category::where('parent_id', $id)->pluck('title', 'id');
+    }
 }

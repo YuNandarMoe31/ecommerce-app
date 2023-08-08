@@ -98,12 +98,17 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a href="{{ route('brand.edit', $item->id) }}" data-toggle="tooltip"
+                                                    <a href="javascript:void(0)" data-bs-toggle="modal"
+                                                        data-bs-target="#productId{{ $item->id }}"
+                                                        data-toggle="tooltip" title="view" data-placement="bottom"
+                                                        class="float-left btn btn-sm btn-outline-secondary"><i
+                                                            class="fas fa-eye"></i></a>
+                                                    <a href="{{ route('product.edit', $item->id) }}" data-toggle="tooltip"
                                                         title="edit" data-placement="bottom"
                                                         class="float-left btn btn-sm btn-outline-warning"><i
                                                             class="fas fa-edit"></i></a>
                                                     <form class="float-left ml-1"
-                                                        action="{{ route('brand.destroy', $item->id) }}" method="POST">
+                                                        action="{{ route('product.destroy', $item->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <a href="" data-toggle="tooltip" title="delete"
@@ -112,6 +117,90 @@
                                                                 class="fas fa-trash-alt"></i></a>
                                                     </form>
                                                 </td>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="productId{{ $item->id }}" tabindex="-1"
+                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        @php
+                                                            $product = \App\Models\Product::where('id', $item->id)->first();
+                                                            
+                                                        @endphp
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title text-uppercase"
+                                                                    id="exampleModalLabel">
+                                                                    {{ $product->title }}
+                                                                </h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <strong>Summary:</strong>
+                                                                <p>{!! $product->summary !!}</p>
+
+                                                                <strong>Description:</strong>
+                                                                <p>{!! $product->description !!}</p>
+
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <strong>Price:</strong>
+                                                                        <p>{{ number_format($product->price, 2) }}</p>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <strong>Offer Price:</strong>
+                                                                        <p>{{ number_format($product->offer_price, 2) }}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <strong>Category:</strong>
+                                                                        <p>{{ \App\Models\Category::where('id', $product->cat_id)->value('title') }}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <strong>Child Category:</strong>
+                                                                        <p>{{ \App\Models\Category::where('id', $product->child_cat_id)->value('title') }}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <strong>Brand:</strong>
+                                                                        <p>{{ \App\Models\Brand::where('id', $product->brand_id)->value('title') }}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <strong>Size:</strong>
+                                                                        <p class="badge badge-success">{{ $product->size }}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <strong>Condition:</strong>
+                                                                        <p class="badge badge-primary">
+                                                                            {{ $product->condition }}</p>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <strong>Status:</strong>
+                                                                        <p class="badge badge-warning">
+                                                                            {{ $product->status }}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Close</button>
+
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </tr>
                                         @endforeach
                                     </tbody>

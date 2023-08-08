@@ -45,7 +45,7 @@ class CategoryController extends Controller
             'photo' => 'required',
             'is_parent' => 'sometimes|in:1',
             'parent_id' => 'nullable|exists:categories,id',
-            'status' => 'nullable|in:active,inactive',
+            'status' => 'required|in:active,inactive',
         ]);
 
         $data = $request->all();
@@ -124,12 +124,12 @@ class CategoryController extends Controller
                 'photo' => 'required',
                 'is_parent' => 'sometimes|in:1',
                 'parent_id' => 'nullable|exists:categories,id',
-                'status' => 'nullable|in:active,inactive',
+                'status' => 'required|in:active,inactive',
             ]);
 
             $data = $request->all();
 
-            if($request->is_parent == 1) {
+            if ($request->is_parent == 1) {
                 $data['parent_id'] = null;
             }
 
@@ -162,13 +162,29 @@ class CategoryController extends Controller
         if ($category) {
             $status = $category->delete();
             if ($status) {
-                if(count($child_cat_id) > 0) {
+                if (count($child_cat_id) > 0) {
                     Category::shiftChild($child_cat_id);
                 }
                 return redirect()->route('category.index')->with('success', 'Category deleted successfully');
             }
         } else {
             return back()->with('error', 'Something went wrong');
+        }
+    }
+
+    public function getChildByParentId(Request $request, $id)
+    {
+        $category = Category::find($request->id);
+
+        if ($category) {
+            $child_id = Category::getChildByParentId($request->id);
+
+            if (count($child_id) <= 0) {
+                return response()->json(['status' => false, 'data' => null, 'msg' => '']);
+            }
+            return response()->json(['status' => true, 'data' => $child_id, 'msg' => '']);
+        } else {
+            return response()->json(['status' => false, 'data' => null, 'msg' => '']);
         }
     }
 }
