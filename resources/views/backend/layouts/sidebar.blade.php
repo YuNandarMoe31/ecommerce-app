@@ -49,6 +49,20 @@
             </div>
         </li>
         <li class="nav-item">
+            <a class="nav-link collapsed" href="#collapseBrand" data-bs-toggle="collapse" aria-expanded="false"
+                aria-controls="collapseBrand">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Brand Management</span>
+            </a>
+            <div id="collapseBrand" class="collapse">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Brand:</h6>
+                    <a class="collapse-item" href="{{ route('brand.index') }}">All Brands</a>
+                    <a class="collapse-item" href="{{ route('brand.create') }}">Create Brand</a>
+                </div>
+            </div>
+        </li>
+        <li class="nav-item">
             <a class="nav-link collapsed" href="#collapseProducts" data-bs-toggle="collapse" aria-expanded="false"
                 aria-controls="collapseProducts">
                 <i class="fas fa-briefcase"></i>
