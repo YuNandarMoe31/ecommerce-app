@@ -65,11 +65,14 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($products as $item)
+                                            @php
+                                                $photo = explode(',', $item->photo);
+                                            @endphp
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->title }}</td>
                                                 <td>{{ $item->slug }}</td>
-                                                <td><img src="{{ $item->photo }}" alt="Brand Image"
+                                                <td><img src="{{ $photo[0] }}" alt="Brand Image"
                                                         style="max-height: 90px; max-width: 120px;"></td>
                                                 </td>
                                                 <td>{{ $item->size }}</td>
@@ -142,13 +145,18 @@
                                                                 <p>{!! $product->description !!}</p>
 
                                                                 <div class="row">
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-4">
                                                                         <strong>Price:</strong>
                                                                         <p>{{ number_format($product->price, 2) }}</p>
                                                                     </div>
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-4">
                                                                         <strong>Offer Price:</strong>
                                                                         <p>{{ number_format($product->offer_price, 2) }}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <strong>Stock:</strong>
+                                                                        <p>{{ $product->stock }}
                                                                         </p>
                                                                     </div>
                                                                 </div>
@@ -173,22 +181,27 @@
                                                                         </p>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <strong>Size:</strong>
-                                                                        <p class="badge badge-success">{{ $product->size }}
+                                                                        <strong>Vendor:</strong>
+                                                                        <p>{{ \App\Models\User::where('id', $product->vendor_id)->value('full_name') }}
                                                                         </p>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col-md-6">
+                                                                        <strong>Size:</strong>
+                                                                        <p class="badge badge-success">{{ $product->size }}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="col-md-6">
                                                                         <strong>Condition:</strong>
                                                                         <p class="badge badge-primary">
                                                                             {{ $product->condition }}</p>
                                                                     </div>
-                                                                    <div class="col-md-6">
+                                                                    {{-- <div class="col-md-6">
                                                                         <strong>Status:</strong>
                                                                         <p class="badge badge-warning">
                                                                             {{ $product->status }}</p>
-                                                                    </div>
+                                                                    </div> --}}
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary"
@@ -196,8 +209,6 @@
 
                                                                 </div>
                                                             </div>
-
-
                                                         </div>
                                                     </div>
                                                 </div>
