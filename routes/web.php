@@ -7,12 +7,17 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Frontend
+Route::get('/', [IndexController::class, 'home'])->name('home');
+
+// Backend
 Auth::routes(['register' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
