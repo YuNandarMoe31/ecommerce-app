@@ -7,6 +7,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -37,4 +38,7 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth'], function () {
     Route::resource('product', ProductController::class);
     Route::post('product_status', [ProductController::class, 'productStatus'])->name('product.status');
 
+    // User Management
+    Route::resource('user', UserController::class);
+    Route::post('user_status', [UserController::class, 'userStatus'])->name('user.status');
 });

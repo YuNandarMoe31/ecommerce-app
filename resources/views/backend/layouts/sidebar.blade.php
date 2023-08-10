@@ -183,8 +183,8 @@
             <div class="collapse" id="collapseUser">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">User Management:</h6>
-                    <a class="collapse-item" href="buttons.html">Buttons</a>
-                    <a class="collapse-item" href="cards.html">Cards</a>
+                    <a class="collapse-item" href="{{ route('user.index') }}">All users</a>
+                    <a class="collapse-item" href="{{ route('user.create') }}">Crate user</a>
                 </div>
             </div>
         </li>
