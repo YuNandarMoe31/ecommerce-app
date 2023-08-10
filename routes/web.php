@@ -17,6 +17,9 @@ Route::get('/', function () {
 // Frontend
 Route::get('/', [IndexController::class, 'home'])->name('home');
 
+// Product
+Route::get('product-category/{slug}/', [IndexController::class, 'productCategory'])->name('product.category');
+
 // Backend
 Auth::routes(['register' => false]);
 

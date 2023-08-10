@@ -2,10 +2,8 @@
 
 /* CSS Document */
 
-@import url('style.css');
-@import url('animate.css');
 @import url('bootstrap.min.css');
-@import url('classy-nav.min.css');
+@import url('animate.css');
 @import url('fontawesome-all.min.css');
 @import url('font-awesome.min.css');
 @import url('icofont.min.css');
@@ -13,3 +11,6 @@
 @import url('magnific-popup.css');
 @import url('nice-select.css');
 @import url('owl.carousel.min.css');
+@import url('classy-nav.min.css');
+@import url('style.css');
+@import url('reset.css');

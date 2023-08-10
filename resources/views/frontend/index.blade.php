@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- Welcome Slides Area -->
-    @if(count($banners) > 0)     
+    @if (count($banners) > 0)
         <section class="welcome_area">
             <div class="welcome_slides owl-carousel">
                 <!-- Single Slide -->
@@ -34,48 +34,33 @@
                 @endforeach
             </div>
         </section>
-        
     @endif
     <!-- Welcome Slides Area -->
 
-    <!-- Top Catagory Area -->
-    <div class="top_catagory_area mt-50 clearfix">
-        <div class="container">
-            <div class="row">
-                <!-- Single Catagory -->
-                <div class="col-12 col-md-4">
-                    <div class="single_catagory_area mt-50">
-                        <a href="#">
-                            <img src="frontend/img/bg-img/c1.jpg" alt="">
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Single Catagory -->
-                <div class="col-12 col-md-4">
-                    <div class="single_catagory_area mt-50">
-                        <a href="#">
-                            <img src="frontend/img/bg-img/c2.jpg" alt="">
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Single Catagory -->
-                <div class="col-12 col-md-4">
-                    <div class="single_catagory_area mt-50">
-                        <a href="#">
-                            <img src="frontend/img/bg-img/c3.jpg" alt="">
-                        </a>
-                    </div>
+    @if (count($categories) > 0)
+        <!-- Top Catagory Area -->
+        <div class="top_catagory_area mt-50 clearfix">
+            <div class="container">
+                <div class="row">
+                    @foreach ($categories as $category)
+                        <!-- Single Catagory -->
+                        <div class="col-12 col-md-4">
+                            <div class="single_catagory_area mt-50">
+                                <a href="{{ route('product.category', $category->slug) }}">
+                                    <img src="{{ $category->photo }}" alt="{{ $category->title }}">
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Top Catagory Area -->
+        <!-- Top Catagory Area -->
+    @endif
+
 
     <!-- Quick View Modal Area -->
-    <div class="modal fade" id="quickview" tabindex="-1" role="dialog" aria-labelledby="quickview"
-        aria-hidden="true">
+    <div class="modal fade" id="quickview" tabindex="-1" role="dialog" aria-labelledby="quickview" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
@@ -87,11 +72,10 @@
                             <div class="row">
                                 <div class="col-12 col-lg-5">
                                     <div class="quickview_pro_img">
-                                        <img class="first_img"
-                                            src="{{ asset('frontend/img/product-img/new-1-back.png') }}"
+                                        <img class="first_img" src="{{ asset('frontend/img/product-img/new-1-back.png') }}"
                                             alt="">
-                                        <img class="hover_img"
-                                            src="{{ asset('frontend/img/product-img/new-1.png') }}" alt="">
+                                        <img class="hover_img" src="{{ asset('frontend/img/product-img/new-1.png') }}"
+                                            alt="">
                                         <!-- Product Badge -->
                                         <div class="product_badge">
                                             <span class="badge-new">New</span>
@@ -120,8 +104,7 @@
                                             <input type="number" class="qty-text" id="qty" step="1"
                                                 min="1" max="12" name="quantity" value="1">
                                         </div>
-                                        <button type="submit" name="addtocart" value="5"
-                                            class="cart-submit">Add to
+                                        <button type="submit" name="addtocart" value="5" class="cart-submit">Add to
                                             cart</button>
                                         <!-- Wishlist -->
                                         <div class="modal_pro_wishlist">
@@ -623,8 +606,8 @@
                                                         class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
                                                         <!-- Add to cart -->
                                                         <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip"
-                                                                data-placement="top" title="Add To Cart"><i
+                                                            <a href="#" data-toggle="tooltip" data-placement="top"
+                                                                title="Add To Cart"><i
                                                                     class="icofont-shopping-cart"></i></a>
                                                         </div>
 
@@ -675,8 +658,8 @@
                                                         class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
                                                         <!-- Add to cart -->
                                                         <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip"
-                                                                data-placement="top" title="Add To Cart"><i
+                                                            <a href="#" data-toggle="tooltip" data-placement="top"
+                                                                title="Add To Cart"><i
                                                                     class="icofont-shopping-cart"></i></a>
                                                         </div>
 
@@ -727,8 +710,8 @@
                                                         class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
                                                         <!-- Add to cart -->
                                                         <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip"
-                                                                data-placement="top" title="Add To Cart"><i
+                                                            <a href="#" data-toggle="tooltip" data-placement="top"
+                                                                title="Add To Cart"><i
                                                                     class="icofont-shopping-cart"></i></a>
                                                         </div>
 
@@ -779,8 +762,8 @@
                                                         class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
                                                         <!-- Add to cart -->
                                                         <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip"
-                                                                data-placement="top" title="Add To Cart"><i
+                                                            <a href="#" data-toggle="tooltip" data-placement="top"
+                                                                title="Add To Cart"><i
                                                                     class="icofont-shopping-cart"></i></a>
                                                         </div>
 
@@ -831,8 +814,8 @@
                                                         class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
                                                         <!-- Add to cart -->
                                                         <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip"
-                                                                data-placement="top" title="Add To Cart"><i
+                                                            <a href="#" data-toggle="tooltip" data-placement="top"
+                                                                title="Add To Cart"><i
                                                                     class="icofont-shopping-cart"></i></a>
                                                         </div>
 
@@ -883,8 +866,8 @@
                                                         class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
                                                         <!-- Add to cart -->
                                                         <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip"
-                                                                data-placement="top" title="Add To Cart"><i
+                                                            <a href="#" data-toggle="tooltip" data-placement="top"
+                                                                title="Add To Cart"><i
                                                                     class="icofont-shopping-cart"></i></a>
                                                         </div>
 
@@ -941,8 +924,8 @@
                                                         class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
                                                         <!-- Add to cart -->
                                                         <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip"
-                                                                data-placement="top" title="Add To Cart"><i
+                                                            <a href="#" data-toggle="tooltip" data-placement="top"
+                                                                title="Add To Cart"><i
                                                                     class="icofont-shopping-cart"></i></a>
                                                         </div>
 
@@ -993,8 +976,8 @@
                                                         class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
                                                         <!-- Add to cart -->
                                                         <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip"
-                                                                data-placement="top" title="Add To Cart"><i
+                                                            <a href="#" data-toggle="tooltip" data-placement="top"
+                                                                title="Add To Cart"><i
                                                                     class="icofont-shopping-cart"></i></a>
                                                         </div>
 
@@ -1045,8 +1028,8 @@
                                                         class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
                                                         <!-- Add to cart -->
                                                         <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip"
-                                                                data-placement="top" title="Add To Cart"><i
+                                                            <a href="#" data-toggle="tooltip" data-placement="top"
+                                                                title="Add To Cart"><i
                                                                     class="icofont-shopping-cart"></i></a>
                                                         </div>
 
@@ -1097,8 +1080,8 @@
                                                         class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
                                                         <!-- Add to cart -->
                                                         <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip"
-                                                                data-placement="top" title="Add To Cart"><i
+                                                            <a href="#" data-toggle="tooltip" data-placement="top"
+                                                                title="Add To Cart"><i
                                                                     class="icofont-shopping-cart"></i></a>
                                                         </div>
 
@@ -1149,8 +1132,8 @@
                                                         class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
                                                         <!-- Add to cart -->
                                                         <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip"
-                                                                data-placement="top" title="Add To Cart"><i
+                                                            <a href="#" data-toggle="tooltip" data-placement="top"
+                                                                title="Add To Cart"><i
                                                                     class="icofont-shopping-cart"></i></a>
                                                         </div>
 
@@ -1201,8 +1184,8 @@
                                                         class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
                                                         <!-- Add to cart -->
                                                         <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip"
-                                                                data-placement="top" title="Add To Cart"><i
+                                                            <a href="#" data-toggle="tooltip" data-placement="top"
+                                                                title="Add To Cart"><i
                                                                     class="icofont-shopping-cart"></i></a>
                                                         </div>
 
@@ -1259,8 +1242,8 @@
                                                         class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
                                                         <!-- Add to cart -->
                                                         <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip"
-                                                                data-placement="top" title="Add To Cart"><i
+                                                            <a href="#" data-toggle="tooltip" data-placement="top"
+                                                                title="Add To Cart"><i
                                                                     class="icofont-shopping-cart"></i></a>
                                                         </div>
 
@@ -1311,8 +1294,8 @@
                                                         class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
                                                         <!-- Add to cart -->
                                                         <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip"
-                                                                data-placement="top" title="Add To Cart"><i
+                                                            <a href="#" data-toggle="tooltip" data-placement="top"
+                                                                title="Add To Cart"><i
                                                                     class="icofont-shopping-cart"></i></a>
                                                         </div>
 
@@ -1624,12 +1607,10 @@
                         <div class="col-12 col-sm-6 col-lg-12">
                             <!-- Backpack Offer -->
                             <div class="backpack_offer_area mt-30">
-                                <img src="{{ asset('frontend/img/product-img/backpack.jpg') }}"
-                                    alt="Backpack-Offer">
+                                <img src="{{ asset('frontend/img/product-img/backpack.jpg') }}" alt="Backpack-Offer">
                                 <div class="backpack_offer_info">
                                     <h4>Backpacks</h4>
-                                    <a href="#" class="btn">Buy Now <i
-                                            class="icofont-rounded-right"></i></a>
+                                    <a href="#" class="btn">Buy Now <i class="icofont-rounded-right"></i></a>
                                 </div>
                             </div>
                         </div>

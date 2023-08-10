@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Category extends Model
 {
@@ -27,5 +28,10 @@ class Category extends Model
     public static function getChildByParentId($id)
     {
         return Category::where('parent_id', $id)->pluck('title', 'id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'cat_id', 'id');
     }
 }
