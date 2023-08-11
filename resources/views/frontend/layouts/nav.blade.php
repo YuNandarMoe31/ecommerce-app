@@ -6,9 +6,9 @@
                 <div class="col-6">
                     <div class="welcome-note">
                         <span class="popover--text" data-toggle="popover"
-                            data-content="Welcome to Bigshop ecommerce template."><i
+                            data-content="Welcome to Emart Online Shopping"><i
                                 class="icofont-info-square"></i></span>
-                        <span class="text">Welcome to Bigshop ecommerce template.</span>
+                        <span class="text">Welcome to Emart Online Shopping</span>
                     </div>
                 </div>
                 <div class="col-6">
@@ -55,7 +55,7 @@
                 <nav class="classy-navbar" id="bigshopNav">
 
                     <!-- Nav Brand -->
-                    <a href="index.html" class="nav-brand"><img src="{{ asset('frontend/img/core-img/logo.png') }}"
+                    <a href="{{ route('home') }}" class="nav-brand"><img src="{{ asset('frontend/img/core-img/logo.png') }}"
                             alt="logo"></a>
 
                     <!-- Toggler -->
