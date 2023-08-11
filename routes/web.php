@@ -15,6 +15,10 @@ Route::get('/', function () {
 });
 
 // Frontend
+
+// Authentication
+Route::get('user/auth', [IndexController::class, 'userAuth'])->name('user.auth');
+
 Route::get('/', [IndexController::class, 'home'])->name('home');
 
 // Product

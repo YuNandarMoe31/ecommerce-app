@@ -108,9 +108,8 @@
                                     $photos = explode(',', $product->photo);
                                 @endphp
                                 @foreach ($photos as $key => $photo)
-                                    <div class="carousel-item {{ $key==0 ? 'active' : ''}}">
-                                        <a class="gallery_img" href="{{ $photo }}"
-                                            title="{{ $product->title }}">
+                                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                        <a class="gallery_img" href="{{ $photo }}" title="{{ $product->title }}">
                                             <img class="d-block w-100" src="{{ $photo }}"
                                                 alt="{{ $product->title }}">
                                         </a>
@@ -126,11 +125,12 @@
                             <!-- Carosel Indicators -->
                             <ol class="carousel-indicators">
                                 @php
-                                    $photos = explode(',', $product->photo)
+                                    $photos = explode(',', $product->photo);
                                 @endphp
                                 @foreach ($photos as $key => $photo)
-                                    <li class="{{ $key == 0 ? 'active' : '' }}" data-target="#product_details_slider" data-slide-to="{{ $key }}"
-                                    style="background-image: url({{ $photo }});">
+                                    <li class="{{ $key == 0 ? 'active' : '' }}" data-target="#product_details_slider"
+                                        data-slide-to="{{ $key }}"
+                                        style="background-image: url({{ $photo }});">
                                     </li>
                                 @endforeach
                             </ol>
@@ -150,7 +150,8 @@
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <span class="text-muted">(8 Reviews)</span>
                         </div> --}}
-                        <h4 class="price mb-4">$ {{ number_format($product->offer_price,2) }} <span>$ {{ number_format($product->price, 2) }}</span></h4>
+                        <h4 class="price mb-4">$ {{ number_format($product->offer_price, 2) }} <span>$
+                                {{ number_format($product->price, 2) }}</span></h4>
 
                         <!-- Overview -->
                         <div class="short_overview mb-4">
@@ -441,53 +442,66 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="you_make_like_slider owl-carousel">
-                        <!-- Single Product -->
-                        <div class="single-product-area">
-                            <div class="product_image">
-                                <!-- Product Image -->
-                                <img class="normal_img" src="img/product-img/new-1-back.png" alt="">
-                                <img class="hover_img" src="img/product-img/new-1.png" alt="">
+            @if (count($product->rel_prods) > 0)
+                <div class="row">
+                    <div class="col-12">
+                        <div class="you_make_like_slider owl-carousel">
+                            @foreach ($product->rel_prods as $item)
+                                @if ($item->id != $product->id)
+                                    <!-- Single Product -->
+                                    <div class="single-product-area">
+                                        <div class="product_image">
+                                            @php
+                                                $photo = explode(',', $item->photo);
+                                            @endphp
+                                            <!-- Product Image -->
+                                            <img class="normal_img" src="{{ $photo[0] }}"
+                                                alt="{{ $item->title }}">
 
-                                <!-- Product Badge -->
-                                <div class="product_badge">
-                                    <span>New</span>
-                                </div>
+                                            <!-- Product Badge -->
+                                            <div class="product_badge">
+                                                <span>{{ $item->condition }}</span>
+                                            </div>
 
-                                <!-- Wishlist -->
-                                <div class="product_wishlist">
-                                    <a href="wishlist.html"><i class="icofont-heart"></i></a>
-                                </div>
+                                            <!-- Wishlist -->
+                                            <div class="product_wishlist">
+                                                <a href="wishlist.html"><i class="icofont-heart"></i></a>
+                                            </div>
 
-                                <!-- Compare -->
-                                <div class="product_compare">
-                                    <a href="compare.html"><i class="icofont-exchange"></i></a>
-                                </div>
-                            </div>
+                                            <!-- Compare -->
+                                            <div class="product_compare">
+                                                <a href="compare.html"><i class="icofont-exchange"></i></a>
+                                            </div>
+                                        </div>
 
-                            <!-- Product Description -->
-                            <div class="product_description">
-                                <!-- Add to cart -->
-                                <div class="product_add_to_cart">
-                                    <a href="#"><i class="icofont-shopping-cart"></i> Add to Cart</a>
-                                </div>
+                                        <!-- Product Description -->
+                                        <div class="product_description">
+                                            <!-- Add to cart -->
+                                            <div class="product_add_to_cart">
+                                                <a href="#"><i class="icofont-shopping-cart"></i> Add to Cart</a>
+                                            </div>
 
-                                <!-- Quick View -->
-                                <div class="product_quick_view">
-                                    <a href="#" data-toggle="modal" data-target="#quickview"><i
-                                            class="icofont-eye-alt"></i> Quick View</a>
-                                </div>
+                                            <!-- Quick View -->
+                                            <div class="product_quick_view">
+                                                <a href="#" data-toggle="modal" data-target="#quickview"><i
+                                                        class="icofont-eye-alt"></i> Quick View</a>
+                                            </div>
 
-                                <p class="brand_name">Top</p>
-                                <a href="#">Boutique Silk Dress</a>
-                                <h6 class="product-price">$48.99</h6>
-                            </div>
+                                            <p class="brand_name">
+                                                {{ \App\Models\Brand::where('id', $item->brand_id)->value('title') }}</p>
+                                            <a href="{{ route('product.detail', $item->slug) }}">{{ $item->title }}</a>
+                                            <h6 class="product-price">{{ number_format($item->offer_price, 2) }} <small
+                                                    class="text-danger"><del>{{ number_format($item->price, 2) }}</del></small>
+                                            </h6>
+
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
     </section>
     <!-- Related Products Area -->
