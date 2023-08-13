@@ -25,3 +25,10 @@
         $(".owl-carousel").owlCarousel();
     });
 </script>
+<script>
+    setTimeout(function() {
+        $('#alert').slideUp();
+    }, 4000);    
+</script>
+
+@yield('scripts')

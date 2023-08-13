@@ -25,26 +25,33 @@
                     <div class="login_form mb-50">
                         <h5 class="mb-3">Login</h5>
 
-                        <form action="my-account.html" method="post">
+                        <form action="{{ route('login.submit') }}" method="post">
+                            @csrf
                             <div class="form-group">
-                                <input type="email" class="form-control" id="email" placeholder="Email">
+                                <input type="email" class="form-control"  name="email" placeholder="Email">
+                                @error('email')
+                                <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" id="password" placeholder="Password">
+                                <input type="password" class="form-control"  name="password" placeholder="Password">
+                                @error('password')
+                                <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
-                            <div class="form-check">
+                            {{-- <div class="form-check">
                                 <div class="custom-control custom-checkbox mb-3 pl-1">
                                     <input type="checkbox" class="custom-control-input" id="customChe">
                                     <label class="custom-control-label" for="customChe">Remember me for this
                                         computer</label>
                                 </div>
-                            </div>
+                            </div> --}}
                             <button type="submit" class="btn btn-primary btn-sm">Login</button>
                         </form>
                         <!-- Forget Password -->
-                        <div class="forget_pass mt-15">
+                        {{-- <div class="forget_pass mt-15">
                             <a href="#">Forget Password?</a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 
@@ -52,18 +59,31 @@
                     <div class="login_form mb-50">
                         <h5 class="mb-3">Register</h5>
 
-                        <form action="my-account.html" method="post">
+                        <form action="{{ route('register.submit') }}" method="post">
+                            {{ csrf_field() }}
                             <div class="form-group">
-                                <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Full Name">
+                                <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Full Name" value="{{ old('full_name') }}">
+                                @error('full_name')
+                                <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Username" value="{{ old('username') }}">
+                                @error('username')
+                                <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ old('email') }}">
+                                @error('email')
+                                <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="{{ old('password') }}">
+                                @error('password')
+                                <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                             <button type="submit" class="btn btn-primary btn-sm">Register</button>
                         </form>

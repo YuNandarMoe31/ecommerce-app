@@ -1,4 +1,4 @@
-<?php
+s<?php
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +18,10 @@ Route::get('/', function () {
 
 // Authentication
 Route::get('user/auth', [IndexController::class, 'userAuth'])->name('user.auth');
+Route::post('user/login', [IndexController::class, 'loginSubmit'])->name('login.submit');
+Route::post('user/register', [IndexController::class, 'registerSubmit'])->name('register.submit');
+
+Route::get('user/logout', [IndexController::class, 'userlogout'])->name('user.logout');
 
 Route::get('/', [IndexController::class, 'home'])->name('home');
 
@@ -30,11 +34,11 @@ Route::get('product-detail/{slug}/', [IndexController::class, 'productDetail'])-
 // Backend
 Auth::routes(['register' => false]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Admin Dashboard
-Route::group(['prefix' => 'admin/', 'middleware' => 'auth'], function () {
-    Route::get('/', [AdminController::class, 'admin'])->name('admin');
+Route::group(['prefix' => 'admin/', 'middleware' => ['auth', 'admin']], function () {
+    Route::get('/home', [AdminController::class, 'admin'])->name('admin');
 
     // Banner Management
     Route::resource('banner', BannerController::class);
@@ -56,4 +60,10 @@ Route::group(['prefix' => 'admin/', 'middleware' => 'auth'], function () {
     // User Management
     Route::resource('user', UserController::class);
     Route::post('user_status', [UserController::class, 'userStatus'])->name('user.status');
+});
+
+// Seller
+Route::group(['prefix' => 'seller', 'middleware' => ['auth', 'seller']], function () {
+    Route::get('/', [AdminController::class, 'admin'])->name('seller');
+
 });

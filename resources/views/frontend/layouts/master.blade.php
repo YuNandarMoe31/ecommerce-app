@@ -30,6 +30,11 @@
     <!-- Header Area -->
     @include('frontend.layouts.nav')
     <!-- Header Area End -->
+    <div class="row">
+        <div class="col-md-12">
+            @include('backend.layouts.notification')
+        </div>
+    </div>
 
     @yield('content')
 

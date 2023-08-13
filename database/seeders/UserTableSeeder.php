@@ -28,13 +28,13 @@ class UserTableSeeder extends Seeder
                 "status" => "active"
             ],
 
-            // Vendor
+            // Seller
             [
-                "full_name" => "Yu Nandar Moe Vendor",
-                "username" => "Vendor",
-                "email" => "vendor@gmail.com",
+                "full_name" => "Yu Nandar Moe Seller",
+                "username" => "Seller",
+                "email" => "seller@gmail.com",
                 "password" => Hash::make('111'),
-                "role" => "vendor",
+                "role" => "seller",
                 "status" => "active"
             ],
 
