@@ -23,7 +23,7 @@ class Product extends Model
         'status',
         'photo',
         'size',
-        'vendor_id',
+        'seller_id',
         'cat_id',
         'child_cat_id',
         'brand_id'
@@ -37,5 +37,14 @@ class Product extends Model
     public function rel_prods()
     {
         return $this->hasMany(Product::class, 'cat_id')->where('status', 'active')->limit(10);
+    }
+
+    public static function getProductByCart($id)
+    {
+        if (!$id) {
+            return null; // Return null or handle the case appropriately
+        }
+
+        return self::where('id', $id)->get()->toArray();
     }
 }

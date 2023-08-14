@@ -6,6 +6,7 @@
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
@@ -15,7 +16,8 @@
     <link rel="icon" href="img/core-img/favicon.ico">
 
     <!-- Css -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     @include('frontend.layouts.header')
 </head>
 
@@ -28,7 +30,9 @@
     </div>
 
     <!-- Header Area -->
-    @include('frontend.layouts.nav')
+    <header class="header_area" id="header-ajax">
+        @include('frontend.layouts.nav')
+    </header>
     <!-- Header Area End -->
     <div class="row">
         <div class="col-md-12">
@@ -139,8 +143,10 @@
                             <h6>Download our Mobile Apps</h6>
                         </div>
                         <div class="apps_download">
-                            <a href="#"><img src="{{ asset('frontend/img/core-img/play-store.png') }}" alt="Play Store"></a>
-                            <a href="#"><img src="{{ asset('frontend/img/core-img/app-store.png') }}" alt="Apple Store"></a>
+                            <a href="#"><img src="{{ asset('frontend/img/core-img/play-store.png') }}"
+                                    alt="Play Store"></a>
+                            <a href="#"><img src="{{ asset('frontend/img/core-img/app-store.png') }}"
+                                    alt="Apple Store"></a>
                         </div>
                     </div>
                 </div>
@@ -166,8 +172,7 @@
                             <img src="{{ asset('frontend/img/payment-method/maestro.png') }}" alt="">
                             <img src="{{ asset('frontend/img/payment-method/western-union.png') }}" alt="">
                             <img src="{{ asset('frontend/img/payment-method/discover.png') }}" alt="">
-                            <img src="{{ asset('frontend/img/payment-method/american-express.png') }}"
-                                alt="">
+                            <img src="{{ asset('frontend/img/payment-method/american-express.png') }}" alt="">
                         </div>
                     </div>
                 </div>
@@ -178,7 +183,51 @@
 
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
     @include('frontend.layouts.footer')
-        
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.cart_delete', function(e) {
+                e.preventDefault();
+                var cart_id = $(this).data('id');
+                var token = "{{ csrf_token() }}";
+                var path = "{{ route('cart.delete') }}";
+                var data = {
+                    cart_id: cart_id,
+                    _token: token,
+                };
+
+                $.ajax({
+                    url: path,
+                    type: "POST",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/json'
+                    },
+                    success: function(data) {
+                        if (data['status']) {
+                            $('body #header-ajax').html(data['header']);
+                            // $('body #cart-counter').html(data['cart_count']);
+
+                            swal({
+                                title: "Good job!",
+                                text: data['message'],
+                                icon: "success",
+                                button: "ok",
+                            });
+                        }
+                    },
+                    error: function(err) {
+                        console.log(err);
+                        // Handle error
+                    }
+
+                });
+            });
+        })
+    </script>
 
 </body>
+
 </html>

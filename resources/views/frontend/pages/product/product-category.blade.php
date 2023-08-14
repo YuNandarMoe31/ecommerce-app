@@ -111,12 +111,18 @@
                         </div>
                         <select id="sortBy" class="small right">
                             <option selected>Default</option>
-                            <option value="priceAsc" {{ old('sortBy') == 'priceAsc' ? 'selected' : '' }}>Price - Lower To Higher</option>
-                            <option value="priceDesc" {{ old('sortBy') == 'priceDesc' ? 'selected' : '' }}>Price - Higher To Lower</option>
-                            <option value="titleAsc" {{ old('sortBy') == 'titleAsc' ? 'selected' : '' }}>Alphabetical Ascending</option>
-                            <option value="titleDesc" {{ old('sortBy') == 'titleDesc' ? 'selected' : '' }}>Alphabetical Descending</option>
-                            <option value="discAsc" {{ old('sortBy') == 'discAsc' ? 'selected' : '' }}>Discount - Lower To Higher</option>
-                            <option value="discDesc" {{ old('sortBy') == 'discDesc' ? 'selected' : '' }}>Discount - Higher To Lower</option>
+                            <option value="priceAsc" {{ old('sortBy') == 'priceAsc' ? 'selected' : '' }}>Price - Lower To
+                                Higher</option>
+                            <option value="priceDesc" {{ old('sortBy') == 'priceDesc' ? 'selected' : '' }}>Price - Higher
+                                To Lower</option>
+                            <option value="titleAsc" {{ old('sortBy') == 'titleAsc' ? 'selected' : '' }}>Alphabetical
+                                Ascending</option>
+                            <option value="titleDesc" {{ old('sortBy') == 'titleDesc' ? 'selected' : '' }}>Alphabetical
+                                Descending</option>
+                            <option value="discAsc" {{ old('sortBy') == 'discAsc' ? 'selected' : '' }}>Discount - Lower To
+                                Higher</option>
+                            <option value="discDesc" {{ old('sortBy') == 'discDesc' ? 'selected' : '' }}>Discount - Higher
+                                To Lower</option>
                         </select>
                     </div>
 
@@ -140,15 +146,15 @@
     <script>
         $('#sortBy').change(function() {
             var sort = $('#sortBy').val();
-            // window.location = "{{ url(''.$route.'') }}/{{ $categories->slug }}? sort="+sort;
+            // window.location = "{{ url('' . $route . '') }}/{{ $categories->slug }}? sort="+sort;
             var cleanRoute = "{{ url('' . $route . '') }}/{{ $categories->slug }}";
             cleanRoute = cleanRoute.replace(/ /g, '-').replace(/\?+/g,
-            '?');
+                '?');
 
             window.location.href = cleanRoute + "?sort=" + sort;
         });
     </script>
-    <script>
+    {{-- <script>
         function loadmoreData(page) {
             $.ajax({
                 url: '?page='+page,
@@ -176,5 +182,59 @@
                 loadmoreData(page);
             }
         });
+    </script> --}}
+
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.add_to_cart', function(e) {
+                e.preventDefault();
+                var product_id = $(this).data('product-id');
+                var product_qty = $(this).data('quantity');
+
+                var token = "{{ csrf_token() }}";
+                var path = "{{ route('cart.store') }}";
+                var data = {
+                    product_id: product_id,
+                    product_qty: product_qty,
+                    _token: token,
+                };
+
+                $.ajax({
+                    url: path,
+                    type: "POST",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/json'
+                    },
+                    beforeSend: function() {
+                        $('#add_to_cart' + product_id).html(
+                            '<i class="fa fa-spinner fa-spin"></i> Loading...');
+                    },
+                    complete: function() {
+                        $('#add_to_cart' + product_id).html(
+                            '<i class="fa fa-cart-plus fa-spin"></i> Add to Cart');
+                    },
+                    success: function(data) {
+                        if (data['status']) {
+                            $('body #header-ajax').html(data['header']);
+                            swal({
+                                title: "Good job!",
+                                text: data['message'],
+                                icon: "success",
+                                button: "ok",
+                            });
+                        }
+                    },
+                    error: function(err) {
+                        console.log(err);
+                        // Handle error
+                    }
+
+                });
+            });
+        })
     </script>
 @endsection

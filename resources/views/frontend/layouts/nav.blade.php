@@ -1,4 +1,3 @@
-<header class="header_area">
     <!-- Top Header Area -->
     <div class="top-header-area">
         <div class="container h-100">
@@ -189,52 +188,43 @@
 
                         <!-- Cart -->
                         <div class="cart-area">
-                            <div class="cart--btn"><i class="icofont-cart"></i> <span class="cart_quantity">2</span>
+                            <div class="cart--btn"><i class="icofont-cart"></i> <span class="cart_quantity"
+                                    id="cart-counter">{{ \Gloudemans\Shoppingcart\Facades\Cart::instance('shopping')->count() }}</span>
                             </div>
 
                             <!-- Cart Dropdown Content -->
                             <div class="cart-dropdown-content">
                                 <ul class="cart-list">
-                                    <li>
-                                        <div class="cart-item-desc">
-                                            <a href="#" class="image">
-                                                <img src="{{ asset('frontend/img/product-img/top-1.png') }}"
-                                                    class="cart-thumb" alt="">
-                                            </a>
-                                            <div>
-                                                <a href="#">Kid's Fashion</a>
-                                                <p>1 x - <span class="price">$32.99</span></p>
+                                    @foreach (\Gloudemans\Shoppingcart\Facades\Cart::instance('shopping')->content() as $item)
+                                        <li>
+                                            <div class="cart-item-desc">
+                                                <a href="#" class="image">
+                                                    <img src="{{ $item->model->photo }}"
+                                                        class="cart-thumb" alt="">
+                                                </a>
+                                                <div>
+                                                    <a href="{{ route('product.detail', $item->model->slug) }}">{{ $item->name }}</a>
+                                                    <p>{{ $item->qty }} x - <span class="price">{{ number_format($item->price,2) }}</span></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <span class="dropdown-product-remove"><i class="icofont-bin"></i></span>
-                                    </li>
-                                    <li>
-                                        <div class="cart-item-desc">
-                                            <a href="#" class="image">
-                                                <img src="{{ asset('frontend/img/product-img/best-4.png') }}"
-                                                    class="cart-thumb" alt="">
-                                            </a>
-                                            <div>
-                                                <a href="#">Headphone</a>
-                                                <p>2x - <span class="price">$49.99</span></p>
-                                            </div>
-                                        </div>
-                                        <span class="dropdown-product-remove"><i class="icofont-bin"></i></span>
-                                    </li>
+                                            <span class="dropdown-product-remove cart_delete" data-id="{{ $item->rowId }}"><i class="icofont-bin"></i></span>
+                                        </li>
+                                    @endforeach
+
                                 </ul>
                                 <div class="cart-pricing my-4">
                                     <ul>
                                         <li>
                                             <span>Sub Total:</span>
-                                            <span>$822.96</span>
+                                            <span>$ {{ \Gloudemans\Shoppingcart\Facades\Cart::subtotal() }}</span>
                                         </li>
-                                        <li>
+                                        {{-- <li>
                                             <span>Shipping:</span>
                                             <span>$30.00</span>
-                                        </li>
+                                        </li> --}}
                                         <li>
                                             <span>Total:</span>
-                                            <span>$856.63</span>
+                                            <span>$ {{ \Gloudemans\Shoppingcart\Facades\Cart::subtotal() }}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -247,11 +237,11 @@
                         <!-- Account -->
                         <div class="account-area">
                             <div class="user-thumbnail">
-                                @if (auth()->user()->photo)
+                                {{-- @if (auth()->user()->photo)
                                     <img src="{{ auth()->user->photo }}" alt="">
                                 @else
                                     <img src="{{ Helpers::userDefaultImage() }}" alt="">
-                                @endif
+                                @endif --}}
                             </div>
 
                             <ul class="user-meta-dropdown">
@@ -275,4 +265,3 @@
             </div>
         </div>
     </div>
-</header>

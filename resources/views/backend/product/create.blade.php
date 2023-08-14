@@ -97,11 +97,11 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="vendor_id">Vendor</label>
-                                <select id="vendor_id" name="vendor_id" class="form-control">
-                                    <option selected>Vendor</option>
-                                    @foreach (\App\Models\User::where('role', 'vendor')->get() as $vendor)
-                                        <option value="{{ $vendor->id }}" {{ old('vendor_id') == $vendor->id ? 'selected' : '' }}>{{ $vendor->full_name }}</option>
+                                <label for="seller_id">Seller</label>
+                                <select id="seller_id" name="seller_id" class="form-control">
+                                    <option selected>Seller</option>
+                                    @foreach (\App\Models\User::where('role', 'seller')->get() as $seller)
+                                        <option value="{{ $seller->id }}" {{ old('seller_id') == $seller->id ? 'selected' : '' }}>{{ $seller->full_name }}</option>
                                     @endforeach
                                 </select>
                             </div>

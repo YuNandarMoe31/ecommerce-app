@@ -1,4 +1,4 @@
-s<?php
+<?php
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -7,6 +7,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\UserController;
 
@@ -30,6 +31,12 @@ Route::get('product-category/{slug}/', [IndexController::class, 'productCategory
 
 // Product Detail
 Route::get('product-detail/{slug}/', [IndexController::class, 'productDetail'])->name('product.detail');
+
+// Cart
+Route::post('cart/store', [CartController::class, 'cartStore'])->name('cart.store');
+Route::post('cart/delete', [CartController::class, 'cartDelete'])->name('cart.delete');
+
+// End Frontend
 
 // Backend
 Auth::routes(['register' => false]);
@@ -80,3 +87,5 @@ Route::group(['prefix' => 'user'], function() {
 
     Route::post('/account/update/{id}', [IndexController::class, 'updateAccount'])->name('account.update');
 });
+
+
