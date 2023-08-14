@@ -247,16 +247,24 @@
                         <!-- Account -->
                         <div class="account-area">
                             <div class="user-thumbnail">
-                                <img src="{{ asset('frontend/img/bg-img/user.jpg') }}" alt="">
+                                @if (auth()->user()->photo)
+                                    <img src="{{ auth()->user->photo }}" alt="">
+                                @else
+                                    <img src="{{ Helpers::userDefaultImage() }}" alt="">
+                                @endif
                             </div>
 
                             <ul class="user-meta-dropdown">
                                 @auth
-                                    <li class="user-title"><span>Hello,</span> Lim Sarah</li>
-                                    <li><a href="my-account.html">My Account</a></li>
+                                    @php
+                                        $first_name = explode(' ', auth()->user()->full_name);
+                                    @endphp
+                                    <li class="user-title"><span>Hello,</span> {{ $first_name[0] }}</li>
+                                    <li><a href="{{ route('user.dashboard') }}">My Account</a></li>
                                     <li><a href="order-list.html">Orders List</a></li>
                                     <li><a href="wishlist.html">Wishlist</a></li>
-                                    <li><a href="{{ route('user.logout') }}"><i class="icofont-logout"></i> Logout</a></li>
+                                    <li><a href="{{ route('user.logout') }}"><i class="icofont-logout"></i> Logout</a>
+                                    </li>
                                 @else
                                     <li><a href="{{ route('user.auth') }}">Login and Register</a></li>
                                 @endauth

@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\User;
 use App\Models\Banner;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
 
 class IndexController extends Controller
 {
@@ -207,5 +208,101 @@ class IndexController extends Controller
         Auth::logout();
 
         return redirect()->route('home')->with('success', 'Logout successfully');
+    }
+
+    public function userDashboard()
+    {
+        $user = Auth::user();
+        return view ('frontend.user.dashboard', compact('user'));
+    }
+
+    public function userOrder()
+    {
+        $user = Auth::user();
+        return view ('frontend.user.order', compact('user'));
+    }
+    
+    public function userAddress()
+    {
+        $user = Auth::user();
+        return view ('frontend.user.address', compact('user'));
+    }
+
+    public function userAccount()
+    {
+        $user = Auth::user();
+        return view ('frontend.user.account', compact('user'));
+    }
+
+    public function billingAddress(Request $request, $id)
+    {
+        $user = User::where('id', $id)->update([
+            'address' => $request->address,
+            'country' => $request->country,
+            'city' => $request->city,
+            'postcode' => $request->postcode,
+            'state' => $request->state,
+        ]);
+        
+        if($user) {
+            return back()->with('success', 'Address successfully updated');
+        } else {
+            return back()->with('error', 'something went wrong');
+        }
+    }
+
+    public function shippingAddress(Request $request, $id)
+    {
+        $user = User::where('id', $id)->update([
+            'saddress' => $request->saddress,
+            'scountry' => $request->scountry,
+            'scity' => $request->scity,
+            'spostcode' => $request->spostcode,
+            'sstate' => $request->sstate,
+        ]);
+        
+        if($user) {
+            return back()->with('success', 'Shipping Address successfully updated');
+        } else {
+            return back()->with('error', 'something went wrong');
+        }
+    }
+
+    public function updateAccount(Request $request, $id)
+    {
+        $this->validate($request, [
+            'newPass' => 'nullable|min:3',
+            'currentPass' => 'nullable|min:3',
+            'full_name' => 'required|string',
+            'username' => 'nullable|string',
+            'phone' => 'nullable',
+        ]);
+        $hashpassword = Auth::user()->password;
+
+        if($request->currentPass == null && $request->newPass == null) {
+            User::where('id', $id)->update([
+                'full_name' => $request->full_name,
+                'username' => $request->username,
+                'phone' => $request->phone,
+            ]);
+            return back()->with('success', 'Account updated successfully');
+        } else {
+            if(Hash::check($request->currentPass, $hashpassword)) {
+                if(!Hash::check($request->newPass, $hashpassword)) {
+                    User::where('id', $id)->update([
+                        'full_name' => $request->full_name,
+                        'username' => $request->username,
+                        'phone' => $request->phone,
+                        'password' => Hash::make($request->newPass),
+                    ]);
+                    return back()->with('success', 'Account updated successfully');
+                } else {
+                    return back()->with('error', 'New password cannot be same with old password');
+                }
+            } else {
+                return back()->with('error', 'Old password does not match');
+            }
+        }
+        
     }
 }

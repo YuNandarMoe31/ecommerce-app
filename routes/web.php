@@ -67,3 +67,16 @@ Route::group(['prefix' => 'seller', 'middleware' => ['auth', 'seller']], functio
     Route::get('/', [AdminController::class, 'admin'])->name('seller');
 
 });
+
+// User Dashboard
+Route::group(['prefix' => 'user'], function() {
+    Route::get('/dashboard', [IndexController::class, 'userDashboard'])->name('user.dashboard');
+    Route::get('/order', [IndexController::class, 'userOrder'])->name('user.order');
+    Route::get('/address', [IndexController::class, 'userAddress'])->name('user.address');
+    Route::get('/account-detail', [IndexController::class, 'userAccount'])->name('user.account');
+
+    Route::post('/billing/address/{id}', [IndexController::class, 'billingAddress'])->name('billing.address');
+    Route::post('/shipping/address/{id}', [IndexController::class, 'shippingAddress'])->name('shipping.address');
+
+    Route::post('/account/update/{id}', [IndexController::class, 'updateAccount'])->name('account.update');
+});
