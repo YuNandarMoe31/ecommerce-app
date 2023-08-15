@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -39,13 +40,21 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function credentials(Request $request) 
-    {
-        return [
-            'email' => $request->email,
-            'password' => $request->password,
-            'status' => $request->status,
-            'role' => $request->admin
-        ];
-    }
+    // public function credentials(Request $request) 
+    // {
+    //     $email = $request->email;
+    //     $password = $request->password;
+    //     $status = $request->status;
+    //     $role = $request->admin;
+        
+    //     // Log the values for debugging
+    //     Log::info("Email: $email, Password: $password, Status: $status, Role: $role");
+        
+    //     return [
+    //         'email' => $email,
+    //         'password' => $password,
+    //         'status' => $status,
+    //         'role' => $role
+    //     ];
+    // }
 }

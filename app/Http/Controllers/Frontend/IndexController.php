@@ -118,42 +118,33 @@ class IndexController extends Controller
             'email' => 'email|required|exists:users,email',
             'password' => 'required'
         ]);
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            session(['user' => Auth::user()->role]);
+        // if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        //     session(['user' => Auth::user()->role]);
 
-            // You can redirect the user to their appropriate dashboard based on their role
-            if (Auth::user()->role === 'admin') {
-                return redirect()->route('home')->with('success', 'Login Successful');
-            } elseif (Auth::user()->role === 'user') {
-                return redirect()->route('home')->with('success', 'Login Successful');
-            } elseif (Auth::user()->role === 'vendor') {
-                return redirect()->route('home')->with('success', 'Login Successful');
+        //     // You can redirect the user to their appropriate dashboard based on their role
+        //     if (Auth::user()->role === 'admin') {
+        //         return redirect()->route('home')->with('success', 'Login Successful');
+        //     } elseif (Auth::user()->role === 'user') {
+        //         return redirect()->route('home')->with('success', 'Login Successful');
+        //     } elseif (Auth::user()->role === 'vendor') {
+        //         return redirect()->route('home')->with('success', 'Login Successful');
+        //     }
+
+        //     // If none of the specified roles match, you can handle it here
+        //     return back()->with('error', 'Invalid email and password'); // Or any other default route
+        // }
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password, 'status' => 'active'])) {
+           Session::put('user', $request->email);
+
+            if(Session::get('url.intended')) {
+                return Redirect::to(Session::get('url.intended'));
+            } else {
+                return redirect()->route('home')->with('success', 'Login Successfully');
             }
-
-            // If none of the specified roles match, you can handle it here
-            return back()->with('error', 'Invalid email and password'); // Or any other default route
+        } else {
+            return back()->with('error', 'Invalid email and password');
         }
-        // if(Auth::attempt(['email' => $request->email, 'password' => $request->password, 'status' => 'active'])) {
-        //    Session::put('user', $request->email);
-
-        //     if(Session::get('url.intended')) {
-        //         return Redirect::to(Session::get('url.intended'));
-        //     } else {
-        //         return redirect()->route('home')->with('success', 'Login Successfully');
-        //     }
-        // } else {
-        //     return back()->with('error', 'Invalid email and password');
-        // }
-        // if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'status' => 'active'])) {
-        //     $user = Auth::user();
-        //     if ($user->hasRole('admin')) {
-        //         return redirect()->route('home');
-        //     } elseif ($user->hasRole('user')) {
-        //         return redirect()->route('home');
-        //     }
-        // } else {
-        //     return back()->with('error', 'Invalid email and password');
-        // }
+       
     }
 
     /**

@@ -169,8 +169,8 @@
             <div class="collapse" id="collapseCoupon">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Coupon Management:</h6>
-                    <a class="collapse-item" href="buttons.html">Buttons</a>
-                    <a class="collapse-item" href="cards.html">Cards</a>
+                    <a class="collapse-item" href="{{ route('coupon.index') }}">All Coupons</a>
+                    <a class="collapse-item" href="{{ route('coupon.create') }}">Create Coupon</a>
                 </div>
             </div>
         </li>

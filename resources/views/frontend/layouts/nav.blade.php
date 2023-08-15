@@ -228,8 +228,9 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="cart-box">
-                                    <a href="checkout-1.html" class="btn btn-primary d-block">Checkout</a>
+                                <div class="cart-box d-flex">
+                                    <a href="{{ route('cart') }}" class="btn btn-success btn-sm mr-2">Cart</a>
+                                    <a href="" class="btn btn-primary btn-sm float-right">Checkout</a>
                                 </div>
                             </div>
                         </div>

@@ -7,6 +7,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\UserController;
@@ -35,6 +36,7 @@ Route::get('product-detail/{slug}/', [IndexController::class, 'productDetail'])-
 // Cart
 Route::post('cart/store', [CartController::class, 'cartStore'])->name('cart.store');
 Route::post('cart/delete', [CartController::class, 'cartDelete'])->name('cart.delete');
+Route::get('cart', [CartController::class, 'cart'])->name('cart');
 
 // End Frontend
 
@@ -67,16 +69,19 @@ Route::group(['prefix' => 'admin/', 'middleware' => ['auth', 'admin']], function
     // User Management
     Route::resource('user', UserController::class);
     Route::post('user_status', [UserController::class, 'userStatus'])->name('user.status');
+
+    // Coupon Management
+    Route::resource('coupon', CouponController::class);
+    Route::post('coupon_status', [CouponController::class, 'couponStatus'])->name('coupon.status');
 });
 
 // Seller
 Route::group(['prefix' => 'seller', 'middleware' => ['auth', 'seller']], function () {
     Route::get('/', [AdminController::class, 'admin'])->name('seller');
-
 });
 
 // User Dashboard
-Route::group(['prefix' => 'user'], function() {
+Route::group(['prefix' => 'user'], function () {
     Route::get('/dashboard', [IndexController::class, 'userDashboard'])->name('user.dashboard');
     Route::get('/order', [IndexController::class, 'userOrder'])->name('user.order');
     Route::get('/address', [IndexController::class, 'userAddress'])->name('user.address');
@@ -87,5 +92,3 @@ Route::group(['prefix' => 'user'], function() {
 
     Route::post('/account/update/{id}', [IndexController::class, 'updateAccount'])->name('account.update');
 });
-
-

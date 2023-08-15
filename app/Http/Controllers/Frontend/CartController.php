@@ -98,9 +98,9 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function cart()
     {
-        //
+        return view('frontend.pages.cart.index');
     }
 
     /**
