@@ -24,43 +24,7 @@
                 <div class="col-12">
                     <div class="cart-table">
                         <div class="table-responsive">
-                            <table class="table table-bordered mb-30">
-                                <thead>
-                                    <tr>
-                                        <th scope="col"><i class="icofont-ui-delete"></i></th>
-                                        <th scope="col">Image</th>
-                                        <th scope="col">Product</th>
-                                        <th scope="col">Unit Price</th>
-                                        <th scope="col">Quantity</th>
-                                        <th scope="col">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (\Gloudemans\Shoppingcart\Facades\Cart::instance('shopping')->content() as $item)
-                                        <tr>
-                                            <th scope="row">
-                                                <i class="icofont-close cart_delete" data-id={{ $item->rowId }}></i>
-                                            </th>
-                                            <td>
-                                                <img src="{{ $item->model->photo }}" alt="Product">
-                                            </td>
-                                            <td>
-                                                <a
-                                                    href="{{ route('product.detail', $item->model->slug) }}">{{ $item->name }}</a>
-                                            </td>
-                                            <td>$ {{ $item->price }}</td>
-                                            <td>
-                                                <div class="quantity">
-                                                    <input type="number" class="qty-text" id="qty2" step="1"
-                                                        min="1" max="99" name="quantity"
-                                                        value="{{ $item->qty }}">
-                                                </div>
-                                            </td>
-                                            <td>$ {{ $item->subtotal }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                            @include('frontend.layouts._cart-list')
                         </div>
                     </div>
                 </div>
@@ -71,9 +35,10 @@
                         <p>Enter your coupon code here &amp; get awesome discounts!</p>
                         <!-- Form -->
                         <div class="coupon-form">
-                            <form action="#">
-                                <input type="text" class="form-control" placeholder="Enter Your Coupon Code">
-                                <button type="submit" class="btn btn-primary">Apply Coupon</button>
+                            <form action="{{ route('coupon.add') }}" method="POST" id="coupon-form">
+                                @csrf
+                                <input type="text" class="form-control" name="code" placeholder="Enter Your Coupon Code">
+                                <button type="submit" class="btn btn-primary coupon-btn">Apply Coupon</button>
                             </form>
                         </div>
                     </div>
@@ -114,7 +79,6 @@
 @endsection
 
 @section('scripts')
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         $(document).ready(function() {
             $(document).on('click', '.cart_delete', function(e) {
@@ -147,7 +111,7 @@
                                 icon: "success",
                                 button: "ok",
                             });
-                            location.reload();
+                            // location.reload();
                         }
                     },
                     error: function(err) {
@@ -158,5 +122,79 @@
                 });
             });
         })
+    </script>
+
+    <script>
+        $(document).on('click', '.qty-text', function() {
+            var id = $(this).data('id');
+
+            var spinner = $(this),
+                input = spinner.closest("div.quantity").find('input[type="number"]');
+
+            if (input.val() == 1) {
+                return false;
+            }
+
+            if (input.val() != 1) {
+                var newVal = parseFloat(input.val());
+                $('#qty-input-' + id).val(newVal);
+            }
+
+            var productQuantity = $("#update-cart-" + id).data('product-quantity');
+            update_cart(id, productQuantity);
+        });
+
+        function update_cart(id, productQuantity) {
+            var rowId = id;
+            var product_qty = $('#qty-input-' + rowId).val();
+            var token = "{{ csrf_token() }}";
+            var path = "{{ route('cart.update') }}";
+            var data = {
+                _token: token,
+                product_qty: product_qty,
+                rowId: rowId,
+                productQuantity: productQuantity
+            }
+
+            $.ajax({
+                url: path,
+                type: "POST",
+                dataType: "json",
+                data: JSON.stringify(data),
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Content-Type': 'application/json'
+                },
+                success: function(data) {
+                    console.log(data);
+                    if (data['status']) {
+                        $('body #header-ajax').html(data['header']);
+                        $('body #cart_list').html(data['cart_list']);
+                        // $('body #cart-counter').html(data['cart_count']);
+
+                        // swal({
+                        //     title: "Good job!",
+                        //     text: data['message'],
+                        //     icon: "success",
+                        //     button: "ok",
+                        // });
+                        alert(data['message']);
+
+                    } else {
+                        alert(data['message']);
+                    }
+                }
+            })
+        }
+    </script>
+
+    <script>
+        $(document).on('click', '.coupon-btn', function(e) {
+            e.preventDefault();
+            var code = $('input[name=code]').val();
+
+            $('.coupon-btn').html('<i class="fas fa-spinner fa-spin"></i> Applying...');
+            $('#coupon-form').submit();
+        });
     </script>
 @endsection

@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Models\Coupon;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CartController extends Controller
@@ -82,17 +83,6 @@ class CartController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -104,36 +94,66 @@ class CartController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function cartUpdate(Request $request)
     {
-        //
+        $this->validate($request, [
+            'product_qty' => 'required|numeric',
+        ]);
+        $rowId = $request->input('rowId');
+        $request_quantity = $request->input('product_qty');
+        $productQuantity = $request->input('productQuantity');
+
+        if ($request_quantity > $productQuantity) {
+            $message = "We currenly do not have enough items in stock";
+            $response['status'] = false;
+        } elseif ($request_quantity < 1) {
+            $message = "You cannot add less than 1 quantity";
+            $response['status'] = false;
+        } else {
+            Cart::instance('shopping')->update($rowId, $request_quantity);
+            $message = "Quantity was updated successfully";
+            $response['status'] = true;
+            $response['total'] = Cart::subtotal();
+            $response['cart_count'] = Cart::instance('shopping')->count();
+        }
+        if ($request->ajax()) {
+            $header = view('frontend.layouts.nav')->render();
+            $cart_list = view('frontend.layouts._cart-list')->render();
+            $response['header'] = $header;
+            $response['cart_list'] = $cart_list;
+            $response['message'] = $message;
+        }
+        return $response;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    // Coupon
+    public function couponAdd(Request $request)
     {
-        //
+        try {
+            $coupon = Coupon::where('code', $request->input('code'))->first();
+
+            if (!$coupon) {
+                return back()->with('error', 'Invalid Coupon Code, Please enter valid coupon code');
+            }
+
+            $total_price = Cart::instance('shopping')->subtotal();
+            $couponValue = $coupon->discount($total_price);
+
+            session()->put('coupon', [
+                'id' => $coupon->id,
+                'code' => $coupon->code,
+                'value' => $couponValue,
+            ]);
+
+            return back()->with('success', 'Coupon applied successfully');
+        } catch (\Exception $e) {
+            return back()->with('error', 'An error occurred while applying the coupon.');
+        }
     }
 }

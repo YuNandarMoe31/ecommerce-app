@@ -37,6 +37,10 @@ Route::get('product-detail/{slug}/', [IndexController::class, 'productDetail'])-
 Route::post('cart/store', [CartController::class, 'cartStore'])->name('cart.store');
 Route::post('cart/delete', [CartController::class, 'cartDelete'])->name('cart.delete');
 Route::get('cart', [CartController::class, 'cart'])->name('cart');
+Route::post('cart/update', [CartController::class, 'cartUpdate'])->name('cart.update');
+
+// Coupon
+Route::post('coupon/add', [CartController::class, 'couponAdd'])->name('coupon.add');
 
 // End Frontend
 

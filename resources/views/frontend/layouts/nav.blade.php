@@ -199,15 +199,19 @@
                                         <li>
                                             <div class="cart-item-desc">
                                                 <a href="#" class="image">
-                                                    <img src="{{ $item->model->photo }}"
-                                                        class="cart-thumb" alt="">
+                                                    <img src="{{ $item->model->photo }}" class="cart-thumb"
+                                                        alt="">
                                                 </a>
                                                 <div>
-                                                    <a href="{{ route('product.detail', $item->model->slug) }}">{{ $item->name }}</a>
-                                                    <p>{{ $item->qty }} x - <span class="price">{{ number_format($item->price,2) }}</span></p>
+                                                    <a
+                                                        href="{{ route('product.detail', $item->model->slug) }}">{{ $item->name }}</a>
+                                                    <p>{{ $item->qty }} x - <span
+                                                            class="price">{{ number_format($item->price, 2) }}</span>
+                                                    </p>
                                                 </div>
                                             </div>
-                                            <span class="dropdown-product-remove cart_delete" data-id="{{ $item->rowId }}"><i class="icofont-bin"></i></span>
+                                            <span class="dropdown-product-remove cart_delete"
+                                                data-id="{{ $item->rowId }}"><i class="icofont-bin"></i></span>
                                         </li>
                                     @endforeach
 
@@ -223,9 +227,19 @@
                                             <span>$30.00</span>
                                         </li> --}}
                                         <li>
-                                            <span>Total:</span>
-                                            <span>$ {{ \Gloudemans\Shoppingcart\Facades\Cart::subtotal() }}</span>
+                                            <span>Coupon Discount:</span>
+                                            @if (session()->has('coupon'))
+                                                <span>$ {{ session('coupon')['value'] }}</span>
+                                            @else
+                                                <span>$ {{ \Gloudemans\Shoppingcart\Facades\Cart::subtotal() }}</span>
+                                            @endif
                                         </li>
+                                        {{-- <li>
+                                            <span>Total:</span>
+                                            @if (session()->has('coupon') && is_numeric(session('coupon')['value']))
+                                                <span>-$ {{ \Gloudemans\Shoppingcart\Facades\Cart::subtotal() - session('coupon')['value'] }}</span>
+                                            @endif
+                                        </li> --}}
                                     </ul>
                                 </div>
                                 <div class="cart-box d-flex">
