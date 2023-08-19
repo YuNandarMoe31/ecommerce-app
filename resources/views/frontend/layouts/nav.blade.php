@@ -120,7 +120,7 @@
                                                 <li><a href="account-details.html">- Account Details</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="wishlist.html">Wishlist</a></li>
+                                        <li><a href="{{ route('wishlist') }}">Wishlist</a></li>
                                         <li><a href="compare.html">Compare</a></li>
                                     </ul>
                                 </li>
@@ -183,7 +183,9 @@
 
                         <!-- Wishlist -->
                         <div class="wishlist-area">
-                            <a href="wishlist.html" class="wishlist-btn"><i class="icofont-heart"></i></a>
+                            <a href="{{ route('wishlist') }}" class="wishlist-btn" id="wishlist_counter"><i class="icofont-heart"></i>
+                                <span class="wishlist_quantity">{{ \Gloudemans\Shoppingcart\Facades\Cart::instance('wishlist')->count() }}</span>
+                            </a>
                         </div>
 
                         <!-- Cart -->
@@ -227,9 +229,9 @@
                                             <span>$30.00</span>
                                         </li> --}}
                                         <li>
-                                            <span>Coupon Discount:</span>
+                                            <span>Total:</span>
                                             @if (session()->has('coupon'))
-                                                <span>$ {{ session('coupon')['value'] }}</span>
+                                                <span>- $ {{ session('coupon')['value'] }}</span>
                                             @else
                                                 <span>$ {{ \Gloudemans\Shoppingcart\Facades\Cart::subtotal() }}</span>
                                             @endif
@@ -267,7 +269,7 @@
                                     <li class="user-title"><span>Hello,</span> {{ $first_name[0] }}</li>
                                     <li><a href="{{ route('user.dashboard') }}">My Account</a></li>
                                     <li><a href="order-list.html">Orders List</a></li>
-                                    <li><a href="wishlist.html">Wishlist</a></li>
+                                    <li><a href="{{ route('wishlist') }}">Wishlist</a></li>
                                     <li><a href="{{ route('user.logout') }}"><i class="icofont-logout"></i> Logout</a>
                                     </li>
                                 @else

@@ -184,7 +184,7 @@
         });
     </script> --}}
 
-
+    {{-- add to cart --}}
     <script>
         $(document).ready(function() {
             $(document).on('click', '.add_to_cart', function(e) {
@@ -220,6 +220,8 @@
                     success: function(data) {
                         if (data['status']) {
                             $('body #header-ajax').html(data['header']);
+                            $('body #cart-counter').html(data['cart_count']);
+
                             swal({
                                 title: "Good job!",
                                 text: data['message'],
@@ -231,6 +233,78 @@
                     error: function(err) {
                         console.log(err);
                         // Handle error
+                    }
+
+                });
+            });
+        })
+    </script>
+
+    {{-- add to wishlist --}}
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.add_to_wishlist', function(e) {
+                e.preventDefault();
+                var product_id = $(this).data('id');
+                var product_qty = $(this).data('quantity');
+
+                var token = "{{ csrf_token() }}";
+                var path = "{{ route('wishlist.store') }}";
+                var data = {
+                    product_id: product_id,
+                    product_qty: product_qty,
+                    _token: token,
+                };
+
+                $.ajax({
+                    url: path,
+                    type: "POST",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/json'
+                    },
+                    beforeSend: function() {
+                        $('#add_to_wishlist_' + product_id).html(
+                            '<i class="fa fa-spinner fa-spin"></i>');
+                    },
+                    complete: function() {
+                        $('#add_to_wishlist_' + product_id).html(
+                            '<i class="fa fa-heart"></i>');
+                    },
+                    success: function(data) {
+                        if (data['status']) {
+                            $('body #header-ajax').html(data['header']);
+                            $('body #wishlist_counter').html(data['wishlist_count']);
+                            swal({
+                                title: "Good job!",
+                                text: data['message'],
+                                icon: "success",
+                                button: "ok",
+                            });
+                        } 
+                        else if(data['present']) {
+                            $('body #header-ajax').html(data['header']);
+                            $('body #wishlist_counter').html(data['wishlist_count']);
+                            swal({
+                                title: "Opps!",
+                                text: data['message'],
+                                icon: "warning",
+                                button: "ok",
+                            });
+                        }
+                        else {
+                            swal({
+                                title: "Sorry!",
+                                text: "You can't add that prdouct",
+                                icon: "error",
+                                button: "ok",
+                            });
+                        }
+                    },
+                    error: function(err) {
+                        console.log(err);
                     }
 
                 });

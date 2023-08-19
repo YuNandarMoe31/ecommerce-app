@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\IndexController;
+use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
@@ -41,6 +42,12 @@ Route::post('cart/update', [CartController::class, 'cartUpdate'])->name('cart.up
 
 // Coupon
 Route::post('coupon/add', [CartController::class, 'couponAdd'])->name('coupon.add');
+
+// Wishlist
+Route::get('wishlist', [WishlistController::class, 'wishlist'])->name('wishlist');
+Route::post('wishlist/store', [WishlistController::class, 'wishlistStore'])->name('wishlist.store');
+Route::post('wishlist/move-to-cart', [WishlistController::class, 'moveToCart'])->name('wishlist.move.cart');
+Route::post('wishlist/delete', [WishlistController::class, 'wishlistDelete'])->name('wishlist.delete');
 
 // End Frontend
 
