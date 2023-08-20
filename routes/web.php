@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\UserController;
@@ -48,6 +49,9 @@ Route::get('wishlist', [WishlistController::class, 'wishlist'])->name('wishlist'
 Route::post('wishlist/store', [WishlistController::class, 'wishlistStore'])->name('wishlist.store');
 Route::post('wishlist/move-to-cart', [WishlistController::class, 'moveToCart'])->name('wishlist.move.cart');
 Route::post('wishlist/delete', [WishlistController::class, 'wishlistDelete'])->name('wishlist.delete');
+
+// Checkout
+Route::get('checkout1', [CheckoutController::class, 'checkout1'])->name('checkout1')->middleware('user');
 
 // End Frontend
 

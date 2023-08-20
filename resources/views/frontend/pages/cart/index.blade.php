@@ -37,7 +37,8 @@
                         <div class="coupon-form">
                             <form action="{{ route('coupon.add') }}" method="POST" id="coupon-form">
                                 @csrf
-                                <input type="text" class="form-control" name="code" placeholder="Enter Your Coupon Code">
+                                <input type="text" class="form-control" name="code"
+                                    placeholder="Enter Your Coupon Code">
                                 <button type="submit" class="btn btn-primary coupon-btn">Apply Coupon</button>
                             </form>
                         </div>
@@ -52,24 +53,31 @@
                                 <tbody>
                                     <tr>
                                         <td>Sub Total</td>
-                                        <td>$56.00</td>
+                                        <td>{{ \Gloudemans\Shoppingcart\Facades\Cart::subtotal() }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Shipping</td>
-                                        <td>$10.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>VAT (10%)</td>
-                                        <td>$5.60</td>
+                                        <td>Save Amount</td>
+                                        <td>
+                                            @if (session()->has('coupon') && is_numeric(session('coupon')['value']))
+                                                - {{ number_format(session()->get('coupon')['value'],2) }}
+                                            @else
+                                                0
+                                            @endif
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Total</td>
-                                        <td>$71.60</td>
+                                        <td>
+                                            @if (session()->has('coupon') && is_numeric(session('coupon')['value']))
+                                                $ {{ number_format((float)str_replace(',','',\Gloudemans\Shoppingcart\Facades\Cart::subtotal())-session()->get('coupon')['value'],2) }}
+                                            @else
+                                            @endif
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <a href="checkout-1.html" class="btn btn-primary d-block">Proceed To Checkout</a>
+                        <a href="{{ route('checkout1') }}" class="btn btn-primary d-block">Proceed To Checkout</a>
                     </div>
                 </div>
             </div>

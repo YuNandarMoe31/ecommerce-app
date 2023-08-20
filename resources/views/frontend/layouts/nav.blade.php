@@ -183,8 +183,10 @@
 
                         <!-- Wishlist -->
                         <div class="wishlist-area">
-                            <a href="{{ route('wishlist') }}" class="wishlist-btn" id="wishlist_counter"><i class="icofont-heart"></i>
-                                <span class="wishlist_quantity">{{ \Gloudemans\Shoppingcart\Facades\Cart::instance('wishlist')->count() }}</span>
+                            <a href="{{ route('wishlist') }}" class="wishlist-btn" id="wishlist_counter"><i
+                                    class="icofont-heart"></i>
+                                <span
+                                    class="wishlist_quantity">{{ \Gloudemans\Shoppingcart\Facades\Cart::instance('wishlist')->count() }}</span>
                             </a>
                         </div>
 
@@ -228,25 +230,27 @@
                                             <span>Shipping:</span>
                                             <span>$30.00</span>
                                         </li> --}}
+                                        @if (session()->has('coupon') && is_numeric(session('coupon')['value']))
+                                            <li>
+                                                <span>Discount:</span>
+                                                <span>-$ {{ number_format(session('coupon')['value'],2) }}</span>
+
+                                            </li>
+                                        @endif
                                         <li>
                                             <span>Total:</span>
-                                            @if (session()->has('coupon'))
-                                                <span>- $ {{ session('coupon')['value'] }}</span>
+                                            @if (session()->has('coupon') && is_numeric(session('coupon')['value']))
+                                                $
+                                                {{ number_format((float) str_replace(',', '', \Gloudemans\Shoppingcart\Facades\Cart::subtotal()) - session()->get('coupon')['value'], 2) }}
                                             @else
-                                                <span>$ {{ \Gloudemans\Shoppingcart\Facades\Cart::subtotal() }}</span>
                                             @endif
                                         </li>
-                                        {{-- <li>
-                                            <span>Total:</span>
-                                            @if (session()->has('coupon') && is_numeric(session('coupon')['value']))
-                                                <span>-$ {{ \Gloudemans\Shoppingcart\Facades\Cart::subtotal() - session('coupon')['value'] }}</span>
-                                            @endif
-                                        </li> --}}
                                     </ul>
                                 </div>
                                 <div class="cart-box d-flex">
                                     <a href="{{ route('cart') }}" class="btn btn-success btn-sm mr-2">Cart</a>
-                                    <a href="" class="btn btn-primary btn-sm float-right">Checkout</a>
+                                    <a href="{{ route('checkout1') }}"
+                                        class="btn btn-primary btn-sm float-right">Checkout</a>
                                 </div>
                             </div>
                         </div>

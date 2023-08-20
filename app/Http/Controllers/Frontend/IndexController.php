@@ -7,6 +7,7 @@ use App\Models\Banner;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -103,6 +104,7 @@ class IndexController extends Controller
      */
     public function userAuth()
     {
+        Session::put('url.intended', URL::previous());
         return view('frontend.auth.auth');
     }
 
