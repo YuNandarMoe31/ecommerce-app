@@ -8,8 +8,8 @@
                 <div class="col-12">
                     <h5>Checkout</h5>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active">Checkout</li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item active">Checkout1</li>
                     </ol>
                 </div>
             </div>
@@ -32,7 +32,8 @@
                 <div class="col-12">
                     <div class="checkout_details_area clearfix">
                         <h5 class="mb-4">Billing Details</h5>
-                        <form action="#" method="post">
+                        <form action="{{ route('checkout1.store') }}" method="post">
+                            @csrf
                             <div class="row">
                                 @php
                                     $name = explode(' ', $user->full_name);
@@ -146,14 +147,14 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                </div>
 
-                <div class="col-12">
-                    <div class="checkout_pagination d-flex justify-content-end mt-50">
-                        <a href="checkout-1.html" class="btn btn-primary mt-2 ml-2">Go Back</a>
-                        <a href="checkout-3.html" class="btn btn-primary mt-2 ml-2">Continue</a>
+                            <div class="col-12">
+                                <div class="checkout_pagination d-flex justify-content-end mt-50">
+                                    <a href="{{ route('cart') }}" class="btn btn-primary mt-2 ml-2">Go Back</a>
+                                    <button type="submit" class="btn btn-primary mt-2 ml-2">Continue</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -163,33 +164,32 @@
 @endsection
 
 @section('scripts')
-<script>
-    $('#customCheck1').on('change', function(e) {
-        e.preventDefault();
-        if(this.checked) {
-            $('#sfirst_name').val($('#first_name').val());
-            $('#slastname').val($('#lastname').val());
-            $('#sphone').val($('#phone').val());
-            $('#semail').val($('#email').val());
-            $('#saddress').val($('#address').val());
-            $('#scountry').val($('#country').val());
-            $('#scity').val($('#city').val());
-            $('#sstate').val($('#state').val());
-            $('#spostcode').val($('#postcode').val());
-        } 
-        else {
-            $('#slastname').val("");
-            $('#slastname').val("");
-            $('#sphone').val("");
-            $('#semail').val("");
-            $('#saddress').val("");
-            $('#semail').val("");
-            $('#scountry').val("");
-            $('#scity').val("");
-            $('#sstate').val("");
-            $('#spostcode').val("");
+    <script>
+        $('#customCheck1').on('change', function(e) {
+            e.preventDefault();
+            if (this.checked) {
+                $('#sfirst_name').val($('#first_name').val());
+                $('#slastname').val($('#lastname').val());
+                $('#sphone').val($('#phone').val());
+                $('#semail').val($('#email').val());
+                $('#saddress').val($('#address').val());
+                $('#scountry').val($('#country').val());
+                $('#scity').val($('#city').val());
+                $('#sstate').val($('#state').val());
+                $('#spostcode').val($('#postcode').val());
+            } else {
+                $('#slastname').val("");
+                $('#slastname').val("");
+                $('#sphone').val("");
+                $('#semail').val("");
+                $('#saddress').val("");
+                $('#semail').val("");
+                $('#scountry').val("");
+                $('#scity').val("");
+                $('#sstate').val("");
+                $('#spostcode').val("");
 
-        }
-    })
-</script>
+            }
+        })
+    </script>
 @endsection

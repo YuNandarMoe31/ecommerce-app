@@ -53,6 +53,9 @@ Route::post('wishlist/delete', [WishlistController::class, 'wishlistDelete'])->n
 
 // Checkout
 Route::get('checkout1', [CheckoutController::class, 'checkout1'])->name('checkout1')->middleware('user');
+Route::post('checkout-one', [CheckoutController::class, 'checkoutOneStore'])->name('checkout1.store');
+Route::post('checkout-two', [CheckoutController::class, 'checkoutTwoStore'])->name('checkout2.store');
+Route::post('checkout-three', [CheckoutController::class, 'checkoutThreeStore'])->name('checkout3.store');
 
 // End Frontend
 
