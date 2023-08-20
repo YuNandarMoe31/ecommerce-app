@@ -77,16 +77,16 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link btn" href="#collapseCarts" data-bs-toggle="collapse" role="button" aria-expanded="false"
-                aria-controls="collapseCarts">
-                <i class="fas fa-shopping-cart"></i>
-                <span>Carts Management</span>
+            <a class="nav-link btn" href="#collapseShipping" data-bs-toggle="collapse" role="button" aria-expanded="false"
+                aria-controls="collapseShipping">
+                <i class="fas fa-truck"></i>
+                <span>Shipping Management</span>
             </a>
-            <div class="collapse" id="collapseCarts">
+            <div class="collapse" id="collapseShipping">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Carts:</h6>
-                    <a class="collapse-item" href="buttons.html">Buttons</a>
-                    <a class="collapse-item" href="cards.html">Cards</a>
+                    <h6 class="collapse-header">Shipping:</h6>
+                    <a class="collapse-item" href="{{ route('shipping.index') }}">All Shippings</a>
+                    <a class="collapse-item" href="{{ route('shipping.create') }}">Create Shipping</a>
                 </div>
             </div>
         </li>

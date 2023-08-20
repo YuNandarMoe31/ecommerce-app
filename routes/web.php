@@ -12,6 +12,7 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\WishlistController;
+use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
@@ -88,6 +89,10 @@ Route::group(['prefix' => 'admin/', 'middleware' => ['auth', 'admin']], function
     // Coupon Management
     Route::resource('coupon', CouponController::class);
     Route::post('coupon_status', [CouponController::class, 'couponStatus'])->name('coupon.status');
+
+    // Shipping Management
+    Route::resource('shipping', ShippingController::class);
+    Route::post('shipping_status', [ShippingController::class, 'shippingStatus'])->name('shipping.status');
 });
 
 // Seller
