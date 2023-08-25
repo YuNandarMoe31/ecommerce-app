@@ -57,7 +57,7 @@
                                                         <td>
                                                             <div class="custom-control custom-radio">
                                                                 <input type="radio" id="customRadio{{ $key }}"
-                                                                    name="delivery_charge"
+                                                                    name="delivery_charge" required
                                                                     value="{{ $item->delivery_charge }}"
                                                                     class="custom-control-input">
                                                                 <label class="custom-control-label"

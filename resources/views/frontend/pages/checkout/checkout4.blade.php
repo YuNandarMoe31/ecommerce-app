@@ -78,25 +78,24 @@
                         <div class="table-responsive">
                             <table class="table mb-0">
                                 <tbody>
-                                    @foreach (\Gloudemans\Shoppingcart\Facades\Cart::instance('shopping')->content() as $item)
+                                    <tr>
+                                        <td>Sub Total</td>
+                                        <td>$ {{ \Gloudemans\Shoppingcart\Facades\Cart::subtotal() }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Shipping</td>
+                                        <td>+ $ {{ number_format(session()->get('checkout')[0]['delivery_charge'], 2) }}
+                                        </td>
+                                    </tr>
+                                    @if (session()->has('coupon'))
                                         <tr>
-                                            <td>Sub Total</td>
-                                            <td>$ {{ \Gloudemans\Shoppingcart\Facades\Cart::subtotal() }}</td>
+                                            <td>Coupon</td>
+                                            <td>- $ {{ number_format(session()->get('coupon')['value'], 2) }}</td>
                                         </tr>
-                                        <tr>
-                                            <td>Shipping</td>
-                                            <td>+ $ {{ number_format(session()->get('checkout')[0]['delivery_charge'], 2) }}
-                                            </td>
-                                        </tr>
-                                        @if (session()->has('coupon'))
-                                            <tr>
-                                                <td>Coupon</td>
-                                                <td>- $ {{ number_format(session()->get('coupon')['value'], 2) }}</td>
-                                            </tr>
-                                        @endif
-                                        <tr>
-                                            <td>Total</td>
-                                            {{-- @if (session()->has('coupon'))
+                                    @endif
+                                    <tr>
+                                        <td>Total</td>
+                                        {{-- @if (session()->has('coupon'))
                                                 <td>
                                                     ${{ number_format(session()->get('coupon')['value'], 2) }}
                                                 </td>
@@ -105,27 +104,27 @@
                                                     $
                                                     {{ number_format((float) str_replace(',', '', \Gloudemans\Shoppingcart\Facades\Cart::subtotal()) + session()->get('checkout')[0]['delivery_charge'], 2) }}
                                                 </td> --}}
-                                            @if (session()->has('coupon') && session()->has('checkout'))
-                                                <td>
-                                                    $ {{ number_format(
-                                                        (float) str_replace(',', '', \Gloudemans\Shoppingcart\Facades\Cart::subtotal()) +
-                                                            session()->get('checkout')[0]['delivery_charge'] -
-                                                            session()->get('coupon')['value'],
-                                                        2,
-                                                    ) }}
-                                                </td>
-                                            @elseif (session()->has('coupon'))
-                                                <td>
-                                                    $ {{ number_format(session()->get('coupon')['value'], 2) }}
-                                                </td>
-                                            @elseif(session()->has('checkout'))
-                                                <td>
-                                                    $
-                                                    {{ number_format((float) str_replace(',', '', \Gloudemans\Shoppingcart\Facades\Cart::subtotal()) + session()->get('checkout')[0]['delivery_charge'], 2) }}
-                                                </td>
-                                            @endif
-                                        </tr>
-                                    @endforeach
+                                        @if (session()->has('checkout'))
+                                            <td>
+                                                $
+                                                {{ number_format((float) str_replace(',', '', \Gloudemans\Shoppingcart\Facades\Cart::subtotal()) + session()->get('checkout')[0]['delivery_charge'], 2) }}
+                                            </td>
+                                        @elseif (session()->has('coupon'))
+                                            <td>
+                                                $ {{ number_format(session()->get('coupon')['value'], 2) }}
+                                            </td>
+                                        @elseif(session()->has('coupon') && session()->has('checkout'))
+                                            <td>
+                                                $
+                                                {{ number_format(
+                                                    (float) str_replace(',', '', \Gloudemans\Shoppingcart\Facades\Cart::subtotal()) +
+                                                        session()->get('checkout')[0]['delivery_charge'] -
+                                                        session()->get('coupon')['value'],
+                                                    2,
+                                                ) }}
+                                            </td>
+                                        @endif
+                                    </tr>
 
                                 </tbody>
                             </table>
@@ -133,7 +132,7 @@
                         <div class="checkout_pagination d-flex justify-content-end mt-3">
                             <a href="checkout-4.html" class="btn btn-primary mt-2 ml-2 d-none d-sm-inline-block">Go
                                 Back</a>
-                            <a href="checkout-complate.html" class="btn btn-primary mt-2 ml-2">Confirm</a>
+                            <a href="{{ route('checkout.store') }}" class="btn btn-primary mt-2 ml-2">Confirm</a>
                         </div>
                     </div>
                 </div>

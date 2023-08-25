@@ -148,6 +148,8 @@
                                 </div>
                             </div>
 
+                            <input type="hidden" name="sub_total" value="{{ \Gloudemans\Shoppingcart\Facades\Cart::instance('shopping')->subtotal() }}">
+                            <input type="hidden" name="total_amount" value="{{ \Gloudemans\Shoppingcart\Facades\Cart::instance('shopping')->subtotal() }}">
                             <div class="col-12">
                                 <div class="checkout_pagination d-flex justify-content-end mt-50">
                                     <a href="{{ route('cart') }}" class="btn btn-primary mt-2 ml-2">Go Back</a>

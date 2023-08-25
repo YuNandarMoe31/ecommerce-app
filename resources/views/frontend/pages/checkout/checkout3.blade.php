@@ -191,7 +191,7 @@
                                     <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="five">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" name="payment_method" value="cod" class="custom-control-input" id="customCheck2">
+                                                <input type="checkbox" required name="payment_method" value="cod" class="custom-control-input" id="customCheck2">
                                                 <label class="custom-control-label" for="customCheck2"><i
                                                         class="icofont-cash-on-delivery-alt"></i> Cash on Delivery</label>
                                             </div>

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('order_number', 10)->unique();
-            $table->unsignedBigInteger('product_id');
             $table->float('sub_total')->default(0);
             $table->float('total_amount')->default(0);
             $table->float('coupon')->default(0)->nullable();
@@ -31,22 +30,22 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('phone');
-            $table->string('country');
+            $table->string('country')->nullable();
             $table->string('address');
             $table->string('city');
-            $table->string('state');
-            $table->string('postcode');
-            $table->mediumText('note');
+            $table->string('state')->nullable();
+            $table->string('postcode')->nullable();
+            $table->mediumText('note')->nullable();
 
             $table->string('sfirst_name');
             $table->string('slast_name');
             $table->string('semail')->unique();
             $table->string('sphone');
-            $table->string('scountry');
+            $table->string('scountry')->nullable();
             $table->string('saddress');
             $table->string('scity');
-            $table->string('sstate');
-            $table->string('spostcode');
+            $table->string('sstate')->nullable();
+            $table->string('spostcode')->nullable();
 
 
             $table->timestamps();
