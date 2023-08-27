@@ -7,8 +7,10 @@ use App\Models\Shipping;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\OrderMail;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class CheckoutController extends Controller
@@ -21,28 +23,28 @@ class CheckoutController extends Controller
 
     public function checkoutOneStore(Request $request)
     {
-        // $this->validate($request, [
-        //     'first_name' => 'string|required',
-        //     'last_name' => 'string|required',
-        //     'email' => 'email|required|exists:users,email',
-        //     'phone' => 'string|required',
-        //     'address' => 'string|required',
-        //     'city' => 'string|required',
-        //     'country' => 'string|nullable',
-        //     'state' => 'numeric|nullable',
-        //     'postcode' => 'string|nullable',
-        //     'note' => 'string|nullable',
-        //     'sfirst_name' => 'string|required',
-        //     'slast_name' => 'string|required',
-        //     'sphone' => 'string|required',
-        //     'saddress' => 'string|required',
-        //     'scity' => 'string|required',
-        //     'scountry' => 'string|nullable',
-        //     'sstate' => 'numeric|nullable',
-        //     'spostcode' => 'string|nullable',
-        //     'sub_total' => 'required|numeric',
-        //     'total_amount' => 'required|numeric',
-        // ]);
+        $this->validate($request, [
+            'first_name' => 'string|required',
+            'last_name' => 'string|required',
+            'email' => 'email|required|exists:users,email',
+            'phone' => 'string|required',
+            'address' => 'string|required',
+            'city' => 'string|required',
+            'country' => 'string|nullable',
+            'state' => 'string|nullable',
+            'postcode' => 'string|nullable',
+            'note' => 'string|nullable',
+            'sfirst_name' => 'string|required',
+            'slast_name' => 'string|required',
+            'sphone' => 'string|required',
+            'saddress' => 'string|required',
+            'scity' => 'string|required',
+            'scountry' => 'string|nullable',
+            'sstate' => 'string|nullable',
+            'spostcode' => 'string|nullable',
+            // 'sub_total' => 'required|numeric',
+            // 'total_amount' => 'required|numeric',
+        ]);
 
         Session::put('checkout', [
             'first_name' => $request->first_name,
@@ -127,6 +129,7 @@ class CheckoutController extends Controller
         $order['country'] = Session::get('checkout')['country'];
         $order['address'] = Session::get('checkout')['address'];
         $order['city'] = Session::get('checkout')['city'];
+        $order['postcode'] = Session::get('checkout')['postcode'];
         $order['state'] = Session::get('checkout')['state'];
         $order['note'] = Session::get('checkout')['note'];
         $order['sfirst_name'] = Session::get('checkout')['sfirst_name'];
@@ -136,11 +139,14 @@ class CheckoutController extends Controller
         $order['scountry'] = Session::get('checkout')['scountry'];
         $order['saddress'] = Session::get('checkout')['saddress'];
         $order['scity'] = Session::get('checkout')['scity'];
+        $order['spostcode'] = Session::get('checkout')['spostcode'];
         $order['sstate'] = Session::get('checkout')['sstate'];
 
         $status = $order->save();
 
         if($status) {
+            Mail::to($order['email'])->bcc($order['semail'])->cc('yunandarmoe31@gmail.com')->send(new OrderMail($order));
+            Cart::instance('shopping')->destroy();
             Session::forget('coupon');
             Session::forget('checkout');
             return redirect()->route('complete', $order['order_number']);

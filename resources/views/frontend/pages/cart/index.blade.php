@@ -20,66 +20,9 @@
     <!-- Cart Area -->
     <div class="cart_area section_padding_100_70 clearfix">
         <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-12">
-                    <div class="cart-table">
-                        <div class="table-responsive">
-                            @include('frontend.layouts._cart-list')
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-lg-6">
-                    <div class="cart-apply-coupon mb-30">
-                        <h6>Have a Coupon?</h6>
-                        <p>Enter your coupon code here &amp; get awesome discounts!</p>
-                        <!-- Form -->
-                        <div class="coupon-form">
-                            <form action="{{ route('coupon.add') }}" method="POST" id="coupon-form">
-                                @csrf
-                                <input type="text" class="form-control" name="code"
-                                    placeholder="Enter Your Coupon Code">
-                                <button type="submit" class="btn btn-primary coupon-btn">Apply Coupon</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-lg-5">
-                    <div class="cart-total-area mb-30">
-                        <h5 class="mb-3">Cart Totals</h5>
-                        <div class="table-responsive">
-                            <table class="table mb-3">
-                                <tbody>
-                                    <tr>
-                                        <td>Sub Total</td>
-                                        <td>{{ \Gloudemans\Shoppingcart\Facades\Cart::subtotal() }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Save Amount</td>
-                                        <td>
-                                            @if (session()->has('coupon') && is_numeric(session('coupon')['value']))
-                                                - {{ number_format(session()->get('coupon')['value'],2) }}
-                                            @else
-                                                0
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Total</td>
-                                        <td>
-                                            @if (session()->has('coupon') && is_numeric(session('coupon')['value']))
-                                                $ {{ number_format((float)str_replace(',','',\Gloudemans\Shoppingcart\Facades\Cart::subtotal())-session()->get('coupon')['value'],2) }}
-                                            @else
-                                            @endif
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <a href="{{ route('checkout1') }}" class="btn btn-primary d-block">Proceed To Checkout</a>
-                    </div>
-                </div>
+            <div class="row justify-content-between" id="cart_list">
+                @include('frontend.layouts._cart-list')
+            
             </div>
         </div>
     </div>

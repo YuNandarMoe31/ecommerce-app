@@ -28,7 +28,7 @@ return new class extends Migration
 
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('phone');
             $table->string('country')->nullable();
             $table->string('address');
@@ -39,7 +39,7 @@ return new class extends Migration
 
             $table->string('sfirst_name');
             $table->string('slast_name');
-            $table->string('semail')->unique();
+            $table->string('semail');
             $table->string('sphone');
             $table->string('scountry')->nullable();
             $table->string('saddress');

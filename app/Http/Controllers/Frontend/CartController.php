@@ -142,7 +142,7 @@ class CartController extends Controller
                 return back()->with('error', 'Invalid Coupon Code, Please enter valid coupon code');
             }
 
-            $total_price = Cart::instance('shopping')->subtotal();
+            $total_price = (float)str_replace(',','',Cart::instance('shopping')->subtotal());
             $couponValue = $coupon->discount($total_price);
 
             session()->put('coupon', [

@@ -104,16 +104,8 @@
                                                     $
                                                     {{ number_format((float) str_replace(',', '', \Gloudemans\Shoppingcart\Facades\Cart::subtotal()) + session()->get('checkout')[0]['delivery_charge'], 2) }}
                                                 </td> --}}
-                                        @if (session()->has('checkout'))
-                                            <td>
-                                                $
-                                                {{ number_format((float) str_replace(',', '', \Gloudemans\Shoppingcart\Facades\Cart::subtotal()) + session()->get('checkout')[0]['delivery_charge'], 2) }}
-                                            </td>
-                                        @elseif (session()->has('coupon'))
-                                            <td>
-                                                $ {{ number_format(session()->get('coupon')['value'], 2) }}
-                                            </td>
-                                        @elseif(session()->has('coupon') && session()->has('checkout'))
+
+                                        @if (session()->has('coupon') && session()->has('checkout'))
                                             <td>
                                                 $
                                                 {{ number_format(
@@ -122,6 +114,16 @@
                                                         session()->get('coupon')['value'],
                                                     2,
                                                 ) }}
+                                            </td>
+                                        @elseif (session()->has('coupon'))
+                                            <td>
+                                                $
+                                                {{ number_format((float) str_replace(',', '', \Gloudemans\Shoppingcart\Facades\Cart::subtotal()) - session()->get('coupon')['value'], 2) }}
+                                            </td>
+                                        @elseif(session()->has('checkout'))
+                                            <td>
+                                                $
+                                                {{ number_format((float) str_replace(',', '', \Gloudemans\Shoppingcart\Facades\Cart::subtotal()) + session()->get('checkout')[0]['delivery_charge'], 2) }}
                                             </td>
                                         @endif
                                     </tr>
