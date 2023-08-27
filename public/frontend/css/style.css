@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css?family=Muli:200,300,400,600,700,800,900&display=swap");
 /* :: 2.0 Import All CSS */
 
+
+body {
+    overflow-x: hidden;
+}
 /* Preloader CSS */
 #preloader {
     position: fixed;

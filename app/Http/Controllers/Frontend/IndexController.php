@@ -29,6 +29,12 @@ class IndexController extends Controller
         return view('frontend.index', compact(['banners', 'categories']));
     }
 
+    public function shop(Request $request)
+    {
+        $products = Product::where('status', 'active')->paginate(10);
+        return view('frontend.pages.product.shop', compact('products'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
