@@ -61,6 +61,7 @@ Route::get('complete/{id}', [CheckoutController::class, 'complete'])->name('comp
 
 // Shop
 Route::get('shop', [IndexController::class, 'shop'])->name('shop');
+Route::post('shop-filter', [IndexController::class, 'shopFilter'])->name('shop.filter');
 
 // End Frontend
 

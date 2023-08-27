@@ -31,10 +31,40 @@ class IndexController extends Controller
 
     public function shop(Request $request)
     {
-        $products = Product::where('status', 'active')->paginate(10);
-        return view('frontend.pages.product.shop', compact('products'));
+        $products = Product::query();
+        if(!empty($_GET['category'])) {
+            $slugs = explode(',',$_GET['category']);
+            $cat_ids = Category::select('id')->whereIn('slug', $slugs)->pluck('id')->toArray();
+           
+            $products = $products->whereIn('cat_id', $cat_ids)->paginate(12);
+        } else {
+            $products = Product::where('status', 'active')->paginate(12);
+        }
+
+        $cats = Category::where([
+            'status' => 'active',
+            'is_parent' => 1
+        ])->with('products')
+            ->orderBy('title', 'ASC')->get();
+
+        return view('frontend.pages.product.shop', compact(['products', 'cats']));
     }
 
+    public function shopFilter(Request $request)
+    {
+        $data = $request->all();
+        $catUrl = '';
+        if(!empty($data['category'])) {
+            foreach($data['category'] as $category) {
+                if(empty($catUrl)) {
+                    $catUrl .= '&category=' .$category;
+                } else {
+                    $catUrl .= ','.$category;
+                }
+            }
+        }
+        return redirect()->route('shop', $catUrl);
+    }
     /**
      * Show the form for creating a new resource.
      *
