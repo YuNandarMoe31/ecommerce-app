@@ -32,13 +32,46 @@ class IndexController extends Controller
     public function shop(Request $request)
     {
         $products = Product::query();
-        if(!empty($_GET['category'])) {
-            $slugs = explode(',',$_GET['category']);
+        if (!empty($_GET['category'])) {
+            $slugs = explode(',', $_GET['category']);
             $cat_ids = Category::select('id')->whereIn('slug', $slugs)->pluck('id')->toArray();
-           
-            $products = $products->whereIn('cat_id', $cat_ids)->paginate(12);
+
+            $products = $products->whereIn('cat_id', $cat_ids);
+        }
+        if (!empty($_GET['sortBy'])) {
+            if ($_GET['sortBy'] == 'priceAsc') {
+                $products = $products->where(['status' => 'active'])->orderBy('offer_price', 'ASC');
+            }
+            if ($_GET['sortBy'] == 'priceDesc') {
+                $products = $products->where(['status' => 'active'])->orderBy('offer_price', 'DESC');
+            }
+            if ($_GET['sortBy'] == 'discAsc') {
+                $products = $products->where(['status' => 'active'])->orderBy('price', 'ASC');
+            }
+            if ($_GET['sortBy'] == 'discDesc') {
+                $products = $products->where(['status' => 'active'])->orderBy('price', 'DESC');
+            }
+            if ($_GET['sortBy'] == 'titleAsc') {
+                $products = $products->where(['status' => 'active'])->orderBy('title', 'ASC');
+            }
+            if ($_GET['sortBy'] == 'titleDesc') {
+                $products = $products->where(['status' => 'active'])->orderBy('title', 'DESC');
+            }
+        }
+
+        if (!empty($_GET['price'])) {
+            $price = explode('-', $_GET['price']);
+            // Convert the extracted price values to floats
+            $price[0] = floatval($price[0]);
+            $price[1] = floatval($price[1]);
+
+            // Apply floor and ceil functions to the price values
+            $price[0] = floor($price[0]);
+            $price[1] = ceil($price[1]);
+
+            $products = $products->whereBetween('offer_price', $price)->where('status', 'active')->paginate(12);
         } else {
-            $products = Product::where('status', 'active')->paginate(12);
+            $products = $products->where('status', 'active')->paginate(12);
         }
 
         $cats = Category::where([
@@ -53,17 +86,34 @@ class IndexController extends Controller
     public function shopFilter(Request $request)
     {
         $data = $request->all();
+
+        // Category Filter
         $catUrl = '';
-        if(!empty($data['category'])) {
-            foreach($data['category'] as $category) {
-                if(empty($catUrl)) {
-                    $catUrl .= '&category=' .$category;
+        if (!empty($data['category'])) {
+            foreach ($data['category'] as $category) {
+                if (empty($catUrl)) {
+                    $catUrl .= '&category=' . $category;
                 } else {
-                    $catUrl .= ','.$category;
+                    $catUrl .= ',' . $category;
                 }
             }
         }
-        return redirect()->route('shop', $catUrl);
+
+        // Sort Filter
+        $sortByUrl = '';
+        if (!empty($data['sortBy'])) {
+            $sortByUrl .= '&sortBy=' . $data['sortBy'];
+        }
+
+        // Price Filter
+        $priceUrl = '';
+
+        if (!empty($data['price_range'])) {
+            $encodedPriceRange = str_replace(' ', '%24', $data['price_range']);
+            $priceUrl .= '&price=' . $encodedPriceRange;        
+        }
+
+        return redirect()->route('shop', $catUrl . $sortByUrl . $priceUrl);
     }
     /**
      * Show the form for creating a new resource.
@@ -76,39 +126,33 @@ class IndexController extends Controller
 
         $sort = '';
 
-        if($request->sort != null) {
+        if ($request->sort != null) {
             $sort = $request->sort;
         }
 
-        if($categories == null) {
+        if ($categories == null) {
             return view('errors.404');
         } else {
-            if($sort == 'priceAsc') {
+            if ($sort == 'priceAsc') {
                 $products = Product::where(['status' => 'active', 'cat_id' => $categories->id])->orderBy('offer_price', 'ASC')->paginate(12);
-            } 
-            elseif($sort == 'priceDesc') {
+            } elseif ($sort == 'priceDesc') {
                 $products = Product::where(['status' => 'active', 'cat_id' => $categories->id])->orderBy('offer_price', 'DESC')->paginate(12);
-            }
-            elseif($sort == 'discAsc') {
+            } elseif ($sort == 'discAsc') {
                 $products = Product::where(['status' => 'active', 'cat_id' => $categories->id])->orderBy('price', 'ASC')->paginate(12);
-            }
-            elseif($sort == 'discDesc') {
+            } elseif ($sort == 'discDesc') {
                 $products = Product::where(['status' => 'active', 'cat_id' => $categories->id])->orderBy('price', 'DESC')->paginate(12);
-            }
-            elseif($sort == 'titleAsc') {
+            } elseif ($sort == 'titleAsc') {
                 $products = Product::where(['status' => 'active', 'cat_id' => $categories->id])->orderBy('title', 'ASC')->paginate(12);
-            }
-            elseif($sort == 'titleDesc') {
+            } elseif ($sort == 'titleDesc') {
                 $products = Product::where(['status' => 'active', 'cat_id' => $categories->id])->orderBy('title', 'DESC')->paginate(12);
-            } 
-            else {
+            } else {
                 $products = Product::where(['status' => 'active', 'cat_id' => $categories->id])->paginate(12);
             }
         }
 
         $route = 'product-category';
 
-        if($request->ajax()) {
+        if ($request->ajax()) {
             $view = view('frontend.layouts._single-product', compact('products'))->render();
             return response()->json(['html' => $view]);
         }
@@ -171,10 +215,10 @@ class IndexController extends Controller
         //     // If none of the specified roles match, you can handle it here
         //     return back()->with('error', 'Invalid email and password'); // Or any other default route
         // }
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password, 'status' => 'active'])) {
-           Session::put('user', $request->email);
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'status' => 'active'])) {
+            Session::put('user', $request->email);
 
-            if(Session::get('url.intended')) {
+            if (Session::get('url.intended')) {
                 return Redirect::to(Session::get('url.intended'));
             } else {
                 return redirect()->route('home')->with('success', 'Login Successfully');
@@ -182,7 +226,6 @@ class IndexController extends Controller
         } else {
             return back()->with('error', 'Invalid email and password');
         }
-       
     }
 
     /**
@@ -215,7 +258,7 @@ class IndexController extends Controller
         }
     }
 
-    // private function create(array $data) 
+    // private function create(array $data)
     // {
     //     return User::create([
     //         'full_name' => $data['full_name'],
@@ -242,25 +285,25 @@ class IndexController extends Controller
     public function userDashboard()
     {
         $user = Auth::user();
-        return view ('frontend.user.dashboard', compact('user'));
+        return view('frontend.user.dashboard', compact('user'));
     }
 
     public function userOrder()
     {
         $user = Auth::user();
-        return view ('frontend.user.order', compact('user'));
+        return view('frontend.user.order', compact('user'));
     }
-    
+
     public function userAddress()
     {
         $user = Auth::user();
-        return view ('frontend.user.address', compact('user'));
+        return view('frontend.user.address', compact('user'));
     }
 
     public function userAccount()
     {
         $user = Auth::user();
-        return view ('frontend.user.account', compact('user'));
+        return view('frontend.user.account', compact('user'));
     }
 
     public function billingAddress(Request $request, $id)
@@ -272,8 +315,8 @@ class IndexController extends Controller
             'postcode' => $request->postcode,
             'state' => $request->state,
         ]);
-        
-        if($user) {
+
+        if ($user) {
             return back()->with('success', 'Address successfully updated');
         } else {
             return back()->with('error', 'something went wrong');
@@ -289,8 +332,8 @@ class IndexController extends Controller
             'spostcode' => $request->spostcode,
             'sstate' => $request->sstate,
         ]);
-        
-        if($user) {
+
+        if ($user) {
             return back()->with('success', 'Shipping Address successfully updated');
         } else {
             return back()->with('error', 'something went wrong');
@@ -308,7 +351,7 @@ class IndexController extends Controller
         ]);
         $hashpassword = Auth::user()->password;
 
-        if($request->currentPass == null && $request->newPass == null) {
+        if ($request->currentPass == null && $request->newPass == null) {
             User::where('id', $id)->update([
                 'full_name' => $request->full_name,
                 'username' => $request->username,
@@ -316,8 +359,8 @@ class IndexController extends Controller
             ]);
             return back()->with('success', 'Account updated successfully');
         } else {
-            if(Hash::check($request->currentPass, $hashpassword)) {
-                if(!Hash::check($request->newPass, $hashpassword)) {
+            if (Hash::check($request->currentPass, $hashpassword)) {
+                if (!Hash::check($request->newPass, $hashpassword)) {
                     User::where('id', $id)->update([
                         'full_name' => $request->full_name,
                         'username' => $request->username,
@@ -332,6 +375,5 @@ class IndexController extends Controller
                 return back()->with('error', 'Old password does not match');
             }
         }
-        
     }
 }
