@@ -15,4 +15,9 @@ class Brand extends Model
         'photo',
         'enum'
     ];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class)->where('status', 'active');
+    }
 }

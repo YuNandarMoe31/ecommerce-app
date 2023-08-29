@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Models\User;
+use App\Models\Brand;
 use App\Models\Banner;
 use App\Models\Product;
 use App\Models\Category;
@@ -32,12 +33,30 @@ class IndexController extends Controller
     public function shop(Request $request)
     {
         $products = Product::query();
+
+        // category filter
         if (!empty($_GET['category'])) {
             $slugs = explode(',', $_GET['category']);
             $cat_ids = Category::select('id')->whereIn('slug', $slugs)->pluck('id')->toArray();
 
             $products = $products->whereIn('cat_id', $cat_ids);
         }
+
+        // brand filter
+        if (!empty($_GET['brand'])) {
+            $slugs = explode(',', $_GET['brand']);
+            $brand_ids = Brand::select('id')->whereIn('slug', $slugs)->pluck('id')->toArray();
+
+            $products = $products->whereIn('brand_id', $brand_ids);
+        }
+
+        // size filter
+        if (!empty($_GET['size'])) {
+            $sizes = is_array($_GET['size']) ? $_GET['size'] : explode(',', $_GET['size']);
+            $size = $products->whereIn('size', $sizes);
+        }
+
+        // sorting
         if (!empty($_GET['sortBy'])) {
             if ($_GET['sortBy'] == 'priceAsc') {
                 $products = $products->where(['status' => 'active'])->orderBy('offer_price', 'ASC');
@@ -59,6 +78,7 @@ class IndexController extends Controller
             }
         }
 
+        // price range filter
         if (!empty($_GET['price'])) {
             $price = explode('-', $_GET['price']);
             // Convert the extracted price values to floats
@@ -74,13 +94,15 @@ class IndexController extends Controller
             $products = $products->where('status', 'active')->paginate(12);
         }
 
+        $brands = Brand::where('status', 'active')->orderBy('title', 'ASC')->with('products')->get();
+
         $cats = Category::where([
             'status' => 'active',
             'is_parent' => 1
         ])->with('products')
             ->orderBy('title', 'ASC')->get();
 
-        return view('frontend.pages.product.shop', compact(['products', 'cats']));
+        return view('frontend.pages.product.shop', compact(['products', 'cats', 'brands']));
     }
 
     public function shopFilter(Request $request)
@@ -110,10 +132,30 @@ class IndexController extends Controller
 
         if (!empty($data['price_range'])) {
             $encodedPriceRange = str_replace(' ', '%24', $data['price_range']);
-            $priceUrl .= '&price=' . $encodedPriceRange;        
+            $priceUrl .= '&price=' . $encodedPriceRange;
         }
 
-        return redirect()->route('shop', $catUrl . $sortByUrl . $priceUrl);
+        // Brand Filter
+        $brandUrl = '';
+
+        if (!empty($data['brand'])) {
+            foreach ($data['brand'] as $brand) {
+                if (empty($brandUrl)) {
+                    $brandUrl .= '&brand=' . $brand;
+                } else {
+                    $brandUrl .= ',' . $brand;
+                }
+            }
+        }
+
+        // Size Filter
+        $sizeUrl = '';
+
+        if (!empty($data['size'])) {
+            $sizeUrl .= '&size=' . $data['size'];
+        }
+
+        return redirect()->route('shop', $catUrl . $sortByUrl . $priceUrl . $brandUrl . $sizeUrl);
     }
     /**
      * Show the form for creating a new resource.
