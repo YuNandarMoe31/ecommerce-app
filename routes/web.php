@@ -63,6 +63,9 @@ Route::get('complete/{id}', [CheckoutController::class, 'complete'])->name('comp
 Route::get('shop', [IndexController::class, 'shop'])->name('shop');
 Route::post('shop-filter', [IndexController::class, 'shopFilter'])->name('shop.filter');
 
+// Search Product and Autosearch product
+Route::get('autosearch', [IndexController::class, 'autosearch'])->name('autosearch');
+Route::get('search', [IndexController::class, 'search'])->name('search');
 // End Frontend
 
 // Backend

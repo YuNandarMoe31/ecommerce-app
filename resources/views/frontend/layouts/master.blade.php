@@ -184,6 +184,7 @@
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
     @include('frontend.layouts.footer')
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
         $(document).ready(function() {
             $(document).on('click', '.cart_delete', function(e) {
@@ -226,6 +227,32 @@
                 });
             });
         })
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            var path = "{{ route('autosearch') }}";
+            $('#search_text').autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: path,
+                        dataType: "json",
+
+                        data: {
+                            term: request.term
+                        },
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                            'Content-Type': 'application/json'
+                        },
+                        success: function(data) {
+                            response(data);
+                        }
+                    });
+                },
+                minLength: 1,
+            })
+        });
     </script>
 
 </body>

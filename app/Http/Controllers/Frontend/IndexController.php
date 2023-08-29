@@ -157,6 +157,44 @@ class IndexController extends Controller
 
         return redirect()->route('shop', $catUrl . $sortByUrl . $priceUrl . $brandUrl . $sizeUrl);
     }
+
+    public function autosearch(Request $request)
+    {
+        $query = $request->get('term', '');
+        $products = Product::where('title', 'LIKE', '%' . $query . '%')->get();
+
+        $data = array();
+
+        foreach ($products as $product) {
+            $data[] = array(
+                'value' => $product->title,
+                'id' => $product->id
+            );
+            if (count($data)) {
+                return $data;
+            } else {
+                return [
+                    'value' => "No Result Found",
+                    'id' => ''
+                ];
+            }
+        }
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $products = Product::where('title', 'LIKE', '%' . $query . '%')->orderBy('id', 'DESC')->paginate(12);
+        $brands = Brand::where('status', 'active')->orderBy('title', 'ASC')->with('products')->get();
+
+        $cats = Category::where([
+            'status' => 'active',
+            'is_parent' => 1
+        ])->with('products')
+            ->orderBy('title', 'ASC')->get();
+
+        return view('frontend.pages.product.shop', compact('products', 'cats', 'brands'));
+    }
     /**
      * Show the form for creating a new resource.
      *
