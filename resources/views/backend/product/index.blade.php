@@ -101,14 +101,18 @@
                                                     @endif
                                                 </td>
                                                 <td>
+                                                    <a href="{{ route('product.show', $item->id) }}" 
+                                                        data-toggle="tooltip" title="add attribute" data-placement="bottom"
+                                                        class="float-left btn btn-sm btn-outline-info mr-1"><i
+                                                            class="fas fa-plus-circle"></i></a>
                                                     <a href="javascript:void(0)" data-bs-toggle="modal"
                                                         data-bs-target="#productId{{ $item->id }}"
                                                         data-toggle="tooltip" title="view" data-placement="bottom"
-                                                        class="float-left btn btn-sm btn-outline-secondary"><i
+                                                        class="float-left btn btn-sm btn-outline-secondary mr-1"><i
                                                             class="fas fa-eye"></i></a>
                                                     <a href="{{ route('product.edit', $item->id) }}" data-toggle="tooltip"
                                                         title="edit" data-placement="bottom"
-                                                        class="float-left btn btn-sm btn-outline-warning"><i
+                                                        class="float-left btn btn-sm btn-outline-warning mr-1"><i
                                                             class="fas fa-edit"></i></a>
                                                     <form class="float-left ml-1"
                                                         action="{{ route('product.destroy', $item->id) }}" method="POST">
@@ -189,7 +193,8 @@
                                                                 <div class="row">
                                                                     <div class="col-md-6">
                                                                         <strong>Size:</strong>
-                                                                        <p class="badge badge-success">{{ $product->size }}
+                                                                        <p class="badge badge-success">
+                                                                            {{ $product->size }}
                                                                         </p>
                                                                     </div>
                                                                     <div class="col-md-6">

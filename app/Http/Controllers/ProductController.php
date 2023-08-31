@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductAttribute;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +19,6 @@ class ProductController extends Controller
     {
         $products = Product::orderBy('id', 'DESC')->get();
         return view('backend.product.index', compact('products'));
-
     }
 
     /**
@@ -98,6 +98,18 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product Status updated successfully', 'status' => true]);
     }
 
+    public function show($id)
+    {
+        $product = Product::find($id);
+        $productattr = ProductAttribute::where('product_id', $id)->get();
+
+        if ($product) {
+            return view('backend.product.product-attribute', compact(['product', 'productattr']));
+        } else {
+            return back()->with('error', 'Product not found');
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -166,6 +178,43 @@ class ProductController extends Controller
             $status = $product->delete();
             if ($status) {
                 return redirect()->route('product.index')->with('success', 'Product deleted successfully');
+            }
+        } else {
+            return back()->with('error', 'Something went wrong');
+        }
+    }
+
+    public function addProductAttribute(Request $request, $id)
+    {
+        // $this->validate($request, [
+        //     'size' => 'nullable|string',
+        //     'original_price' => 'nullable|numeric',
+        //     'offer_price' => 'nullable|numeric',
+        //     'stock' => 'nullable|numeric',
+        // ]);
+        $data = $request->all();
+
+        foreach($data['original_price'] as $key=>$val) {
+            if(!empty($val)) {
+                $attribute = new ProductAttribute;
+                $attribute['original_price'] = $val;
+                $attribute['offer_price'] = $data['offer_price'][$key];
+                $attribute['stock'] = $data['stock'][$key];
+                $attribute['product_id'] = $id;
+                $attribute['size'] = $data['size'][$key];
+                $attribute->save();
+            }
+            return redirect()->back()->with('success', 'Product attribute successfully added');
+        }
+    }
+
+    public function deleteProductAttribute($id)
+    {
+        $productattr = ProductAttribute::find($id);
+        if ($productattr) {
+            $status = $productattr->delete();
+            if ($status) {
+                return redirect()->back()->with('success', 'Product attribute deleted successfully');
             }
         } else {
             return back()->with('error', 'Something went wrong');
