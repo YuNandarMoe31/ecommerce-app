@@ -57,6 +57,7 @@
                                 <label for="description">Description</label>
                                 <textarea type="text" class="form-control" id="description" placeholder="Description" name="description">{{ old('description') }}</textarea>
                             </div>
+                            
                             <div class="form-group col-md-12">
                                 <label for="stock">Stock <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" id="stock" placeholder="Stock" name="stock"
@@ -76,14 +77,27 @@
                                 <label for="description">Photo <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-btn">
-                                        <a id="lfm" data-input="thumbnail" data-preview="holder"
+                                        <a id="lfm1" data-input="thumbnail1" data-preview="holder1"
                                             class="btn btn-primary">
                                             <i class="fa fa-picture-o"></i> Choose
                                         </a>
                                     </span>
-                                    <input id="thumbnail" class="form-control" type="text" name="photo">
+                                    <input id="thumbnail1" class="form-control" type="text" name="photo">
                                 </div>
-                                <div id="holder" style="margin-top:15px;max-height:100px;"></div>
+                                <div id="holder1" style="margin-top:15px;max-height:100px;"></div>
+                            </div>
+                            <div class=" form-group col-md-12">
+                                <label for="description">Size Guide <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <a id="lfm2" data-input="thumbnail2" data-preview="holder2"
+                                            class="btn btn-primary">
+                                            <i class="fa fa-picture-o"></i> Choose
+                                        </a>
+                                    </span>
+                                    <input id="thumbnail2" class="form-control" type="text" name="size_guide">
+                                </div>
+                                <div id="holder2" style="margin-top:15px;max-height:100px;"></div>
                             </div>
                         </div>
                         <div class="form-row">
@@ -160,6 +174,17 @@
                                     </option>
                                 </select>
                             </div>
+                            <div class="form-group col-md-12">
+                                <label for="additional_info">Additional Info</label>
+                                <textarea type="text" class="description form-control" id="additional_info" placeholder="Additional Info" name="additional_info">{{ old('additional_info') }}</textarea>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <label for="return_cancellation">Return Cancellation</label>
+                                <textarea type="text" class="description form-control" id="return_cancellation" placeholder="Return Cancellation" name="return_cancellation">{{ old('return_cancellation') }}</textarea>
+                            </div>
+
+
                         </div>
 
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -173,11 +198,11 @@
 @section('scripts')
     <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
     <script>
-        $('#lfm').filemanager('image');
+        $('#lfm1, #lfm2').filemanager('image');
     </script>
     <script>
         $(document).ready(function() {
-            $('#description').summernote();
+            $('.description').summernote();
         });
         $(document).ready(function() {
             $('#summary').summernote();
