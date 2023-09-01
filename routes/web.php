@@ -12,6 +12,7 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\WishlistController;
+use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\UserController;
 
@@ -35,6 +36,9 @@ Route::get('product-category/{slug}/', [IndexController::class, 'productCategory
 
 // Product Detail
 Route::get('product-detail/{slug}/', [IndexController::class, 'productDetail'])->name('product.detail');
+
+// Product Review
+Route::post('product-review/{slug}', [ProductReviewController::class, 'productReview'])->name('product.review');
 
 // Cart
 Route::post('cart/store', [CartController::class, 'cartStore'])->name('cart.store');
