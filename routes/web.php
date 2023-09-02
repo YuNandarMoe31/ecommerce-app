@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\Admin\LoginController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProductController;
@@ -77,8 +78,14 @@ Auth::routes(['register' => false]);
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+// Admin Login
+Route::group(['prefix' => 'admin'], function() {
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('admin.login.form');
+    Route::post('/login', [LoginController::class, 'login'])->name('admin.login');
+});
+
 // Admin Dashboard
-Route::group(['prefix' => 'admin/', 'middleware' => ['auth', 'admin']], function () {
+Route::group(['prefix' => 'admin/', 'middleware' => ['admin']], function () {
     Route::get('/home', [AdminController::class, 'admin'])->name('admin');
 
     // Banner Management

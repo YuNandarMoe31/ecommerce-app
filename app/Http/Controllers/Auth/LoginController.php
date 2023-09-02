@@ -40,21 +40,26 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    // public function credentials(Request $request) 
-    // {
-    //     $email = $request->email;
-    //     $password = $request->password;
-    //     $status = $request->status;
-    //     $role = $request->admin;
+    public function credentials(Request $request) 
+    {
+        // $email = $request->email;
+        // $password = $request->password;
+        // $status = $request->status;
+        // $role = $request->admin;
         
-    //     // Log the values for debugging
-    //     Log::info("Email: $email, Password: $password, Status: $status, Role: $role");
+        // // Log the values for debugging
+        // Log::info("Email: $email, Password: $password, Status: $status, Role: $role");
         
-    //     return [
-    //         'email' => $email,
-    //         'password' => $password,
-    //         'status' => $status,
-    //         'role' => $role
-    //     ];
-    // }
+        // return [
+        //     'email' => $email,
+        //     'password' => $password,
+        //     'status' => $status,
+        //     'role' => $role
+        // ];
+        return [
+            'email' => $request->email,
+            'password' => $request->password,
+            'status' => 'active',
+        ];
+    }
 }

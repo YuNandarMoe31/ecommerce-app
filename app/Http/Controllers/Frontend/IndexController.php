@@ -299,7 +299,7 @@ class IndexController extends Controller
             Session::put('user', $request->email);
 
             if (Session::get('url.intended')) {
-                return Redirect::to(Session::get('url.intended'));
+                return Redirect::to(Session::get('url.intended'))->with('success', 'Login Successfully');
             } else {
                 return redirect()->route('home')->with('success', 'Login Successfully');
             }

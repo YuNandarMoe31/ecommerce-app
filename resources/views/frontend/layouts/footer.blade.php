@@ -20,17 +20,42 @@
 <script src="{{ asset('frontend/js/jquery.magnific-popup.min.js') }}"></script>
 <script src="{{ asset('frontend/js/jquery.nice-select.min.js') }}"></script>
 <script src="{{ asset('frontend/js/wow.min.js') }}"></script>
-<script src="{{ asset('frontend/js/active.js') }}">< script >
+<script src="{{ asset('frontend/js/active.js') }}"></script>
+<script src="{{ asset('frontend/js/bootstrap-notify.js') }}"></script>
 
 <script>
-    $(document).ready(function(){
+    @if (Session::has('success'))
+        $.notify("Success: {{ Session::get('success') }}", {
+            animate: {
+                enter: 'animated fadeInRight',
+                exit: 'animated fadeOutRight'
+            }
+        })
+    @endif
+    @php
+        Session::forget('error')
+    @endphp
+    @if (Session::has('error'))
+        $.notify("Sorry: {{ Session::get('error') }}", {
+            animate: {
+                enter: 'animated fadeInRight',
+                exit: 'animated fadeOutRight'
+            }
+        })
+    @endif
+    @php
+        Session::forget('error')
+    @endphp
+</script>
+<script>
+    $(document).ready(function() {
         $(".owl-carousel").owlCarousel();
     });
 </script>
 <script>
     setTimeout(function() {
         $('#alert').slideUp();
-    }, 4000);    
+    }, 4000);
 </script>
 
 @yield('scripts')
