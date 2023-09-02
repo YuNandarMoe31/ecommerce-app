@@ -73,7 +73,6 @@
                             <div class="form-group col-md-6">
                                 <label for="status">Status <span class="text-danger">*</span></label>
                                 <select id="status" name="status" class="form-control">
-                                    <option selected>Status</option>
                                     <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
                                     <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive
                                     </option>
@@ -82,7 +81,6 @@
                             <div class="form-group col-md-6">
                                 <label for="condition">Condition <span class="text-danger">*</span></label>
                                 <select id="condition" name="condition" class="form-control">
-                                    <option selected>Condition </option>
                                     <option value="banner" {{ old('condition') == 'banner' ? 'selected' : '' }}>Banner
                                     </option>
                                     <option value="promo" {{ old('condition') == 'promo' ? 'selected' : '' }}>Promo
