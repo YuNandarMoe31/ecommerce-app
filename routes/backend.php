@@ -1,15 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Auth\Admin\LoginController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ShippingController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\Admin\LoginController;
 
 // Admin Login
 Route::group(['prefix' => 'admin'], function() {
@@ -53,6 +54,10 @@ Route::group(['prefix' => 'admin/', 'middleware' => ['admin']], function () {
     // Shipping Management
     Route::resource('shipping', ShippingController::class);
     Route::post('shipping_status', [ShippingController::class, 'shippingStatus'])->name('shipping.status');
+
+    // Order Management
+    Route::resource('order', OrderController::class);
+    Route::post('order-status/{id}', [OrderController::class, 'orderStatus'])->name('order.status');
 });
 
 Route::group(['prefix' => 'filemanager', 'middleware' => ['web', 'auth:admin']], function () {

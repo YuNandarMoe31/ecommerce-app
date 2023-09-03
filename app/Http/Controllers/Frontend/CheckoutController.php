@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Mail\OrderMail;
+use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -97,7 +98,7 @@ class CheckoutController extends Controller
 
         Session::push('checkout', [
             'payment_method' => $request->payment_method,
-            'payment_status' => 'paid',
+            'payment_status' => 'unpaid',
         ]);
 
         return view('frontend.pages.checkout.checkout4');
@@ -143,6 +144,13 @@ class CheckoutController extends Controller
         $order['sstate'] = Session::get('checkout')['sstate'];
 
         $status = $order->save();
+
+        foreach(Cart::instance('shopping')->content() as $item) {
+            $product_id[] = $item->id;
+            $product = Product::find($item->id);
+            $quantity = $item->qty;
+            $order->products()->attach($product, ['quantity' => $quantity]);
+        }
 
         if($status) {
             Mail::to($order['email'])->bcc($order['semail'])->cc('yunandarmoe31@gmail.com')->send(new OrderMail($order));

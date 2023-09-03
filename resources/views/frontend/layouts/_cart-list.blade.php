@@ -86,6 +86,8 @@
                             @if (session()->has('coupon') && is_numeric(session('coupon')['value']))
                                 $ {{ number_format((float)str_replace(',','',\Gloudemans\Shoppingcart\Facades\Cart::subtotal())-session()->get('coupon')['value'],2) }}
                             @else
+                                $ {{ number_format((float)str_replace(',','',\Gloudemans\Shoppingcart\Facades\Cart::subtotal()),2) }}
+
                             @endif
                         </td>
                     </tr>

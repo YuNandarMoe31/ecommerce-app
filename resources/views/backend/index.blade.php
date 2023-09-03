@@ -105,8 +105,8 @@
                     <div class="header">
                         <h2>Recent Orders</h2>
                         <ul class="header-dropdown">
-                            <a href="javascript:void(0);" class="btn btn-success btn-sm" >View All</a>
-                      
+                            <a href="javascript:void(0);" class="btn btn-success btn-sm">View All</a>
+
                         </ul>
                     </div>
                     <div class="body">
@@ -118,21 +118,54 @@
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Payment Method</th>
-                                        <th>Order Status</th>
+                                        <th>Payment Status</th>
                                         <th>Total</th>
+                                        <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><img src="http://via.placeholder.com/60x50" alt="Product img"></td>
-                                        <td>Hossein</td>
-                                        <td>IPONE-7</td>
-                                        <td>Porterfield 508 Virginia Street Chicago, IL 60653</td>
-                                        <td>3</td>
-                                        <td><span class="badge badge-success">DONE</span></td>
-                                        <td>$ 356</td>
-                                    </tr>
+                                    @forelse ($orders as $order)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $order->first_name }} {{ $order->last_name }}</td>
+                                            <td>{{ $order->email }}</td>
+                                            <td>{{ $order->payment_method == 'cod' ? 'Cash on Delivery' : $order->payment_method }}
+                                            </td>
+                                            <td class="text-uppercase">{{ $order->payment_status }}</td>
+                                            <td>{{ number_format($order->total_amount, 2) }}</td>
+                                            <td><span
+                                                    class="badge 
+                                                @if ($order->condition == 'pending') badge-info 
+                                                @elseif($order->condition == 'processing')
+                                                    badge-primary
+                                                @elseif($order->condition == 'delivered')
+                                                    badge-success
+                                                @else 
+                                                    badge-danger @endif">
+                                                    {{ $order->condition }}</span></td>
+                                            <td>
+                                                <a href="{{ route('coupon.edit', $order->id) }}" data-toggle="tooltip"
+                                                    title="view" data-placement="bottom"
+                                                    class="float-left btn btn-sm btn-outline-warning"><i
+                                                        class="fas fa-eye"></i></a>
+
+                                                <form class="float-left ml-1"
+                                                    action="{{ route('coupon.destroy', $order->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <a href="" data-toggle="tooltip" title="delete"
+                                                        data-id="{{ $order->id }}" data-placement="bottom"
+                                                        class="delete-btn btn btn-sm btn-outline-danger"><i
+                                                            class="fas fa-trash-alt"></i></a>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td>No orders</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

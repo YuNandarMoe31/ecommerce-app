@@ -41,4 +41,9 @@ class Order extends Model
         'sstate',
         'spostcode',
     ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_orders')->withPivot('quantity');
+    }
 }

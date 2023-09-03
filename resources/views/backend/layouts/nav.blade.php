@@ -21,7 +21,13 @@
 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
-
+        <!-- Nav Item - Alerts -->
+        <li class="nav-item  no-arrow mx-1">
+            <a class="nav-link " target="_blank" href="{{ route('home') }}" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-home fa-fw"></i>
+            </a>
+        </li>
         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
         <li class="nav-item dropdown no-arrow d-sm-none">
             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"

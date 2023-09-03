@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -13,7 +14,8 @@ class AdminController extends Controller
      */
     public function admin()
     {
-        return view('backend.index');
+        $orders = Order::orderBy('id','DESC')->get();
+        return view('backend.index', compact('orders'));
     }
 
     /**

@@ -91,18 +91,12 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link btn" href="#collapseOrder" data-bs-toggle="collapse" role="button" aria-expanded="false"
-                aria-controls="collapseOrder">
+            <a class="nav-link btn" href="{{ route('order.index') }}" 
+                >
                 <i class="fas fa-store"></i>
                 <span>Order Management</span>
             </a>
-            <div class="collapse" id="collapseOrder">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Order:</h6>
-                    <a class="collapse-item" href="buttons.html">Buttons</a>
-                    <a class="collapse-item" href="cards.html">Cards</a>
-                </div>
-            </div>
+
         </li>
         <li class="nav-item">
             <a class="nav-link btn" href="#collapsePostCategory" data-bs-toggle="collapse" role="button"
