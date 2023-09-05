@@ -254,6 +254,36 @@
             })
         });
     </script>
+    
+    <script>
+        function currency_change(currency_code){
+            var path = "{{ route('currency.load') }}";
+            var token = "{{ csrf_token() }}";
+            var data = {
+                currency_code: currency_code,
+                _token: token,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: path,
+                dataType: "json",
+                data: JSON.stringify(data),
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Content-Type': 'application/json'
+                },
+                success: function(response) {
+                    if(response['status']) {
+                        location.reload();
+                    }
+                    else {
+                        alert('server error');
+                    }
+                }
+            })
+        }
+    </script>
 
 </body>
 

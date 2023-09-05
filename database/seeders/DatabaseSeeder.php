@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UserTableSeeder::class);
+        $this->call(CurrenciesSeederTable::class);
         \App\Models\User::factory(50)->create();
         \App\Models\Category::factory(20)->create();
         \App\Models\Brand::factory(10)->create();

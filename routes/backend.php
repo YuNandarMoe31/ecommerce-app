@@ -9,6 +9,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\Auth\Admin\LoginController;
 
@@ -54,6 +55,10 @@ Route::group(['prefix' => 'admin/', 'middleware' => ['admin']], function () {
     // Shipping Management
     Route::resource('shipping', ShippingController::class);
     Route::post('shipping_status', [ShippingController::class, 'shippingStatus'])->name('shipping.status');
+
+    // Currency Management
+    Route::resource('currency', CurrencyController::class);
+    Route::post('currency_status', [CurrencyController::class, 'currencyStatus'])->name('currency.status');
 
     // Order Management
     Route::resource('order', OrderController::class);

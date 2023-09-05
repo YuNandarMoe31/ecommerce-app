@@ -204,8 +204,8 @@
                                         </p>
                                         <a
                                             href="{{ route('product.detail', $new_product->slug) }}">{{ $new_product->title }}</a>
-                                        <h6 class="product-price">{{ number_format($new_product->offer_price, 2) }} <small
-                                                class="text-danger"><del>{{ number_format($new_product->price, 2) }}</del></small>
+                                        <h6 class="product-price">{{ Helpers::currency_converter($new_product->offer_price) }} <small
+                                                class="text-danger"><del>{{ Helpers::currency_converter($new_product->price) }}</del></small>
                                         </h6>
                                     </div>
                                 </div>

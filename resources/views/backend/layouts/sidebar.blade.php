@@ -91,6 +91,20 @@
             </div>
         </li>
         <li class="nav-item">
+            <a class="nav-link btn" href="#collapseCurrency" data-bs-toggle="collapse" role="button" aria-expanded="false"
+                aria-controls="collapseCurrency">
+                <i class="fas fa-money-bill-alt"></i>
+                <span>Currency Management</span>
+            </a>
+            <div class="collapse" id="collapseCurrency">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Currency:</h6>
+                    <a class="collapse-item" href="{{ route('currency.index') }}">All Currencies</a>
+                    <a class="collapse-item" href="{{ route('currency.create') }}">Create Currency</a>
+                </div>
+            </div>
+        </li>
+        <li class="nav-item">
             <a class="nav-link btn" href="{{ route('order.index') }}" 
                 >
                 <i class="fas fa-store"></i>
