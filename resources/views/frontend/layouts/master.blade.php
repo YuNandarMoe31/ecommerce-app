@@ -2,22 +2,6 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-    <!-- Title  -->
-    <title>Emart</title>
-
-    <!-- Favicon  -->
-    <link rel="icon" href="img/core-img/favicon.ico">
-
-    <!-- Css -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     @include('frontend.layouts.header')
 </head>
 
@@ -53,18 +37,16 @@
                             <h6>Contact Us</h6>
                         </div>
                         <ul class="footer_content">
-                            <li><span>Address:</span> Lords, London, UK - 1259</li>
-                            <li><span>Phone:</span> 002 63695 24624</li>
-                            <li><span>FAX:</span> 002 78965 369552</li>
-                            <li><span>Email:</span> support@example.com</li>
+                            <li><span>Address:</span> {{ \App\Models\Setting::value('address') }}</li>
+                            <li><span>Phone:</span> {{ \App\Models\Setting::value('phone') }}</li>
+                            <li><span>FAX:</span> {{ \App\Models\Setting::value('fax') }}</li>
+                            <li><span>Email:</span> {{ \App\Models\Setting::value('email') }}</li>
                         </ul>
                         <div class="footer_social_area mt-15">
-                            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-rss" aria-hidden="true"></i></a>
+                            <a href="{{ \App\Models\Setting::value('facebook_url') }}"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                            <a href="{{ \App\Models\Setting::value('twitter_url') }}"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                            <a href="{{ \App\Models\Setting::value('linkedin_url') }}"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                            <a href="{{ \App\Models\Setting::value('pinterest_url') }}"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
@@ -161,8 +143,7 @@
                     <div class="col-12 col-md-6">
                         <div class="copywrite_text">
                             <p>Made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
-                                    href="#">Designing
-                                    World</a></p>
+                                    href="#">{{ \App\Models\Setting::value('footer') }}</a></p>
                         </div>
                     </div>
                     <!-- Payment Method -->

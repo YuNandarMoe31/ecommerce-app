@@ -210,6 +210,12 @@
                 </div>
             </div>
         </li>
+        <li class="nav-item">
+            <a class="nav-link btn" href="{{ route('setting') }}">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </li>
         <!-- Divider -->
         <hr class="sidebar-divider">
         <!-- Heading -->

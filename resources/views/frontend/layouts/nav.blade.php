@@ -6,7 +6,7 @@
                     <div class="welcome-note">
                         <span class="popover--text" data-toggle="popover"
                             data-content="Welcome to Emart Online Shopping"><i class="icofont-info-square"></i></span>
-                        <span class="text">Welcome to Emart Online Shopping</span>
+                        <span class="text">Welcome to {{ \App\Models\Setting::value('title') }}</span>
                     </div>
                 </div>
                 <div class="col-6">

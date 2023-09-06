@@ -12,6 +12,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\Auth\Admin\LoginController;
+use App\Http\Controllers\SettingController;
 
 // Admin Login
 Route::group(['prefix' => 'admin'], function() {
@@ -63,6 +64,10 @@ Route::group(['prefix' => 'admin/', 'middleware' => ['admin']], function () {
     // Order Management
     Route::resource('order', OrderController::class);
     Route::post('order-status/{id}', [OrderController::class, 'orderStatus'])->name('order.status');
+
+    // Setting Management
+    Route::get('setting', [SettingController::class, 'setting'])->name('setting');
+    Route::put('setting', [SettingController::class, 'settingUpdate'])->name('setting.update');
 });
 
 Route::group(['prefix' => 'filemanager', 'middleware' => ['web', 'auth:admin']], function () {

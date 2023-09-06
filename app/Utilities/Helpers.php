@@ -2,6 +2,7 @@
 
 use App\Models\Product;
 use App\Models\Currency;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Session;
 
 class Helpers {
@@ -90,5 +91,12 @@ if(!function_exists('currency_symbol')) {
 if(!function_exists('format_price')) {
     function format_price($price) {
         return currency_symbol().number_format($price,2);
+    }
+}
+
+// setting 
+if(!function_exists('get_setting')) {
+    function get_setting($key) {
+        return Setting::value($key);
     }
 }
