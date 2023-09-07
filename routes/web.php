@@ -11,15 +11,16 @@ Route::get('/', function () {
 
 require __DIR__ . '/frontend.php';
 require __DIR__ . '/backend.php';
+require __DIR__ . '/seller.php';
 
 Auth::routes(['register' => false]);
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Seller
-Route::group(['prefix' => 'seller', 'middleware' => ['auth', 'seller']], function () {
-    Route::get('/', [AdminController::class, 'admin'])->name('seller');
-});
+// Route::group(['prefix' => 'seller', 'middleware' => ['auth', 'seller']], function () {
+//     Route::get('/', [AdminController::class, 'admin'])->name('seller');
+// });
 
 Route::post('currency_load', [CurrencyController::class, 'currencyLoad'])->name('currency.load');
 

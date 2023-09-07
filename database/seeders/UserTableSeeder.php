@@ -20,10 +20,10 @@ class UserTableSeeder extends Seeder
 
         DB::table('users')->insert([
             [
-                "full_name" => "Yu Nandar Moe Customer",
+                "full_name" => "Ms.Customer",
                 "username" => "Customer",
                 "email" => "customer@gmail.com",
-                "password" => Hash::make('111'),
+                "password" => Hash::make('1234'),
                 "status" => "active"
             ],
         ]);
@@ -32,11 +32,26 @@ class UserTableSeeder extends Seeder
         DB::table('admins')->insert([
             // Admin
             [
-                "full_name" => "Yu Nandar Moe Admin",
+                "full_name" => "Ms.Admin",
                 "username" => "Admin",
                 "email" => "admin@gmail.com",
-                "password" => Hash::make('111'),
+                "password" => Hash::make('1234'),
                 "status" => "active"
+            ],
+        ]);
+
+         // seller
+        DB::table('sellers')->insert([
+            // Seller
+            [
+                "full_name" => "Mr.Seller",
+                "username" => "Seller",
+                "email" => "seller@gmail.com",
+                "password" => Hash::make('1234'),
+                "status" => "active",
+                "address" => "Yangon",
+                "phone" => "0946777448",
+                "photo" => ""
             ],
         ]);
     }
