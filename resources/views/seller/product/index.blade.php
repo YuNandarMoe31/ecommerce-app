@@ -1,4 +1,4 @@
-@extends('backend.layouts.master')
+@extends('seller.layouts.master')
 
 @section('content')
     <!-- Page Wrapper -->
@@ -10,7 +10,7 @@
             <!-- Main Content -->
             <div id="content">
                 <div class="col-lg-12">
-                    @include('backend.layouts.notification')
+                    @include('seller.layouts.notification')
                 </div>
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -20,18 +20,18 @@
                                 <h2>
                                     <a href="javascript:void(0)" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
                                             class="fa fa-arrow-left"></i></a>Product
-                                    <a href="{{ route('product.create') }}" class="btn btn-sm btn-outline-secondary"><i
+                                    <a href="{{ route('seller-product.create') }}" class="btn btn-sm btn-outline-secondary"><i
                                             class="fas fa-plus-circle"></i> Create Product</a>
                                 </h2>
                                 <ul class="breadcrumb float-left">
                                     <li class="breadcrumb-item">
-                                        <a href="{{ route('admin') }}"><i class="fas fa-home"></i></a>
+                                        <a href="{{ route('seller') }}"><i class="fas fa-home"></i></a>
                                     </li>
                                     <li class="breadcrumb-item active">
                                         Products
                                     </li>
                                 </ul>
-                                <p class="float-right">Total Products: {{ \App\Models\Product::count() }}</p>
+                                <p class="float-right">Total Products: {{ $products->count() }}</p>
                             </div>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a href="{{ route('product.show', $item->id) }}" 
+                                                    <a href="{{ route('seller-product.show', $item->id) }}" 
                                                         data-toggle="tooltip" title="add attribute" data-placement="bottom"
                                                         class="float-left btn btn-sm btn-outline-info mr-1"><i
                                                             class="fas fa-plus-circle"></i></a>
@@ -110,12 +110,12 @@
                                                         data-toggle="tooltip" title="view" data-placement="bottom"
                                                         class="float-left btn btn-sm btn-outline-secondary mr-1"><i
                                                             class="fas fa-eye"></i></a>
-                                                    <a href="{{ route('product.edit', $item->id) }}" data-toggle="tooltip"
+                                                    <a href="{{ route('seller-product.edit', $item->id) }}" data-toggle="tooltip"
                                                         title="edit" data-placement="bottom"
                                                         class="float-left btn btn-sm btn-outline-warning mr-1"><i
                                                             class="fas fa-edit"></i></a>
                                                     <form class="float-left ml-1"
-                                                        action="{{ route('product.destroy', $item->id) }}" method="POST">
+                                                        action="{{ route('seller-product.destroy', $item->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <a href="" data-toggle="tooltip" title="delete"
@@ -237,30 +237,7 @@
     </div>
     <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('scripts')
@@ -301,7 +278,7 @@
             var id = $(this).val();
 
             $.ajax({
-                url: "{{ route('product.status') }}",
+                url: "{{ route('seller.product.status') }}",
                 type: "POST",
                 data: {
                     _token: '{{ csrf_token() }}',

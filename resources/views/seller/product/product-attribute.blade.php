@@ -1,4 +1,4 @@
-@extends('backend.layouts.master')
+@extends('seller.layouts.master')
 
 @section('content')
     <!-- Page Wrapper -->
@@ -19,7 +19,7 @@
                             </ul>
                         </div>
                     @endif
-                    @include('backend.layouts.notification')
+                    @include('seller.layouts.notification')
                 </div>
                 <!-- Begin Page Content -->
                 <div class="container-fluid">

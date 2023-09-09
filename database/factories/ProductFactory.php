@@ -34,11 +34,12 @@ class ProductFactory extends Factory
             'offer_price' => $this->faker->numberBetween(100, 1000),
             'discount' => $this->faker->numberBetween(100, 1000),
             'brand_id' => $this->faker->randomElement(Brand::pluck('id')->toArray()),
-            'seller_id' => $this->faker->randomElement(User::pluck('id')->toArray()),
+            // 'user_id' => $this->faker->randomElement(User::pluck('id')->toArray()),
             'cat_id' => $this->faker->randomElement(Category::where('is_parent', 1)->pluck('id')->toArray()),
             'child_cat_id' => $this->faker->randomElement(Category::where('is_parent', 0)->pluck('id')->toArray()),
             'condition' => $this->faker->randomElement(['new', 'popular', 'winter']),
             'status' => $this->faker->randomElement(['active', 'inactive']),
+            'added_by' => 'admin'
         ];
     }
 }

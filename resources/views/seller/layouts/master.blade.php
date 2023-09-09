@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    @include('backend.seller.layouts.head')
+    @include('seller.layouts.head')
 </head>
 
 <body id="page-top">
@@ -11,7 +11,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        @include('backend.seller.layouts.sidebar')
+        @include('seller.layouts.sidebar')
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -19,14 +19,14 @@
             <!-- Main Content -->
             <div id="content">
                 <!-- Topbar -->
-                @include('backend.seller.layouts.nav')
+                @include('seller.layouts.nav')
 
                 @yield('content')
 
             </div>
 
             <!-- Footer -->
-            @include('backend.seller.layouts.footer')
+            @include('seller.layouts.footer')
 
         </div>
 
@@ -66,7 +66,7 @@
         </div>
     </footer>
 
-    @include('backend.seller.layouts.footer')
+    @include('seller.layouts.footer')
 </body>
 
 </html>

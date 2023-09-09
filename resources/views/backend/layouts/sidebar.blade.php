@@ -197,6 +197,20 @@
             </div>
         </li>
         <li class="nav-item">
+            <a class="nav-link btn" href="#collapseSeller" data-bs-toggle="collapse" role="button"
+                aria-expanded="false" aria-controls="collapseSeller">
+                <i class="fas fa-user"></i>      
+                <span>Seller Management</span>
+            </a>
+            <div class="collapse" id="collapseSeller">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Seller Management:</h6>
+                    <a class="collapse-item" href="{{ route('seller.index') }}">All seller</a>
+                    {{-- <a class="collapse-item" href="{{ route('user.create') }}">Crate user</a> --}}
+                </div>
+            </div>
+        </li>
+        <li class="nav-item">
             <a class="nav-link btn" href="#collapseComment" data-bs-toggle="collapse" role="button"
                 aria-expanded="false" aria-controls="collapseComment">
                 <i class="fas fa-comments"></i>

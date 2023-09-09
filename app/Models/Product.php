@@ -26,10 +26,11 @@ class Product extends Model
         'photo',
         'size_guide',
         'size',
-        'seller_id',
+        'user_id',
         'cat_id',
         'child_cat_id',
-        'brand_id'
+        'brand_id',
+        'added_by'
     ];
 
     public function brand()

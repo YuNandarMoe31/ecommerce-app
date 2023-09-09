@@ -51,7 +51,8 @@ class UserTableSeeder extends Seeder
                 "status" => "active",
                 "address" => "Yangon",
                 "phone" => "0946777448",
-                "photo" => ""
+                "photo" => "",
+                "is_verified" => 0
             ],
         ]);
     }

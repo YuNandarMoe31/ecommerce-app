@@ -32,13 +32,13 @@ return new class extends Migration
             $table->float('discount')->default(0);
             $table->string('size');
             $table->enum('condition', ['new', 'popular', 'winter'])->default('new');
-            $table->unsignedBigInteger('seller_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->string('added_by')->nullable();
 
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
             $table->foreign('cat_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('child_cat_id')->references('id')->on('categories')->onDelete('SET NULL');
-            $table->foreign('seller_id')->references('id')->on('users')->onDelete('SET NULL');
 
             $table->timestamps();
         });

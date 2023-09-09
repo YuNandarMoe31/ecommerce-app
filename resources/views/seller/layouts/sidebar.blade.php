@@ -5,7 +5,16 @@
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
-            <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+            <div class="sidebar-brand-text ">
+                <span> {{ auth('seller')->user()->full_name }}</span>
+                <span style="font-size: 12px;">
+                    @if(auth('seller')->user()->is_verified)
+                    <i class="fas fa-user-check text-success"  data-toggle="tooltip" title="verified" data-replacement="bottom"></i>
+                    @else
+                    <i class="fas fa-user-times text-danger" data-toggle="tooltip" title="unverified" data-replacement="bottom"></i>
+                    @endif
+                </span>
+            </div>
         </a>
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
@@ -31,8 +40,8 @@
             <div id="collapseProducts" class="collapse">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Products:</h6>
-                    <a class="collapse-item" href="{{ route('product.index') }}">All Products</a>
-                    <a class="collapse-item" href="{{ route('product.create') }}">Create Product</a>
+                    <a class="collapse-item" href="{{ route('seller-product.index') }}">All Products</a>
+                    <a class="collapse-item" href="{{ route('seller-product.create') }}">Create Product</a>
                 </div>
             </div>
         </li>

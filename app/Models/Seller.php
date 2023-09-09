@@ -21,6 +21,7 @@ class Seller extends Authenticatable
         'password',
         'phone',
         'status',
-        'address'
+        'address',
+        'is_verified'
     ];
 }

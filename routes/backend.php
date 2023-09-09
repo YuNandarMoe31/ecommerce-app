@@ -7,12 +7,13 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\SellerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\Auth\Admin\LoginController;
-use App\Http\Controllers\SettingController;
 
 // Admin Login
 Route::group(['prefix' => 'admin'], function() {
@@ -68,8 +69,13 @@ Route::group(['prefix' => 'admin/', 'middleware' => ['admin']], function () {
     // Setting Management
     Route::get('setting', [SettingController::class, 'setting'])->name('setting');
     Route::put('setting', [SettingController::class, 'settingUpdate'])->name('setting.update');
+
+    // Setting Management
+    Route::resource('seller', SellerController::class);
+    Route::post('seller-status', [SellerController::class, 'sellerStatus'])->name('seller.status');
+    Route::post('seller-verified', [SellerController::class, 'sellerVerified'])->name('seller.verified');
 });
 
-Route::group(['prefix' => 'filemanager', 'middleware' => ['web', 'auth:admin']], function () {
+Route::group(['prefix' => 'filemanager', 'middleware' => ['web']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
