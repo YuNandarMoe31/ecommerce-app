@@ -25,9 +25,11 @@ class IndexController extends Controller
     public function home()
     {
         $banners = Banner::where(['status' => 'active', 'condition' => 'banner'])->orderBy('id', 'DESC')->limit('5')->get();
-        $categories = Category::where(['status' => 'active', 'is_parent' => 1])->limit(3)->orderBy('id', 'DESC')->get();
+        $categories = Category::where(['status' => 'active', 'is_parent' => 1])->limit('3')->orderBy('id', 'DESC')->get();
+        $new_products = Product::where(['status' => 'active', 'condition' => 'new'])->limit('8')->orderBy('id', 'DESC')->get();
+        $featured_products = Product::where(['status' => 'active', 'is_featured' => 1])->limit('6')->orderBy('id', 'DESC')->get();
 
-        return view('frontend.index', compact(['banners', 'categories']));
+        return view('frontend.index', compact(['banners', 'categories', 'new_products', 'featured_products']));
     }
 
     public function shop(Request $request)

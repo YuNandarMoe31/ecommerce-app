@@ -30,7 +30,8 @@ class Product extends Model
         'cat_id',
         'child_cat_id',
         'brand_id',
-        'added_by'
+        'added_by',
+        'is_featured'
     ];
 
     public function brand()

@@ -128,7 +128,12 @@
 
                     <div class="shop_grid_product_area">
                         <div class="row justify-content-center" id="product-data">
-                            @include('frontend.layouts._single-product')
+                            @foreach ($products as $product)
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+
+                                    @include('frontend.layouts._single-product', ['product' => $product])
+                                </div>
+                            @endforeach
                         </div>
                     </div>
 
@@ -283,8 +288,7 @@
                                 icon: "success",
                                 button: "ok",
                             });
-                        } 
-                        else if(data['present']) {
+                        } else if (data['present']) {
                             $('body #header-ajax').html(data['header']);
                             $('body #wishlist_counter').html(data['wishlist_count']);
                             swal({
@@ -293,8 +297,7 @@
                                 icon: "warning",
                                 button: "ok",
                             });
-                        }
-                        else {
+                        } else {
                             swal({
                                 title: "Sorry!",
                                 text: "You can't add that prdouct",

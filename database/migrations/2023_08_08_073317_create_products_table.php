@@ -35,6 +35,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->string('added_by')->nullable();
+            $table->boolean('is_featured')->default(0)->nullable();
 
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
             $table->foreign('cat_id')->references('id')->on('categories')->onDelete('cascade');

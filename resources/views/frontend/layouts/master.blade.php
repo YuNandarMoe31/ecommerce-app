@@ -43,10 +43,14 @@
                             <li><span>Email:</span> {{ \App\Models\Setting::value('email') }}</li>
                         </ul>
                         <div class="footer_social_area mt-15">
-                            <a href="{{ \App\Models\Setting::value('facebook_url') }}"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                            <a href="{{ \App\Models\Setting::value('twitter_url') }}"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                            <a href="{{ \App\Models\Setting::value('linkedin_url') }}"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                            <a href="{{ \App\Models\Setting::value('pinterest_url') }}"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                            <a href="{{ \App\Models\Setting::value('facebook_url') }}"><i class="fa fa-facebook"
+                                    aria-hidden="true"></i></a>
+                            <a href="{{ \App\Models\Setting::value('twitter_url') }}"><i class="fa fa-twitter"
+                                    aria-hidden="true"></i></a>
+                            <a href="{{ \App\Models\Setting::value('linkedin_url') }}"><i class="fa fa-linkedin"
+                                    aria-hidden="true"></i></a>
+                            <a href="{{ \App\Models\Setting::value('pinterest_url') }}"><i class="fa fa-pinterest"
+                                    aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
@@ -115,8 +119,7 @@
                             <form action="#" method="post">
                                 <input type="email" name="mail" class="form-control mail"
                                     placeholder="Your E-mail Addrees">
-                                <button type="submit" class="submit"><i
-                                        class="icofont-long-arrow-right"></i></button>
+                                <button type="submit" class="submit"><i class="icofont-long-arrow-right"></i></button>
                             </form>
                         </div>
                     </div>
@@ -153,7 +156,8 @@
                             <img src="{{ asset('frontend/img/payment-method/maestro.png') }}" alt="">
                             <img src="{{ asset('frontend/img/payment-method/western-union.png') }}" alt="">
                             <img src="{{ asset('frontend/img/payment-method/discover.png') }}" alt="">
-                            <img src="{{ asset('frontend/img/payment-method/american-express.png') }}" alt="">
+                            <img src="{{ asset('frontend/img/payment-method/american-express.png') }}"
+                                alt="">
                         </div>
                     </div>
                 </div>
@@ -235,9 +239,9 @@
             })
         });
     </script>
-    
+
     <script>
-        function currency_change(currency_code){
+        function currency_change(currency_code) {
             var path = "{{ route('currency.load') }}";
             var token = "{{ csrf_token() }}";
             var data = {
@@ -255,15 +259,138 @@
                     'Content-Type': 'application/json'
                 },
                 success: function(response) {
-                    if(response['status']) {
+                    if (response['status']) {
                         location.reload();
-                    }
-                    else {
+                    } else {
                         alert('server error');
                     }
                 }
             })
         }
+    </script>
+    {{-- add to cart --}}
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.add_to_cart', function(e) {
+                e.preventDefault();
+                var product_id = $(this).data('product-id');
+                var product_qty = $(this).data('quantity');
+
+                var token = "{{ csrf_token() }}";
+                var path = "{{ route('cart.store') }}";
+                var data = {
+                    product_id: product_id,
+                    product_qty: product_qty,
+                    _token: token,
+                };
+
+                $.ajax({
+                    url: path,
+                    type: "POST",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/json'
+                    },
+                    beforeSend: function() {
+                        $('#add_to_cart' + product_id).html(
+                            '<i class="fa fa-spinner fa-spin"></i> Loading...');
+                    },
+                    complete: function() {
+                        $('#add_to_cart' + product_id).html(
+                            '<i class="fa fa-cart-plus fa-spin"></i> Add to Cart');
+                    },
+                    success: function(data) {
+                        if (data['status']) {
+                            $('body #header-ajax').html(data['header']);
+                            $('body #cart-counter').html(data['cart_count']);
+
+                            swal({
+                                title: "Good job!",
+                                text: data['message'],
+                                icon: "success",
+                                button: "ok",
+                            });
+                        }
+                    },
+                    error: function(err) {
+                        console.log(err);
+                        // Handle error
+                    }
+
+                });
+            });
+        })
+    </script>
+    {{-- add to wishlist --}}
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.add_to_wishlist', function(e) {
+                e.preventDefault();
+                var product_id = $(this).data('id');
+                var product_qty = $(this).data('quantity');
+
+                var token = "{{ csrf_token() }}";
+                var path = "{{ route('wishlist.store') }}";
+                var data = {
+                    product_id: product_id,
+                    product_qty: product_qty,
+                    _token: token,
+                };
+
+                $.ajax({
+                    url: path,
+                    type: "POST",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/json'
+                    },
+                    beforeSend: function() {
+                        $('#add_to_wishlist_' + product_id).html(
+                            '<i class="fa fa-spinner fa-spin"></i>');
+                    },
+                    complete: function() {
+                        $('#add_to_wishlist_' + product_id).html(
+                            '<i class="fa fa-heart"></i>');
+                    },
+                    success: function(data) {
+                        if (data['status']) {
+                            $('body #header-ajax').html(data['header']);
+                            $('body #wishlist_counter').html(data['wishlist_count']);
+                            swal({
+                                title: "Good job!",
+                                text: data['message'],
+                                icon: "success",
+                                button: "ok",
+                            });
+                        } else if (data['present']) {
+                            $('body #header-ajax').html(data['header']);
+                            $('body #wishlist_counter').html(data['wishlist_count']);
+                            swal({
+                                title: "Opps!",
+                                text: data['message'],
+                                icon: "warning",
+                                button: "ok",
+                            });
+                        } else {
+                            swal({
+                                title: "Sorry!",
+                                text: "You can't add that prdouct",
+                                icon: "error",
+                                button: "ok",
+                            });
+                        }
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    }
+
+                });
+            });
+        })
     </script>
 
 </body>
