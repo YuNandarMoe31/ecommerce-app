@@ -65,13 +65,13 @@
                             <div class="col-12 col-lg-5">
                                 <div class="quickview_pro_img">
                                     @php
-                                        $photo = explode(',', $new_product->photo);
+                                        $photo = explode(',', $product->photo);
                                     @endphp
                                     <!-- Product Image -->
-                                    <img class="normal_img" src="{{ $photo[0] }}" alt="{{ $new_product->title }}">
+                                    <img class="normal_img" src="{{ $photo[0] }}" alt="{{ $product->title }}">
                                     <!-- Product Badge -->
                                     <div class="product_badge">
-                                        <span>{{ $new_product->condition }}</span>
+                                        <span>{{ $product->condition }}</span>
                                     </div>
                                 </div>
                             </div>

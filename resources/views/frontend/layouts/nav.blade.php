@@ -32,9 +32,8 @@
                                     Helpers::currency_load();
                                     $currency_code = session('currency_code');
                                     $currency_symbol = session('currency_symbol');
-
-                                    if($currency_symbol=='') {
-
+                                    
+                                    if ($currency_symbol == '') {
                                         $system_default_currency_info = session('system_default_currency_info');
                                         $currency_symbol = $system_default_currency_info->symbol;
                                         $curreycy_code = $system_default_currency_info->code;
@@ -46,7 +45,9 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
                                     @foreach (\App\Models\Currency::where('status', 'active')->get() as $currency)
-                                        <a class="dropdown-item" href="javascript::" onclick="currency_change('{{ $currency['code'] }}')">{{ $currency->symbol }} {{ $currency->code }}</a>
+                                        <a class="dropdown-item" href="javascript::"
+                                            onclick="currency_change('{{ $currency['code'] }}')">{{ $currency->symbol }}
+                                            {{ $currency->code }}</a>
                                     @endforeach
                                 </div>
                             </div>
@@ -139,7 +140,8 @@
                             <!-- Form -->
                             <form action="{{ route('search') }}" method="GET">
                                 <div class="search-form d-flex">
-                                    <input type="search" id="search_text" name="query" class="form-control" placeholder="Search">
+                                    <input type="search" id="search_text" name="query" class="form-control"
+                                        placeholder="Search">
                                     <button type="submit" class="btn btn-primary" value="Send">Send</button>
                                 </div>
                             </form>
@@ -197,7 +199,7 @@
                                         @if (session()->has('coupon') && is_numeric(session('coupon')['value']))
                                             <li>
                                                 <span>Discount:</span>
-                                                <span>-$ {{ number_format(session('coupon')['value'],2) }}</span>
+                                                <span>-$ {{ number_format(session('coupon')['value'], 2) }}</span>
 
                                             </li>
                                         @endif

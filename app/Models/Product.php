@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Brand;
+use App\Models\ProductReview;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -61,5 +62,10 @@ class Product extends Model
     public function orders()
     {
         return $this->belongsToMany(Order::class, 'product_orders')->withPivot('quantity');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(ProductReview::class);
     }
 }

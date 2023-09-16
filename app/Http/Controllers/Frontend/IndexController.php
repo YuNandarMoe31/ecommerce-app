@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Models\User;
 use App\Models\Brand;
+use App\Models\Order;
 use App\Models\Banner;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\ProductOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -25,11 +28,36 @@ class IndexController extends Controller
     public function home()
     {
         $banners = Banner::where(['status' => 'active', 'condition' => 'banner'])->orderBy('id', 'DESC')->limit('5')->get();
+        $promo_banner = Banner::where(['status' => 'active', 'condition' => 'promo'])->orderBy('id', 'DESC')->first();
         $categories = Category::where(['status' => 'active', 'is_parent' => 1])->limit('3')->orderBy('id', 'DESC')->get();
         $new_products = Product::where(['status' => 'active', 'condition' => 'new'])->limit('8')->orderBy('id', 'DESC')->get();
         $featured_products = Product::where(['status' => 'active', 'is_featured' => 1])->limit('6')->orderBy('id', 'DESC')->get();
+        $brands = Brand::where(['status' => 'active'])->limit('6')->orderBy('id', 'DESC')->get();
 
-        return view('frontend.index', compact(['banners', 'categories', 'new_products', 'featured_products']));
+        // best seller 
+        $items = DB::table('product_orders')->select('product_id',DB::raw('COUNT(product_id) as count'))->groupBy('product_id')->orderBy('count', 'desc')->get();
+        $product_ids = [];
+        foreach($items as $item) {
+            array_push($product_ids, $item->product_id);
+        }
+        $idsImplodedSeller = implode(',', array_fill(0, count($product_ids), '?'));
+
+        $best_sellers = Product::whereIn('id', $product_ids)
+        ->orderByRaw(DB::raw("FIELD(id, $idsImplodedSeller)"), $product_ids)
+        ->get();
+
+        // top rated
+        $item_rated = DB::table('product_reviews')->select('product_id', DB::raw('AVG(rate) as count'))->groupBy('product_id')->orderBy('count', 'desc')->get();
+        $product_ids = [];
+        foreach($item_rated as $item) {
+            array_push($product_ids, $item->product_id);
+        }
+        $idsImploded = implode(',', array_fill(0, count($product_ids), '?'));
+
+        $best_rated = Product::whereIn('id', $product_ids)
+        ->orderByRaw(DB::raw("FIELD(id, $idsImploded)"), $product_ids)
+        ->get();
+        return view('frontend.index', compact(['banners', 'categories', 'new_products', 'featured_products', 'promo_banner', 'brands', 'best_sellers', 'best_rated']));
     }
 
     public function shop(Request $request)

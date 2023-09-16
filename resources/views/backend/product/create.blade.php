@@ -57,7 +57,7 @@
                                 <label for="description">Description</label>
                                 <textarea type="text" class="form-control" id="description" placeholder="Description" name="description">{{ old('description') }}</textarea>
                             </div>
-                            
+
                             <div class="form-group col-md-12">
                                 <label for="stock">Stock <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" id="stock" placeholder="Stock" name="stock"
@@ -70,8 +70,8 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="discount">Discount</label>
-                                <input type="number" min="0" max="100" step="any" class="form-control" id="discount"
-                                    placeholder="Discount" name="discount" value="{{ old('discount') }}">
+                                <input type="number" min="0" max="100" step="any" class="form-control"
+                                    id="discount" placeholder="Discount" name="discount" value="{{ old('discount') }}">
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="description">Photo <span class="text-danger">*</span></label>
@@ -106,11 +106,13 @@
                                 <select id="brand_id" name="brand_id" class="form-control">
                                     <option selected>Brands</option>
                                     @foreach (\App\Models\Brand::get() as $brand)
-                                        <option value="{{ $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>{{ $brand->title }}</option>
+                                        <option value="{{ $brand->id }}"
+                                            {{ old('brand_id') == $brand->id ? 'selected' : '' }}>{{ $brand->title }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-4">
+                            {{-- <div class="form-group col-md-4">
                                 <label for="seller_id">Seller</label>
                                 <select id="seller_id" name="seller_id" class="form-control">
                                     <option selected>Seller</option>
@@ -118,7 +120,7 @@
                                         <option value="{{ $seller->id }}" {{ old('seller_id') == $seller->id ? 'selected' : '' }}>{{ $seller->full_name }}</option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> --}}
                             <div class="form-group col-md-4">
                                 <label for="size">Size</label>
                                 <select id="size" name="size" class="form-control">
@@ -140,14 +142,16 @@
                                 <select id="cat_id" name="cat_id" class="form-control">
                                     <option selected>Category</option>
                                     @foreach (\App\Models\Category::where('is_parent', 1)->get() as $category)
-                                        <option value="{{ $category->id }}" {{ old('cat_id') == $category->id ? 'selected' : '' }}>{{ $category->title }}</option>
+                                        <option value="{{ $category->id }}"
+                                            {{ old('cat_id') == $category->id ? 'selected' : '' }}>{{ $category->title }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-md-6 d-none" id="child_cat_div">
                                 <label for="child_cat_id">Child Category</label>
                                 <select id="child_cat_id" name="child_cat_id" class="form-control">
-                                    
+
                                 </select>
                             </div>
                         </div>
@@ -176,12 +180,14 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="additional_info">Additional Info</label>
-                                <textarea type="text" class="description form-control" id="additional_info" placeholder="Additional Info" name="additional_info">{{ old('additional_info') }}</textarea>
+                                <textarea type="text" class="description form-control" id="additional_info" placeholder="Additional Info"
+                                    name="additional_info">{{ old('additional_info') }}</textarea>
                             </div>
 
                             <div class="form-group col-md-12">
                                 <label for="return_cancellation">Return Cancellation</label>
-                                <textarea type="text" class="description form-control" id="return_cancellation" placeholder="Return Cancellation" name="return_cancellation">{{ old('return_cancellation') }}</textarea>
+                                <textarea type="text" class="description form-control" id="return_cancellation" placeholder="Return Cancellation"
+                                    name="return_cancellation">{{ old('return_cancellation') }}</textarea>
                             </div>
 
 
@@ -211,9 +217,9 @@
     <script>
         $('#cat_id').change(function() {
             var cat_id = $(this).val();
-            if(cat_id != null) {
+            if (cat_id != null) {
                 $.ajax({
-                    url: "/admin/category/"+cat_id+"/child",
+                    url: "/admin/category/" + cat_id + "/child",
                     type: "POST",
                     data: {
                         _token: "{{ csrf_token() }}",
@@ -221,13 +227,13 @@
                     },
                     success: function(response) {
                         var html_option = "<option value=''>Child Category</option>";
-                        if(response.status) {
+                        if (response.status) {
                             $('#child_cat_div').removeClass('d-none');
                             $.each(response.data, function(id, title) {
-                                html_option += "<option value='"+id+"'>"+title+"</option>"
+                                html_option += "<option value='" + id + "'>" + title +
+                                    "</option>"
                             });
-                        }
-                        else {
+                        } else {
                             $('#child_cat_div').addClass('d-none');
                         }
                         $('#child_cat_id').html(html_option);
