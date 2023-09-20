@@ -1,7 +1,8 @@
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <!-- Sidebar - Brand -->
-        <a href="{{ route('admin') }}" class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <a href="{{ route('admin') }}" class="sidebar-brand d-flex align-items-center justify-content-center"
+            href="index.html">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
@@ -11,9 +12,14 @@
         <hr class="sidebar-divider my-0">
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="{{ route('admin') }}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ route('about.index') }}">
+                <i class="fas fa-fw fa-info"></i>
+                <span>About Us</span></a>
         </li>
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -77,8 +83,8 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link btn" href="#collapseShipping" data-bs-toggle="collapse" role="button" aria-expanded="false"
-                aria-controls="collapseShipping">
+            <a class="nav-link btn" href="#collapseShipping" data-bs-toggle="collapse" role="button"
+                aria-expanded="false" aria-controls="collapseShipping">
                 <i class="fas fa-truck"></i>
                 <span>Shipping Management</span>
             </a>
@@ -91,8 +97,8 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link btn" href="#collapseCurrency" data-bs-toggle="collapse" role="button" aria-expanded="false"
-                aria-controls="collapseCurrency">
+            <a class="nav-link btn" href="#collapseCurrency" data-bs-toggle="collapse" role="button"
+                aria-expanded="false" aria-controls="collapseCurrency">
                 <i class="fas fa-money-bill-alt"></i>
                 <span>Currency Management</span>
             </a>
@@ -105,8 +111,7 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link btn" href="{{ route('order.index') }}" 
-                >
+            <a class="nav-link btn" href="{{ route('order.index') }}">
                 <i class="fas fa-store"></i>
                 <span>Order Management</span>
             </a>
@@ -115,7 +120,7 @@
         <li class="nav-item">
             <a class="nav-link btn" href="#collapsePostCategory" data-bs-toggle="collapse" role="button"
                 aria-expanded="false" aria-controls="collapsePostCategory">
-                <i class="fas fa-sitemap"></i> 
+                <i class="fas fa-sitemap"></i>
                 <span>Post Category</span>
             </a>
             <div class="collapse" id="collapsePostCategory">
@@ -129,7 +134,7 @@
         <li class="nav-item">
             <a class="nav-link btn" href="#collapsePostTag" data-bs-toggle="collapse" role="button"
                 aria-expanded="false" aria-controls="collapsePostTag">
-                <i class="fas fa-tags"></i>                
+                <i class="fas fa-tags"></i>
                 <span>Post Tag</span>
             </a>
             <div class="collapse" id="collapsePostTag">
@@ -157,7 +162,7 @@
         <li class="nav-item">
             <a class="nav-link btn" href="#collapseReview" data-bs-toggle="collapse" role="button"
                 aria-expanded="false" aria-controls="collapseReview">
-                <i class="far fa-star"></i>          
+                <i class="far fa-star"></i>
                 <span>Review Management</span>
             </a>
             <div class="collapse" id="collapseReview">
@@ -171,7 +176,7 @@
         <li class="nav-item">
             <a class="nav-link btn" href="#collapseCoupon" data-bs-toggle="collapse" role="button"
                 aria-expanded="false" aria-controls="collapseCoupon">
-                <i class="fas fa-ticket-alt"></i>            
+                <i class="fas fa-ticket-alt"></i>
                 <span>Coupon Management</span>
             </a>
             <div class="collapse" id="collapseCoupon">
@@ -185,7 +190,7 @@
         <li class="nav-item">
             <a class="nav-link btn" href="#collapseUser" data-bs-toggle="collapse" role="button"
                 aria-expanded="false" aria-controls="collapseUser">
-                <i class="fas fa-users"></i>      
+                <i class="fas fa-users"></i>
                 <span>User Management</span>
             </a>
             <div class="collapse" id="collapseUser">
@@ -199,7 +204,7 @@
         <li class="nav-item">
             <a class="nav-link btn" href="#collapseSeller" data-bs-toggle="collapse" role="button"
                 aria-expanded="false" aria-controls="collapseSeller">
-                <i class="fas fa-user"></i>      
+                <i class="fas fa-user"></i>
                 <span>Seller Management</span>
             </a>
             <div class="collapse" id="collapseSeller">
@@ -227,7 +232,7 @@
         <li class="nav-item">
             <a class="nav-link btn" href="{{ route('setting') }}">
                 <i class="fas fa-cog"></i>
-                <span>Settings</span>
+                <span>General Settings</span>
             </a>
         </li>
         <!-- Divider -->

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutusController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
@@ -24,6 +25,9 @@ Route::group(['prefix' => 'admin'], function() {
 // Admin Dashboard
 Route::group(['prefix' => 'admin/', 'middleware' => ['admin']], function () {
     Route::get('/home', [AdminController::class, 'admin'])->name('admin');
+
+    Route::get('/about-us', [AboutusController::class, 'aboutUs'])->name('about.index');
+    Route::put('/aboutus-update', [AboutusController::class, 'aboutUpdate'])->name('about.update');
 
     // Banner Management
     Route::resource('banner', BannerController::class);

@@ -118,205 +118,213 @@
 
     <!-- Best Rated/Onsale/Top Sale Product Area -->
     <section class="best_rated_onsale_top_sellares section_padding_100_70">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="tabs_area">
-                        <!-- Tabs -->
-                        <ul class="nav nav-tabs" role="tablist" id="product-tab">
-                            <li class="nav-item">
-                                <a href="#top-sellers" class="nav-link" data-toggle="tab" role="tab">Top
-                                    Sellers</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#best-rated" class="nav-link" data-toggle="tab" role="tab">Best
-                                    Rated</a>
-                            </li>
-                            {{-- <li class="nav-item">
+        @if (count($best_sellers) > 0 || count($best_rated) > 0)
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="tabs_area">
+                            <!-- Tabs -->
+                            <ul class="nav nav-tabs" role="tablist" id="product-tab">
+                                <li class="nav-item">
+                                    <a href="#top-sellers" class="nav-link" data-toggle="tab" role="tab">Top
+                                        Sellers</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#best-rated" class="nav-link" data-toggle="tab" role="tab">Best
+                                        Rated</a>
+                                </li>
+                                {{-- <li class="nav-item">
                                 <a href="#on-sale" class="nav-link active" data-toggle="tab" role="tab">On
                                     Sale</a>
                             </li> --}}
-                        </ul>
+                            </ul>
 
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane fade" id="top-sellers">
-                                <div class="top_sellers_area">
-                                    <div class="row">
-                                        @foreach ($best_sellers as $product)
-                                            <div class="col-12 col-sm-6 col-lg-4">
-                                                <div class="single_top_sellers">
-                                                    <div class="top_seller_image">
-                                                        @php
-                                                            $photo = explode(',', $product->photo);
-                                                        @endphp
-                                                        <img src="{{ asset($photo[0]) }}" alt="Top-Sellers">
-                                                    </div>
-                                                    <div class="top_seller_desc">
-                                                        <h5>{{ ucfirst($product->title) }}</h5>
-                                                        <h6>{{ Helpers::currency_converter($product->offer_price) }}
-                                                            <span>{{ Helpers::currency_converter($product->price) }}</span>
-                                                        </h6>
-                                                        <div class="top_seller_product_rating">
-                                                            @for ($i = 0; $i < 5; $i++)
-                                                                @if (round($product->reviews->avg('rate')) > $i)
-                                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                                @else
-                                                                    <i class="far fa-star" aria-hidden="true"></i>
-                                                                @endif
-                                                            @endfor
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade" id="top-sellers">
+                                    <div class="top_sellers_area">
+                                        <div class="row">
+                                            @foreach ($best_sellers as $product)
+                                                <div class="col-12 col-sm-6 col-lg-4">
+                                                    <div class="single_top_sellers">
+                                                        <div class="top_seller_image">
+                                                            @php
+                                                                $photo = explode(',', $product->photo);
+                                                            @endphp
+                                                            <img src="{{ asset($photo[0]) }}" alt="Top-Sellers">
                                                         </div>
+                                                        <div class="top_seller_desc">
+                                                            <h5>{{ ucfirst($product->title) }}</h5>
+                                                            <h6>{{ Helpers::currency_converter($product->offer_price) }}
+                                                                <span>{{ Helpers::currency_converter($product->price) }}</span>
+                                                            </h6>
+                                                            <div class="top_seller_product_rating">
+                                                                @for ($i = 0; $i < 5; $i++)
+                                                                    @if (round($product->reviews->avg('rate')) > $i)
+                                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                                    @else
+                                                                        <i class="far fa-star" aria-hidden="true"></i>
+                                                                    @endif
+                                                                @endfor
+                                                            </div>
 
-                                                        <!-- Info -->
-                                                        <div
-                                                            class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
-                                                            <!-- Add to cart -->
-                                                            <div class="ts_product_add_to_cart">
-                                                                <a href="javascript::void(0)" data-quantity="1"
-                                                                    data-product-id="{{ $product->id }}"
-                                                                    class="add_to_cart"
-                                                                    id="add_to_cart{{ $product->id }}"><i
-                                                                        class="icofont-shopping-cart"></i></a>
-                                                                {{-- <a href="#" data-toggle="tooltip"
+                                                            <!-- Info -->
+                                                            <div
+                                                                class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
+                                                                <!-- Add to cart -->
+                                                                <div class="ts_product_add_to_cart">
+                                                                    <a href="javascript::void(0)" data-quantity="1"
+                                                                        data-product-id="{{ $product->id }}"
+                                                                        class="add_to_cart"
+                                                                        id="add_to_cart{{ $product->id }}"><i
+                                                                            class="icofont-shopping-cart"></i></a>
+                                                                    {{-- <a href="#" data-toggle="tooltip"
                                                                     data-placement="top" title="Add To Cart"><i
                                                                         class="icofont-shopping-cart"></i></a> --}}
-                                                            </div>
+                                                                </div>
 
-                                                            <!-- Wishlist -->
-                                                            <div class="ts_product_wishlist">
-                                                                <a href="javascript:void(0)" class="add_to_wishlist"
-                                                                    data-quantity="1" data-id="{{ $product->id }}"
-                                                                    id="add_to_wishlist_{{ $product->id }}"><i
-                                                                        class="icofont-heart"></i></a>
-                                                            </div>
+                                                                <!-- Wishlist -->
+                                                                <div class="ts_product_wishlist">
+                                                                    <a href="javascript:void(0)" class="add_to_wishlist"
+                                                                        data-quantity="1" data-id="{{ $product->id }}"
+                                                                        id="add_to_wishlist_{{ $product->id }}"><i
+                                                                            class="icofont-heart"></i></a>
+                                                                </div>
 
-                                                            <!-- Compare -->
-                                                            {{-- <div class="ts_product_compare">
+                                                                <!-- Compare -->
+                                                                {{-- <div class="ts_product_compare">
                                                                 <a href="compare.html" data-toggle="tooltip"
                                                                     data-placement="top" title="Compare"><i
                                                                         class="icofont-exchange"></i></a>
                                                             </div> --}}
 
-                                                            <!-- Quick View -->
-                                                            <div class="ts_product_quick_view">
-                                                                <a href="#" data-toggle="modal"
-                                                                    data-target="#quickview{{ $product->id }}"><i
-                                                                        class="icofont-eye-alt"></i> </a>
-                                                            </div>
-                                                            <!-- Quick View Modal Area -->
-                                                            <div class="modal fade" id="quickview{{ $product->id }}"
-                                                                tabindex="-1" role="dialog" data-backdrop="false"
-                                                                aria-labelledby="quickview" aria-hidden="true"
-                                                                style="background:rgba(0,0,0,0.5);z-index:99;">
-                                                                <div class="modal-dialog modal-lg modal-dialog-centered"
-                                                                    role="document">
-                                                                    <div class="modal-content">
-                                                                        <button type="button" class="close btn"
-                                                                            data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                        <div class="modal-body">
-                                                                            <div class="quickview_body">
-                                                                                <div class="container">
-                                                                                    <div class="row">
-                                                                                        <div class="col-12 col-lg-5">
-                                                                                            <div class="quickview_pro_img">
-                                                                                                @php
-                                                                                                    $photo = explode(',', $new_product->photo);
-                                                                                                @endphp
-                                                                                                <!-- Product Image -->
-                                                                                                <img class="normal_img"
-                                                                                                    src="{{ $photo[0] }}"
-                                                                                                    alt="{{ $new_product->title }}">
-                                                                                                <!-- Product Badge -->
-                                                                                                <div class="product_badge">
-                                                                                                    <span>{{ $new_product->condition }}</span>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="col-12 col-lg-7">
-                                                                                            <div class="quickview_pro_des">
-                                                                                                <h4 class="title">
-                                                                                                    {{ $product->title }}
-                                                                                                </h4>
+                                                                <!-- Quick View -->
+                                                                <div class="ts_product_quick_view">
+                                                                    <a href="#" data-toggle="modal"
+                                                                        data-target="#quickview{{ $product->id }}"><i
+                                                                            class="icofont-eye-alt"></i> </a>
+                                                                </div>
+                                                                <!-- Quick View Modal Area -->
+                                                                <div class="modal fade" id="quickview{{ $product->id }}"
+                                                                    tabindex="-1" role="dialog" data-backdrop="false"
+                                                                    aria-labelledby="quickview" aria-hidden="true"
+                                                                    style="background:rgba(0,0,0,0.5);z-index:99;">
+                                                                    <div class="modal-dialog modal-lg modal-dialog-centered"
+                                                                        role="document">
+                                                                        <div class="modal-content">
+                                                                            <button type="button" class="close btn"
+                                                                                data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                            <div class="modal-body">
+                                                                                <div class="quickview_body">
+                                                                                    <div class="container">
+                                                                                        <div class="row">
+                                                                                            <div class="col-12 col-lg-5">
                                                                                                 <div
-                                                                                                    class="top_seller_product_rating mb-15">
-                                                                                                    @for ($i = 0; $i < 5; $i++)
-                                                                                                        @if (round($product->reviews->avg('rate')) > $i)
-                                                                                                            <i class="fa fa-star"
-                                                                                                                aria-hidden="true"></i>
-                                                                                                        @else
-                                                                                                            <i class="far fa-star"
-                                                                                                                aria-hidden="true"></i>
-                                                                                                        @endif
-                                                                                                    @endfor
-
+                                                                                                    class="quickview_pro_img">
+                                                                                                    @php
+                                                                                                        $photo = explode(',', $new_product->photo);
+                                                                                                    @endphp
+                                                                                                    <!-- Product Image -->
+                                                                                                    <img class="normal_img"
+                                                                                                        src="{{ $photo[0] }}"
+                                                                                                        alt="{{ $new_product->title }}">
+                                                                                                    <!-- Product Badge -->
+                                                                                                    <div
+                                                                                                        class="product_badge">
+                                                                                                        <span>{{ $new_product->condition }}</span>
+                                                                                                    </div>
                                                                                                 </div>
-                                                                                                <h6 class="price">$
-                                                                                                    {{ number_format($product->offer_price, 2) }}
-                                                                                                    <small
-                                                                                                        class="text-danger"><del>{{ number_format($product->price, 2) }}</del></small>
-                                                                                                </h6>
-                                                                                                <p>{{ $product->summary }}
-                                                                                                </p>
-                                                                                                <a
-                                                                                                    href="{{ route('product.detail', $product->slug) }}">View
-                                                                                                    Full Product
-                                                                                                    Details</a>
                                                                                             </div>
-                                                                                            <!-- Add to Cart Form -->
-                                                                                            <form class="cart"
-                                                                                                method="post">
-                                                                                                {{-- <div class="quantity">
+                                                                                            <div class="col-12 col-lg-7">
+                                                                                                <div
+                                                                                                    class="quickview_pro_des">
+                                                                                                    <h4 class="title">
+                                                                                                        {{ $product->title }}
+                                                                                                    </h4>
+                                                                                                    <div
+                                                                                                        class="top_seller_product_rating mb-15">
+                                                                                                        @for ($i = 0; $i < 5; $i++)
+                                                                                                            @if (round($product->reviews->avg('rate')) > $i)
+                                                                                                                <i class="fa fa-star"
+                                                                                                                    aria-hidden="true"></i>
+                                                                                                            @else
+                                                                                                                <i class="far fa-star"
+                                                                                                                    aria-hidden="true"></i>
+                                                                                                            @endif
+                                                                                                        @endfor
+
+                                                                                                    </div>
+                                                                                                    <h6 class="price">$
+                                                                                                        {{ number_format($product->offer_price, 2) }}
+                                                                                                        <small
+                                                                                                            class="text-danger"><del>{{ number_format($product->price, 2) }}</del></small>
+                                                                                                    </h6>
+                                                                                                    <p>{{ $product->summary }}
+                                                                                                    </p>
+                                                                                                    <a
+                                                                                                        href="{{ route('product.detail', $product->slug) }}">View
+                                                                                                        Full Product
+                                                                                                        Details</a>
+                                                                                                </div>
+                                                                                                <!-- Add to Cart Form -->
+                                                                                                <form class="cart"
+                                                                                                    method="post">
+                                                                                                    {{-- <div class="quantity">
                                         <input type="number" class="qty-text" id="qty" step="1"
                                             min="1" max="12" name="quantity" value="1">
                                     </div> --}}
-                                                                                                <a href="#"
-                                                                                                    data-quantity="1"
-                                                                                                    data-product-id="{{ $product->id }}"
-                                                                                                    class="add_to_cart"
-                                                                                                    id="add_to_cart{{ $product->id }}"><i
-                                                                                                        class="icofont-shopping-cart"></i>
-                                                                                                    Add to
-                                                                                                    Cart</a>
-                                                                                                <!-- Wishlist -->
-                                                                                                <div
-                                                                                                    class="modal_pro_wishlist">
-                                                                                                    <a href="javascript:void(0)"
-                                                                                                        class="add_to_wishlist"
+                                                                                                    <a href="#"
                                                                                                         data-quantity="1"
-                                                                                                        data-id="{{ $product->id }}"
-                                                                                                        id="add_to_wishlist_{{ $product->id }}"><i
-                                                                                                            class="icofont-heart"></i></a>
-                                                                                                </div>
-                                                                                                <!-- Compare -->
+                                                                                                        data-product-id="{{ $product->id }}"
+                                                                                                        class="add_to_cart"
+                                                                                                        id="add_to_cart{{ $product->id }}"><i
+                                                                                                            class="icofont-shopping-cart"></i>
+                                                                                                        Add to
+                                                                                                        Cart</a>
+                                                                                                    <!-- Wishlist -->
+                                                                                                    <div
+                                                                                                        class="modal_pro_wishlist">
+                                                                                                        <a href="javascript:void(0)"
+                                                                                                            class="add_to_wishlist"
+                                                                                                            data-quantity="1"
+                                                                                                            data-id="{{ $product->id }}"
+                                                                                                            id="add_to_wishlist_{{ $product->id }}"><i
+                                                                                                                class="icofont-heart"></i></a>
+                                                                                                    </div>
+                                                                                                    <!-- Compare -->
+                                                                                                    <div
+                                                                                                        class="modal_pro_compare">
+                                                                                                        <a
+                                                                                                            href="compare.html"><i
+                                                                                                                class="icofont-exchange"></i></a>
+                                                                                                    </div>
+                                                                                                </form>
+                                                                                                <!-- Share -->
                                                                                                 <div
-                                                                                                    class="modal_pro_compare">
-                                                                                                    <a href="compare.html"><i
-                                                                                                            class="icofont-exchange"></i></a>
-                                                                                                </div>
-                                                                                            </form>
-                                                                                            <!-- Share -->
-                                                                                            <div class="share_wf mt-30">
-                                                                                                <p>Share with friends</p>
-                                                                                                <div class="_icon">
-                                                                                                    <a href="#"><i
-                                                                                                            class="fa fa-facebook"
-                                                                                                            aria-hidden="true"></i></a>
-                                                                                                    <a href="#"><i
-                                                                                                            class="fa fa-twitter"
-                                                                                                            aria-hidden="true"></i></a>
-                                                                                                    <a href="#"><i
-                                                                                                            class="fa fa-pinterest"
-                                                                                                            aria-hidden="true"></i></a>
-                                                                                                    <a href="#"><i
-                                                                                                            class="fa fa-linkedin"
-                                                                                                            aria-hidden="true"></i></a>
-                                                                                                    <a href="#"><i
-                                                                                                            class="fa fa-instagram"
-                                                                                                            aria-hidden="true"></i></a>
-                                                                                                    <a href="#"><i
-                                                                                                            class="fa fa-envelope-o"
-                                                                                                            aria-hidden="true"></i></a>
+                                                                                                    class="share_wf mt-30">
+                                                                                                    <p>Share with friends
+                                                                                                    </p>
+                                                                                                    <div class="_icon">
+                                                                                                        <a href="#"><i
+                                                                                                                class="fa fa-facebook"
+                                                                                                                aria-hidden="true"></i></a>
+                                                                                                        <a href="#"><i
+                                                                                                                class="fa fa-twitter"
+                                                                                                                aria-hidden="true"></i></a>
+                                                                                                        <a href="#"><i
+                                                                                                                class="fa fa-pinterest"
+                                                                                                                aria-hidden="true"></i></a>
+                                                                                                        <a href="#"><i
+                                                                                                                class="fa fa-linkedin"
+                                                                                                                aria-hidden="true"></i></a>
+                                                                                                        <a href="#"><i
+                                                                                                                class="fa fa-instagram"
+                                                                                                                aria-hidden="true"></i></a>
+                                                                                                        <a href="#"><i
+                                                                                                                class="fa fa-envelope-o"
+                                                                                                                aria-hidden="true"></i></a>
+                                                                                                    </div>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -330,406 +338,86 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        @endforeach
+                                            @endforeach
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div role="tabpanel" class="tab-pane fade" id="best-rated">
-                                <div class="best_rated_area">
-                                    <div class="row">
-                                        @foreach ($best_rated as $product)
-                                            <div class="col-12 col-sm-6 col-lg-4">
-                                                <div class="single_top_sellers">
-                                                    <div class="top_seller_image">
-                                                        @php
-                                                            $photo = explode(',', $product->photo);
-                                                        @endphp
-                                                        <img src="{{ asset($photo[0]) }}" alt="Top-Rated">
-                                                    </div>
-                                                    <div class="top_seller_desc">
-                                                        <h5>{{ ucfirst($product->title) }}</h5>
-                                                        <h6>{{ Helpers::currency_converter($product->offer_price) }}
-                                                            <span>{{ Helpers::currency_converter($product->price) }}</span>
-                                                        </h6>
-                                                        <div class="top_seller_product_rating">
-                                                            @for ($i = 0; $i < 5; $i++)
-                                                                @if (round($product->reviews->avg('rate')) > $i)
-                                                                    <i class="fa fa-star"
-                                                                        aria-hidden="true"></i>
-                                                                @else
-                                                                    <i class="far fa-star"
-                                                                        aria-hidden="true"></i>
-                                                                @endif
-                                                            @endfor
+                                <div role="tabpanel" class="tab-pane fade" id="best-rated">
+                                    <div class="best_rated_area">
+                                        <div class="row">
+                                            @foreach ($best_rated as $product)
+                                                <div class="col-12 col-sm-6 col-lg-4">
+                                                    <div class="single_top_sellers">
+                                                        <div class="top_seller_image">
+                                                            @php
+                                                                $photo = explode(',', $product->photo);
+                                                            @endphp
+                                                            <img src="{{ asset($photo[0]) }}" alt="Top-Rated">
                                                         </div>
-
-                                                        <!-- Info -->
-                                                        <div
-                                                            class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
-                                                            <!-- Add to cart -->
-                                                            <div class="ts_product_add_to_cart">
-                                                                <a href="#" data-quantity="1"
-                                                                    data-product-id="{{ $product->id }}"
-                                                                    class="add_to_cart"
-                                                                    id="add_to_cart{{ $product->id }}"><i
-                                                                        class="icofont-shopping-cart"></i> </a>
+                                                        <div class="top_seller_desc">
+                                                            <h5>{{ ucfirst($product->title) }}</h5>
+                                                            <h6>{{ Helpers::currency_converter($product->offer_price) }}
+                                                                <span>{{ Helpers::currency_converter($product->price) }}</span>
+                                                            </h6>
+                                                            <div class="top_seller_product_rating">
+                                                                @for ($i = 0; $i < 5; $i++)
+                                                                    @if (round($product->reviews->avg('rate')) > $i)
+                                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                                    @else
+                                                                        <i class="far fa-star" aria-hidden="true"></i>
+                                                                    @endif
+                                                                @endfor
                                                             </div>
 
-                                                            <!-- Wishlist -->
-                                                            <div class="ts_product_wishlist">
-                                                                <a href="javascript:void(0)" class="add_to_wishlist"
-                                                                    data-quantity="1" data-id="{{ $product->id }}"
-                                                                    id="add_to_wishlist_{{ $product->id }}"><i
-                                                                        class="icofont-heart"></i></a>
-                                                            </div>
+                                                            <!-- Info -->
+                                                            <div
+                                                                class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
+                                                                <!-- Add to cart -->
+                                                                <div class="ts_product_add_to_cart">
+                                                                    <a href="#" data-quantity="1"
+                                                                        data-product-id="{{ $product->id }}"
+                                                                        class="add_to_cart"
+                                                                        id="add_to_cart{{ $product->id }}"><i
+                                                                            class="icofont-shopping-cart"></i> </a>
+                                                                </div>
 
-                                                            <!-- Compare -->
-                                                            {{-- <div class="ts_product_compare">
+                                                                <!-- Wishlist -->
+                                                                <div class="ts_product_wishlist">
+                                                                    <a href="javascript:void(0)" class="add_to_wishlist"
+                                                                        data-quantity="1" data-id="{{ $product->id }}"
+                                                                        id="add_to_wishlist_{{ $product->id }}"><i
+                                                                            class="icofont-heart"></i></a>
+                                                                </div>
+
+                                                                <!-- Compare -->
+                                                                {{-- <div class="ts_product_compare">
                                                                 <a href="compare.html" data-toggle="tooltip"
                                                                     data-placement="top" title="Compare"><i
                                                                         class="icofont-exchange"></i></a>
                                                             </div> --}}
 
-                                                            <!-- Quick View -->
-                                                            <div class="ts_product_quick_view">
-                                                                <a href="#" data-toggle="modal"
-                                                                    data-target="#quickview{{ $product->id }}"><i
-                                                                        class="icofont-eye-alt"></i> </a>
+                                                                <!-- Quick View -->
+                                                                <div class="ts_product_quick_view">
+                                                                    <a href="#" data-toggle="modal"
+                                                                        data-target="#quickview{{ $product->id }}"><i
+                                                                            class="icofont-eye-alt"></i> </a>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        @endforeach
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-                            {{-- <div role="tabpanel" class="tab-pane fade show active" id="on-sale">
-                                <div class="on_sale_area">
-                                    <div class="row">
-                                        <div class="col-12 col-sm-6 col-lg-4">
-                                            <div class="single_top_sellers">
-                                                <div class="top_seller_image">
-                                                    <img src="{{ asset('frontend/img/product-img/onsale-1.png') }}"
-                                                        alt="Top-Sellers">
-                                                </div>
-                                                <div class="top_seller_desc">
-                                                    <h5>Speaker</h5>
-                                                    <h6>$60 <span>$70</span></h6>
-                                                    <div class="top_seller_product_rating">
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                    </div>
-
-                                                    <!-- Info -->
-                                                    <div
-                                                        class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
-                                                        <!-- Add to cart -->
-                                                        <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip" data-placement="top"
-                                                                title="Add To Cart"><i
-                                                                    class="icofont-shopping-cart"></i></a>
-                                                        </div>
-
-                                                        <!-- Wishlist -->
-                                                        <div class="ts_product_wishlist">
-                                                            <a href="wishlist.html" data-toggle="tooltip"
-                                                                data-placement="top" title="Wishlist"><i
-                                                                    class="icofont-heart"></i></a>
-                                                        </div>
-
-                                                        <!-- Compare -->
-                                                        <div class="ts_product_compare">
-                                                            <a href="compare.html" data-toggle="tooltip"
-                                                                data-placement="top" title="Compare"><i
-                                                                    class="icofont-exchange"></i></a>
-                                                        </div>
-
-                                                        <!-- Quick View -->
-                                                        <div class="ts_product_quick_view">
-                                                            <a href="#" data-toggle="modal"
-                                                                data-target="#quickview"><i
-                                                                    class="icofont-eye-alt"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 col-sm-6 col-lg-4">
-                                            <div class="single_top_sellers">
-                                                <div class="top_seller_image">
-                                                    <img src="{{ asset('frontend/img/product-img/onsale-2.png') }}"
-                                                        alt="Top-Sellers">
-                                                </div>
-                                                <div class="top_seller_desc">
-                                                    <h5>Fancy Lamp</h5>
-                                                    <h6>$34 <span>$40</span></h6>
-                                                    <div class="top_seller_product_rating">
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                    </div>
-
-                                                    <!-- Info -->
-                                                    <div
-                                                        class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
-                                                        <!-- Add to cart -->
-                                                        <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip" data-placement="top"
-                                                                title="Add To Cart"><i
-                                                                    class="icofont-shopping-cart"></i></a>
-                                                        </div>
-
-                                                        <!-- Wishlist -->
-                                                        <div class="ts_product_wishlist">
-                                                            <a href="wishlist.html" data-toggle="tooltip"
-                                                                data-placement="top" title="Wishlist"><i
-                                                                    class="icofont-heart"></i></a>
-                                                        </div>
-
-                                                        <!-- Compare -->
-                                                        <div class="ts_product_compare">
-                                                            <a href="compare.html" data-toggle="tooltip"
-                                                                data-placement="top" title="Compare"><i
-                                                                    class="icofont-exchange"></i></a>
-                                                        </div>
-
-                                                        <!-- Quick View -->
-                                                        <div class="ts_product_quick_view">
-                                                            <a href="#" data-toggle="modal"
-                                                                data-target="#quickview"><i
-                                                                    class="icofont-eye-alt"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 col-sm-6 col-lg-4">
-                                            <div class="single_top_sellers">
-                                                <div class="top_seller_image">
-                                                    <img src="{{ asset('frontend/img/product-img/onsale-3.png') }}"
-                                                        alt="Top-Sellers">
-                                                </div>
-                                                <div class="top_seller_desc">
-                                                    <h5>Sport Bra</h5>
-                                                    <h6>$63 <span>$70</span></h6>
-                                                    <div class="top_seller_product_rating">
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                    </div>
-
-                                                    <!-- Info -->
-                                                    <div
-                                                        class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
-                                                        <!-- Add to cart -->
-                                                        <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip" data-placement="top"
-                                                                title="Add To Cart"><i
-                                                                    class="icofont-shopping-cart"></i></a>
-                                                        </div>
-
-                                                        <!-- Wishlist -->
-                                                        <div class="ts_product_wishlist">
-                                                            <a href="wishlist.html" data-toggle="tooltip"
-                                                                data-placement="top" title="Wishlist"><i
-                                                                    class="icofont-heart"></i></a>
-                                                        </div>
-
-                                                        <!-- Compare -->
-                                                        <div class="ts_product_compare">
-                                                            <a href="compare.html" data-toggle="tooltip"
-                                                                data-placement="top" title="Compare"><i
-                                                                    class="icofont-exchange"></i></a>
-                                                        </div>
-
-                                                        <!-- Quick View -->
-                                                        <div class="ts_product_quick_view">
-                                                            <a href="#" data-toggle="modal"
-                                                                data-target="#quickview"><i
-                                                                    class="icofont-eye-alt"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 col-sm-6 col-lg-4">
-                                            <div class="single_top_sellers">
-                                                <div class="top_seller_image">
-                                                    <img src="{{ asset('frontend/img/product-img/onsale-4.png') }}"
-                                                        alt="Top-Sellers">
-                                                </div>
-                                                <div class="top_seller_desc">
-                                                    <h5>S'well Water</h5>
-                                                    <h6>$12 <span>$13</span></h6>
-                                                    <div class="top_seller_product_rating">
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                    </div>
-
-                                                    <!-- Info -->
-                                                    <div
-                                                        class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
-                                                        <!-- Add to cart -->
-                                                        <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip" data-placement="top"
-                                                                title="Add To Cart"><i
-                                                                    class="icofont-shopping-cart"></i></a>
-                                                        </div>
-
-                                                        <!-- Wishlist -->
-                                                        <div class="ts_product_wishlist">
-                                                            <a href="wishlist.html" data-toggle="tooltip"
-                                                                data-placement="top" title="Wishlist"><i
-                                                                    class="icofont-heart"></i></a>
-                                                        </div>
-
-                                                        <!-- Compare -->
-                                                        <div class="ts_product_compare">
-                                                            <a href="compare.html" data-toggle="tooltip"
-                                                                data-placement="top" title="Compare"><i
-                                                                    class="icofont-exchange"></i></a>
-                                                        </div>
-
-                                                        <!-- Quick View -->
-                                                        <div class="ts_product_quick_view">
-                                                            <a href="#" data-toggle="modal"
-                                                                data-target="#quickview"><i
-                                                                    class="icofont-eye-alt"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 col-sm-6 col-lg-4">
-                                            <div class="single_top_sellers">
-                                                <div class="top_seller_image">
-                                                    <img src="{{ asset('frontend/img/product-img/onsale-5.png') }}"
-                                                        alt="Top-Sellers">
-                                                </div>
-                                                <div class="top_seller_desc">
-                                                    <h5>Slipper</h5>
-                                                    <h6>$24 <span>$36</span></h6>
-                                                    <div class="top_seller_product_rating">
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                    </div>
-
-                                                    <!-- Info -->
-                                                    <div
-                                                        class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
-                                                        <!-- Add to cart -->
-                                                        <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip" data-placement="top"
-                                                                title="Add To Cart"><i
-                                                                    class="icofont-shopping-cart"></i></a>
-                                                        </div>
-
-                                                        <!-- Wishlist -->
-                                                        <div class="ts_product_wishlist">
-                                                            <a href="wishlist.html" data-toggle="tooltip"
-                                                                data-placement="top" title="Wishlist"><i
-                                                                    class="icofont-heart"></i></a>
-                                                        </div>
-
-                                                        <!-- Compare -->
-                                                        <div class="ts_product_compare">
-                                                            <a href="compare.html" data-toggle="tooltip"
-                                                                data-placement="top" title="Compare"><i
-                                                                    class="icofont-exchange"></i></a>
-                                                        </div>
-
-                                                        <!-- Quick View -->
-                                                        <div class="ts_product_quick_view">
-                                                            <a href="#" data-toggle="modal"
-                                                                data-target="#quickview"><i
-                                                                    class="icofont-eye-alt"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 col-sm-6 col-lg-4">
-                                            <div class="single_top_sellers">
-                                                <div class="top_seller_image">
-                                                    <img src="{{ asset('frontend/img/product-img/onsale-6.png') }}"
-                                                        alt="Top-Sellers">
-                                                </div>
-                                                <div class="top_seller_desc">
-                                                    <h5>T-shirt</h5>
-                                                    <h6>$96 <span>$120</span></h6>
-                                                    <div class="top_seller_product_rating">
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                    </div>
-
-                                                    <!-- Info -->
-                                                    <div
-                                                        class="ts-seller-info mt-3 d-flex align-items-center justify-content-between">
-                                                        <!-- Add to cart -->
-                                                        <div class="ts_product_add_to_cart">
-                                                            <a href="#" data-toggle="tooltip" data-placement="top"
-                                                                title="Add To Cart"><i
-                                                                    class="icofont-shopping-cart"></i></a>
-                                                        </div>
-
-                                                        <!-- Wishlist -->
-                                                        <div class="ts_product_wishlist">
-                                                            <a href="wishlist.html" data-toggle="tooltip"
-                                                                data-placement="top" title="Wishlist"><i
-                                                                    class="icofont-heart"></i></a>
-                                                        </div>
-
-                                                        <!-- Compare -->
-                                                        <div class="ts_product_compare">
-                                                            <a href="compare.html" data-toggle="tooltip"
-                                                                data-placement="top" title="Compare"><i
-                                                                    class="icofont-exchange"></i></a>
-                                                        </div>
-
-                                                        <!-- Quick View -->
-                                                        <div class="ts_product_quick_view">
-                                                            <a href="#" data-toggle="modal"
-                                                                data-target="#quickview"><i
-                                                                    class="icofont-eye-alt"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
     </section>
     <!-- Best Rated/Onsale/Top Sale Product Area -->
 

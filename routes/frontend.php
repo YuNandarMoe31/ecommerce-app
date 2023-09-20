@@ -16,6 +16,13 @@ Route::get('user/logout', [IndexController::class, 'userlogout'])->name('user.lo
 
 Route::get('/', [IndexController::class, 'home'])->name('home');
 
+// About
+Route::get('/about-us', [IndexController::class, 'aboutUs'])->name('about');
+
+// Contact
+Route::get('/contact-us', [IndexController::class, 'contactUs'])->name('contact');
+Route::post('/contact-submit', [IndexController::class, 'contactSubmit'])->name('contact.submit');
+
 // Product
 Route::get('product-category/{slug}/', [IndexController::class, 'productCategory'])->name('product.category');
 
