@@ -78,6 +78,10 @@ Route::group(['prefix' => 'admin/', 'middleware' => ['admin']], function () {
     Route::resource('seller', SellerController::class);
     Route::post('seller-status', [SellerController::class, 'sellerStatus'])->name('seller.status');
     Route::post('seller-verified', [SellerController::class, 'sellerVerified'])->name('seller.verified');
+
+    // SMTP Setting
+    Route::get('smtp', [SettingController::class, 'smtp'])->name('smtp');
+    Route::put('smtp-update', [SettingController::class, 'smtpUpdate'])->name('smtp.update');
 });
 
 Route::group(['prefix' => 'filemanager', 'middleware' => ['web']], function () {

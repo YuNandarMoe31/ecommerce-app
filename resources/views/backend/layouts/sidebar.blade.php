@@ -230,11 +230,25 @@
             </div>
         </li>
         <li class="nav-item">
+            <a class="nav-link btn" href="#collapseSetting" data-bs-toggle="collapse" role="button"
+                aria-expanded="false" aria-controls="collapseSetting">
+                <i class="fas fa-cog"></i>
+                <span>General Setting</span>
+            </a>
+            <div class="collapse" id="collapseSetting">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Setting Management:</h6>
+                    <a class="collapse-item" href="{{ route('setting') }}">Settings</a>
+                    <a class="collapse-item" href="{{ route('smtp') }}">SMTP Settings</a>
+                </div>
+            </div>
+        </li>
+        {{-- <li class="nav-item">
             <a class="nav-link btn" href="{{ route('setting') }}">
                 <i class="fas fa-cog"></i>
                 <span>General Settings</span>
             </a>
-        </li>
+        </li> --}}
         <!-- Divider -->
         <hr class="sidebar-divider">
         <!-- Heading -->
